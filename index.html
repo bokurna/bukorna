@@ -98,7 +98,7 @@
         .nav-cta:hover { background: var(--gold-light) !important; }
         .nav-cta::after { display: none !important; }
 
-        /* ===== HERO ===== */
+       /* ===== HERO ===== */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -109,7 +109,7 @@
             text-align: center;
             padding: 120px 24px 80px;
         }
-
+ 
         /* Smoke / glow effects */
         .hero-glow {
             position: absolute;
@@ -122,30 +122,30 @@
             transform: translate(-50%, -50%);
             animation: pulse-glow 4s ease-in-out infinite;
         }
-
+ 
         @keyframes pulse-glow {
             0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
             50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
         }
-
-/* تأثيرات الدخان المصلحة */
-.smoke-line {
+ 
+        .smoke-line {
             position: absolute;
             width: 2px;
             background: linear-gradient(to top, transparent, rgba(201,168,76,0.4), transparent);
             animation: rise 6s ease-in-out infinite;
             border-radius: 10px;
         }
-
+ 
         .smoke-line:nth-child(1) { height: 200px; left: 48%; top: 20%; animation-delay: 0s; }
         .smoke-line:nth-child(2) { height: 150px; left: 50%; top: 25%; animation-delay: 1s; opacity: 0.5; }
         .smoke-line:nth-child(3) { height: 180px; left: 52%; top: 22%; animation-delay: 2s; opacity: 0.7; }
-
+ 
         @keyframes rise {
             0% { transform: translateY(0) scaleX(1); opacity: 0; }
             30% { opacity: 1; }
             100% { transform: translateY(-120px) scaleX(3); opacity: 0; }
         }
+ 
         .hero-badge {
             display: inline-block;
             border: 1px solid rgba(201,168,76,0.4);
@@ -159,7 +159,7 @@
             animation: fadeUp 1s ease forwards;
             opacity: 0;
         }
-
+ 
         .hero h1 {
             font-family: Arial, sans-serif;
             font-size: clamp(3rem, 8vw, 6rem);
@@ -169,12 +169,12 @@
             animation: fadeUp 1s ease 0.2s forwards;
             opacity: 0;
         }
-
+ 
         .hero h1 span {
             color: var(--gold);
             display: block;
         }
-
+ 
         .hero-sub {
             font-size: clamp(1rem, 2.5vw, 1.3rem);
             color: var(--cream-2);
@@ -185,7 +185,7 @@
             animation: fadeUp 1s ease 0.4s forwards;
             opacity: 0;
         }
-
+ 
         .hero-btns {
             display: flex;
             gap: 16px;
@@ -782,13 +782,13 @@
         </ul>
     </nav>
 
- <!-- HERO -->
+<!-- HERO -->
     <div class="hero">
         <div class="hero-glow"></div>
         <div class="smoke-line"></div>
         <div class="smoke-line"></div>
         <div class="smoke-line"></div>
-
+ 
         <div style="position:relative; z-index:2;">
             <h1>
                 رائحة تبقى
