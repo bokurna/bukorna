@@ -742,19 +742,15 @@
                     <option value="حي سلطانة">حي سلطانة</option>
                     <option value="أخرى">حي آخر...</option>
                 </select>
+                <!-- 🟢 مكان زر الموقع الجغرافي المثالي 🟢 -->
+               <!-- 🟢 مكان زر الموقع الجغرافي المثالي 🟢 -->
+            <button class="location-btn" onclick="sendLocation()">
+                📍 إرسال موقعي من الخريطة
+            </button>
 
-                <!-- زر تحديد الموقع الجغرافي -->
-                <button type="button" class="location-btn" onclick="getLocation()">
-                    <span id="loc-status">📍 إرسال موقعي من الخريطة</span>
-                </button>
-                <input type="hidden" id="location-url" value="">
-            </div>
-        </div>
-
-        <div class="notes-section" id="notes-section" style="display:none;">
-            <label class="notes-label">📝 أي ملاحظات أخرى:</label>
-            <textarea class="notes-input" id="order-notes" placeholder="اكتب رقم المبنى أو أي تفاصيل إضافية..."></textarea>
-        </div>
+       <label style="display:block; margin-top:10px;">الملاحظات ووصف الموقع:</label>
+        <textarea id="order-notes" rows="3" class="notes-input" placeholder="اكتب رقم المبنى أو أي تفاصيل إضافية... سيظهر رابط موقعك هنا تلقائياً"></textarea>
+    </div>
 
         <div class="cart-total-row" id="cart-total-row" style="display:none;">
             <span class="total-label">الإجمالي:</span>
@@ -852,19 +848,26 @@ function sendLocation() {
 // 5. إرسال الطلب للواتساب بشكل منسق
 function sendOrderWhatsApp() {
     const notes = document.getElementById('order-notes').value.trim();
-    const district = document.getElementById('district-select').value;
+    const districtSelect = document.getElementById('neighborhood');
+    const district = districtSelect.value || "لم يتم تحديد الحي"; // فحص الحي
+    
     const total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
 
     let msg = `*🕌 طلب جديد - متجر بخرنا*%0a`;
     msg += `━━━━━━━━━━━━━━━━%0a`;
     msg += `*الحي:* ${district}%0a%0a`;
     msg += `*المنتجات:*%0a`;
+    
     cart.forEach((item) => {
         msg += `- ${item.name} (الكمية: ${item.quantity})%0a`;
     });
+    
     msg += `━━━━━━━━━━━━━━━━%0a`;
     msg += `💰 *الإجمالي: ${total} ر.س*%0a`;
-    if (notes) msg += `%0a📝 *الملاحظات:* ${notes}`;
+    
+    if (notes) {
+        msg += `%0a📝 *الملاحظات:* ${notes}`;
+    }
 
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
 }
