@@ -691,6 +691,82 @@
             .steps::before { display: none; }
             .delivery-banner { padding: 32px 24px; }
         }
+
+        /* ===== TESTIMONIALS SLIDER ===== */
+        .testimonials-section {
+            padding: 80px 0;
+            overflow: hidden;
+            background: var(--dark);
+        }
+
+        .testimonials-container {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            width: max-content;
+            animation: scroll 40s linear infinite;
+        }
+
+        /* توقف الحركة عند مرور الماوس */
+        .testimonials-section:hover .testimonials-container {
+            animation-play-state: paused;
+        }
+
+        .testimonial-card {
+            background: var(--dark-2);
+            border: 1px solid rgba(201,168,76,0.1);
+            border-radius: 12px;
+            padding: 30px;
+            width: 350px;
+            flex-shrink: 0;
+            transition: border-color 0.3s;
+        }
+
+        .testimonial-card:hover {
+            border-color: var(--gold);
+        }
+
+        .stars {
+            color: #ffc107;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+        }
+
+        .testimonial-text {
+            color: var(--cream-2);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            min-height: 60px;
+        }
+
+        .testimonial-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-top: 1px solid rgba(201,168,76,0.1);
+            padding-top: 15px;
+        }
+
+        .user-info h4 {
+            color: var(--gold);
+            font-size: 1rem;
+            margin-bottom: 2px;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(350px * 4 + 20px * 4)); }
+        }
+
+        /* لضمان انسيابية الحركة في الشاشات الصغيرة */
+        @media (max-width: 768px) {
+            .testimonial-card { width: 300px; }
+            @keyframes scroll {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(calc(300px * 4 + 20px * 4)); }
+            }
+        }
     </style>
 </head>
 <body>
@@ -869,6 +945,77 @@
                 <span class="delivery-tag">بريدة</span>
             </div>
             <a href="products.html" class="btn-primary">اطلب الآن 🛒</a>
+        </div>
+    </section>
+    <!-- TESTIMONIALS -->
+    <section class="testimonials-section">
+        <p class="section-label">ثقتكم فخرنا</p>
+        <h2 class="section-title">قالوا عن بخورنا</h2>
+        
+        <div class="testimonials-container">
+            <!-- التقييم 1 -->
+            <div class="testimonial-card">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <p class="testimonial-text">سريععييينننننن بشكككلل</p>
+                <div class="testimonial-user">
+                    <div class="user-info">
+                        <h4>دانا سليمان</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- التقييم 2 -->
+            <div class="testimonial-card">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <p class="testimonial-text">تعامل راقي ومنتجات تبيض الوجه، أنصح بالتعامل معهم وبقوة.</p>
+                <div class="testimonial-user">
+                    <div class="user-info">
+                        <h4>عبدالرحمن العتيبي</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- التقييم 3 -->
+            <div class="testimonial-card">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <p class="testimonial-text">فخممم فخمممم 🤍</p>
+                <div class="testimonial-user">
+                    <div class="user-info">
+                        <h4>سلام الشراري</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- التقييم 4 -->
+            <div class="testimonial-card">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <p class="testimonial-text">بأختصار افضل متجر في المجال والتجاوب مع الزباين عسل ناس اخلاااق والصراحة الاسعار تخليك تستحي جداً رخيصة كل شي تبارك الرحمن شكراً بخورنا 🤍🤍</p>
+                <div class="testimonial-user">
+                    <div class="user-info">
+                        <h4>ريان الفايز</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- نكرر التقييمات هنا لضمان استمرارية الحركة بدون انقطاع (Infinite Loop) -->
+            <div class="testimonial-card">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <p class="testimonial-text">سريععييينننننن بشكككلل</p>
+                <div class="testimonial-user">
+                    <div class="user-info">
+                        <h4>دانا سليمان</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <p class="testimonial-text">بأختصار افضل متجر في المجال والتجاوب مع الزباين عسل ناس اخلاااق..</p>
+                <div class="testimonial-user">
+                    <div class="user-info">
+                        <h4>ريان الفايز</h4>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
