@@ -389,6 +389,30 @@
             padding: 32px;
             color: rgba(245,234,214,0.4);
         }
+        /* تحسين شكل قائمة الأحياء والموقع الجغرافي */
+#district-select, .notes-input {
+    background-color: #2a2015 !important; /* لون داكن */
+    color: #e0c097 !important; /* لون ذهبي */
+    border: 1px solid #5d4037 !important;
+}
+
+#district-select option {
+    background-color: #2a2015;
+    color: #e0c097;
+}
+
+/* زر الموقع الجغرافي */
+.location-btn {
+    background: rgba(201,168,76,0.1);
+    color: var(--gold);
+    border: 1px dashed var(--gold);
+    padding: 8px;
+    border-radius: 8px;
+    margin-top: 10px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 0.85rem;
+}
  
         /* Order Type */
         .order-type-section {
@@ -490,6 +514,7 @@
             gap: 10px;
             transition: all 0.3s;
         }
+    
  
         .send-btn:hover { background: #1ebe59; transform: translateY(-1px); }
         .send-btn:disabled { background: #555; cursor: not-allowed; transform: none; }
@@ -525,7 +550,7 @@
     <div class="filter-wrap">
         <button class="filter-btn active" onclick="filterProducts('all', this)">الكل</button>
         <button class="filter-btn" onclick="filterProducts('oud', this)">🪵 البخور والعود</button>
-        <button class="filter-btn" onclick="filterProducts('accessories', this)">🔥 الملحقات</button>
+        <button class="filter-btn" onclick="filterProducts('accessories', this)"> الملحقات</button>
     </div>
  
     <!-- PRODUCTS -->
@@ -567,7 +592,7 @@
             <div class="product-card" data-category="oud">
                 <div class="product-img">🌿</div>
                 <div class="product-body">
-                    <p class="product-cat">بخور مغربي</p>
+                    <p class="product-cat">بخور</p>
                     <h3 class="product-name">بخور دقة مروكي</h3>
                     <p class="product-note">أوقية ٢٨ جرام</p>
                     <div class="product-footer">
@@ -609,7 +634,7 @@
                     <span class="product-badge">فاخر</span>
                 </div>
                 <div class="product-body">
-                    <p class="product-cat">بخور مغربي فاخر</p>
+                    <p class="product-cat">بخور فاخر</p>
                     <h3 class="product-name">بخور مروكي فاخر</h3>
                     <p class="product-note">أوقية ٢٨ جرام</p>
                     <div class="product-footer">
@@ -622,7 +647,7 @@
         </div>
  
         <!-- قسم الملحقات -->
-        <h2 class="category-title" data-cat="accessories">🔥 الملحقات</h2>
+        <h2 class="category-title" data-cat="accessories"> الملحقات</h2>
         <div class="products-grid" data-cat="accessories">
  
             <div class="product-card" data-category="accessories">
@@ -639,7 +664,7 @@
             </div>
  
             <div class="product-card" data-category="accessories">
-                <div class="product-img">🔥</div>
+                <div class="product-img"></div>
                 <div class="product-body">
                     <p class="product-cat">ملحقات</p>
                     <h3 class="product-name">ولاعة</h3>
@@ -747,103 +772,102 @@
  
     <script>
         // ===== DATA =====
-        let cart = [];
-        const WHATSAPP_NUMBER = '966500000000'; // ← غيّر هذا لرقمك
- 
-        // ===== CART LOGIC =====
-        function addToCart(name, price, btn) {
-            cart.push({ name, price });
-            updateCartUI();
-            // Animation
-            btn.classList.add('popped');
-            setTimeout(() => btn.classList.remove('popped'), 300);
-        }
- 
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCartUI();
-            renderCartItems();
-        }
- 
-        function updateCartUI() {
-            const cartBtn = document.getElementById('cart-btn');
-            const cartCount = document.getElementById('cart-count');
-            const total = cart.reduce((s, i) => s + i.price, 0);
- 
-            if (cart.length > 0) {
-                cartBtn.style.display = 'flex';
-                cartCount.innerText = cart.length;
-                document.getElementById('cart-total').innerHTML = `${total} <small>ر.س</small>`;
-            } else {
-                cartBtn.style.display = 'none';
-            }
-        }
- 
-        function renderCartItems() {
-            const el = document.getElementById('cart-items');
-            const orderSection = document.getElementById('order-type-section');
-            const notesSection = document.getElementById('notes-section');
-            const totalRow = document.getElementById('cart-total-row');
-            const sendBtn = document.getElementById('send-btn');
- 
-            if (cart.length === 0) {
-                el.innerHTML = '<div class="cart-empty">أضف منتجات للسلة أولاً 🌿</div>';
-                orderSection.style.display = 'none';
-                notesSection.style.display = 'none';
-                totalRow.style.display = 'none';
-                sendBtn.disabled = true;
-                return;
-            }
- 
-            el.innerHTML = cart.map((item, i) => `
-                <div class="cart-item">
-                    <span class="cart-item-name">${item.name}</span>
-                    <span class="cart-item-price">${item.price} ر.س</span>
-                    <button class="remove-btn" onclick="removeFromCart(${i})">🗑</button>
-                </div>
-            `).join('');
- 
-            orderSection.style.display = 'block';
-            notesSection.style.display = 'block';
-            totalRow.style.display = 'flex';
-            sendBtn.disabled = false;
-        }
- 
-        function openCart() {
-            renderCartItems();
-            document.getElementById('cart-modal').classList.add('open');
-        }
- 
-        function closeCart() {
-            document.getElementById('cart-modal').classList.remove('open');
-        }
- 
-        // Close on backdrop click
-        document.getElementById('cart-modal').addEventListener('click', function(e) {
-            if (e.target === this) closeCart();
+let cart = [];
+const WHATSAPP_NUMBER = '966500000000'; // تأكد من تغيير الرقم هنا
+
+// 1. إضافة للمنتج مع منع التكرار
+function addToCart(name, price) {
+    let existingItem = cart.find(item => item.name === name);
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({ name, price, quantity: 1 });
+    }
+    updateCartUI();
+}
+
+// 2. تحديث الكمية من داخل السلة (+ و -)
+function changeQuantity(index, delta) {
+    cart[index].quantity += delta;
+    if (cart[index].quantity <= 0) {
+        cart.splice(index, 1);
+    }
+    renderCartItems();
+    updateCartUI();
+}
+
+function updateCartUI() {
+    const cartBtn = document.getElementById('cart-btn');
+    const cartCount = document.getElementById('cart-count');
+    // حساب الإجمالي بناءً على السعر والكمية
+    const total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+    const count = cart.reduce((s, i) => s + i.quantity, 0);
+
+    if (cart.length > 0) {
+        cartBtn.style.display = 'flex';
+        cartCount.innerText = count;
+        document.getElementById('cart-total').innerHTML = `${total} <small>ر.س</small>`;
+    } else {
+        cartBtn.style.display = 'none';
+    }
+}
+
+// 3. عرض عناصر السلة مع أزرار التحكم
+function renderCartItems() {
+    const el = document.getElementById('cart-items');
+    if (cart.length === 0) {
+        el.innerHTML = '<div class="cart-empty">أضف منتجات للسلة أولاً 🌿</div>';
+        return;
+    }
+
+    el.innerHTML = cart.map((item, i) => `
+        <div class="cart-item">
+            <div class="cart-item-info">
+                <span class="cart-item-name">${item.name}</span>
+                <span class="cart-item-price">${item.price * item.quantity} ر.س</span>
+            </div>
+            <div class="quantity-controls">
+                <button onclick="changeQuantity(${i}, 1)">+</button>
+                <span>${item.quantity}</span>
+                <button onclick="changeQuantity(${i}, -1)">-</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// 4. وظيفة تحديد الموقع الجغرافي
+function sendLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            const mapUrl = `https://www.google.com/maps?q=${position.coords.latitude},${position.coords.longitude}`;
+            const notesField = document.getElementById('order-notes');
+            notesField.value += `\n📍 رابط موقعي: ${mapUrl}`;
+            alert("تم إدراج موقعك في الملاحظات بنجاح!");
+        }, function() {
+            alert("يرجى السماح بالوصول للموقع من إعدادات المتصفح.");
         });
- 
-        // ===== SEND ORDER =====
-        function sendOrderWhatsApp() {
-            if (cart.length === 0) return;
- 
-            const orderType = document.querySelector('input[name="orderType"]:checked').value;
-            const notes = document.getElementById('order-notes').value.trim();
-            const total = cart.reduce((s, i) => s + i.price, 0);
- 
-            let msg = `*🕌 طلب جديد - عود *%0a`;
-            msg += `━━━━━━━━━━━━━━━━%0a`;
-            msg += `*نوع الطلب:* ${orderType}%0a%0a`;
-            msg += `*المنتجات:%0a*`;
-            cart.forEach((item, i) => {
-                msg += `${i + 1}. ${item.name} — ${item.price} ر.س%0a`;
-            });
-            msg += `━━━━━━━━━━━━━━━━%0a`;
-            msg += `💰 *الإجمالي: ${total} ر.س*%0a`;
-            if (notes) msg += `%0a📝 *ملاحظات:* ${notes}`;
- 
-            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
-        }
+    }
+}
+
+// 5. إرسال الطلب للواتساب بشكل منسق
+function sendOrderWhatsApp() {
+    const notes = document.getElementById('order-notes').value.trim();
+    const district = document.getElementById('district-select').value;
+    const total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+
+    let msg = `*🕌 طلب جديد - متجر بخرنا*%0a`;
+    msg += `━━━━━━━━━━━━━━━━%0a`;
+    msg += `*الحي:* ${district}%0a%0a`;
+    msg += `*المنتجات:*%0a`;
+    cart.forEach((item) => {
+        msg += `- ${item.name} (الكمية: ${item.quantity})%0a`;
+    });
+    msg += `━━━━━━━━━━━━━━━━%0a`;
+    msg += `💰 *الإجمالي: ${total} ر.س*%0a`;
+    if (notes) msg += `%0a📝 *الملاحظات:* ${notes}`;
+
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
+}
  
         // ===== FILTER =====
         function filterProducts(cat, btn) {
