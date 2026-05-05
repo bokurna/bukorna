@@ -128,44 +128,46 @@
             50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
         }
 
-/* تأثيرات الدخان المطورة */
-        .smoke-line {
-            position: absolute;
-            border-radius: 50%;
-            /* استخدام تدرج دائري لعمل شكل سحابة بدلاً من خط مستقيم */
-            background: radial-gradient(ellipse at center, rgba(201,168,76,0.12) 0%, transparent 60%);
-            filter: blur(15px); /* تمويه الحواف لإعطاء تأثير الدخان الغازي */
-            animation: rise 7s infinite ease-in;
-            z-index: 1; /* ليبقى خلف النصوص */
-            pointer-events: none;
-            height: 250px;
-        }
+/* تأثيرات الدخان المصلحة */
+.smoke-line {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgba(201,168,76,0.18) 0%, transparent 70%);
+    filter: blur(20px);
+    animation: rise 8s infinite ease-in;
+    /* تأكد أن الدخان يظهر فوق الخلفية السوداء */
+    z-index: 1; 
+    pointer-events: none;
+    height: 200px;
+}
 
-        /* توزيع الدخان بكثافات وأحجام وسرعات مختلفة لزيادة الواقعية */
-        .smoke-line:nth-child(1) { left: 45%; bottom: -10%; animation-duration: 8s; animation-delay: 0s; width: 80px; }
-        .smoke-line:nth-child(2) { left: 50%; bottom: -15%; animation-duration: 10s; animation-delay: 2s; width: 120px; }
-        .smoke-line:nth-child(3) { left: 55%; bottom: -10%; animation-duration: 9s; animation-delay: 4s; width: 90px; }
-        .smoke-line:nth-child(4) { left: 48%; bottom: -20%; animation-duration: 11s; animation-delay: 1s; width: 100px; }
-        .smoke-line:nth-child(5) { left: 52%; bottom: -5%; animation-duration: 7s; animation-delay: 3s; width: 70px; }
+/* تعديل أماكن الانطلاق لتكون فوق الأزرار أو خلف النص مباشرة */
+.smoke-line:nth-child(1) { left: 42%; bottom: 15%; animation-duration: 8s; width: 100px; }
+.smoke-line:nth-child(2) { left: 48%; bottom: 10%; animation-duration: 10s; width: 150px; }
+.smoke-line:nth-child(3) { left: 55%; bottom: 15%; animation-duration: 9s; width: 120px; }
+.smoke-line:nth-child(4) { left: 45%; bottom: 5%; animation-duration: 11s; width: 130px; }
+.smoke-line:nth-child(5) { left: 52%; bottom: 12%; animation-duration: 7s; width: 90px; }
 
-        @keyframes rise {
-            0% {
-                transform: translateY(0) translateX(0) scale(1);
-                opacity: 0;
-            }
-            20% {
-                opacity: 0.7; /* أعلى نقطة لكثافة الدخان */
-            }
-            60% {
-                transform: translateY(-250px) translateX(-25px) scale(1.5); /* تمايل لليسار وتمدد */
-                opacity: 0.4;
-            }
-            100% {
-                transform: translateY(-500px) translateX(30px) scale(2.5); /* تمايل لليمين وتلاشي */
-                opacity: 0;
-            }
-        }
+@keyframes rise {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 0;
+    }
+    15% {
+        opacity: 0.8; /* يظهر الدخان بسرعة */
+    }
+    100% {
+        /* يرتفع للأعلى بمسافة كافية ليظهر خلف النص */
+        transform: translateY(-400px) scale(2.5); 
+        opacity: 0;
+    }
+}
 
+/* تأكد أن النص فوق الدخان */
+.hero > div:last-child {
+    position: relative;
+    z-index: 2;
+}
         .hero-badge {
             display: inline-block;
             border: 1px solid rgba(201,168,76,0.4);
@@ -802,15 +804,14 @@
         </ul>
     </nav>
 
-    <!-- HERO -->
-    <div class="hero">
-        <div class="hero-glow"></div>
-        <!-- زيادة عدد خطوط الدخان إلى 5 لزيادة الكثافة -->
-        <div class="smoke-line"></div>
-        <div class="smoke-line"></div>
-        <div class="smoke-line"></div>
-        <div class="smoke-line"></div>
-        <div class="smoke-line"></div>
+   <div class="hero">
+    <!-- 1. الخلفية المتوهجة -->
+    <div class="hero-glow"></div>
+    <div class="smoke-line"></div>
+    <div class="smoke-line"></div>
+    <div class="smoke-line"></div>
+    <div class="spark"></div>
+    <div class="spark"></div>
 
         <div style="position:relative; z-index:2;">
             <h1>
