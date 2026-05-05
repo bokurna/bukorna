@@ -770,12 +770,16 @@
 let cart = [];
 const WHATSAPP_NUMBER = '966500000000'; 
 
-// 1. إضافة للمنتج وتفعيل الزر
+// 2. دالة الإضافة للسلة (تأكد أن الزر في HTML يستدعي addToCart)
 function addToCart(name, price, btn) {
     let item = cart.find(i => i.name === name);
-    if (item) { item.quantity++; } 
-    else { cart.push({ name, price, quantity: 1 }); }
+    if (item) { 
+        item.quantity++; 
+    } else { 
+        cart.push({ name: name, price: price, quantity: 1 }); 
+    }
     
+    // تأثير ضغطة الزر
     if(btn) {
         btn.classList.add('popped');
         setTimeout(() => btn.classList.remove('popped'), 300);
@@ -783,29 +787,35 @@ function addToCart(name, price, btn) {
     updateCartUI();
 }
 
-// 2. وظيفة فتح السلة (هذا ما كان ينقصك ليعمل الزر)
+// 3. فتح السلة (هذه هي الدالة التي تجعل الزر يعمل)
 function openCart() {
     renderCartItems();
-    document.getElementById('cart-modal').style.display = 'flex';
-    document.getElementById('cart-modal').classList.add('open');
+    const modal = document.getElementById('cart-modal');
+    modal.style.display = 'flex';
+    modal.classList.add('open');
 }
 
-// 3. وظيفة إغلاق السلة
+// 4. إغلاق السلة
 function closeCart() {
-    document.getElementById('cart-modal').style.display = 'none';
-    document.getElementById('cart-modal').classList.remove('open');
+    const modal = document.getElementById('cart-modal');
+    modal.style.display = 'none';
+    modal.classList.remove('open');
 }
 
-// 4. تحديث الواجهة وحساب المبالغ
+// 5. تحديث الواجهة (إظهار الزر وحساب الأرقام)
 function updateCartUI() {
-    const total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
     const count = cart.reduce((s, i) => s + i.quantity, 0);
+    const total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
     
-    document.getElementById('cart-btn').style.display = (count > 0) ? 'flex' : 'none';
+    // إظهار/إخفاء زر السلة العائم
+    const cartBtn = document.getElementById('cart-btn');
+    cartBtn.style.display = (count > 0) ? 'flex' : 'none';
+    
+    // تحديث الأرقام
     document.getElementById('cart-count').innerText = count;
     document.getElementById('cart-total').innerHTML = `${total} <small>ر.س</small>`;
     
-    // إظهار أقسام الفاتورة داخل السلة
+    // تفعيل زر الإرسال وإظهار أقسام السلة
     if (count > 0) {
         document.getElementById('order-type-section').style.display = 'block';
         document.getElementById('cart-total-row').style.display = 'flex';
@@ -813,47 +823,63 @@ function updateCartUI() {
     }
 }
 
-// 5. عرض محتويات السلة وتفاصيل الطلب
+// 6. رسم عناصر السلة داخل المودال
 function renderCartItems() {
-    const el = document.getElementById('cart-items');
+    const container = document.getElementById('cart-items');
     if (cart.length === 0) {
-        el.innerHTML = '<div class="cart-empty">السلة فارغة 🌿</div>';
+        container.innerHTML = '<div class="cart-empty">السلة فارغة 🌿</div>';
         return;
     }
-    el.innerHTML = cart.map((item, i) => `
-        <div class="cart-item" style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #333;">
-            <div>
-                <div style="font-weight:bold;">${item.name}</div>
+    
+    container.innerHTML = cart.map((item, index) => `
+        <div class="cart-item" style="display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid rgba(201,168,76,0.1);">
+            <div style="flex:1;">
+                <div style="font-weight:bold; color:var(--cream);">${item.name}</div>
                 <div style="color:var(--gold); font-size:0.9rem;">${item.price * item.quantity} ر.س</div>
             </div>
-            <div style="display:flex; gap:10px; align-items:center;">
-                <button onclick="changeQuantity(${i}, 1)" style="width:25px; cursor:pointer;">+</button>
-                <span>${item.quantity}</span>
-                <button onclick="changeQuantity(${i}, -1)" style="width:25px; cursor:pointer;">-</button>
+            <div style="display:flex; gap:10px; align-items:center; background:rgba(201,168,76,0.1); padding:5px 10px; border-radius:8px;">
+                <button onclick="changeQty(${index}, 1)" style="background:none; border:none; color:var(--gold); cursor:pointer; font-weight:bold;">+</button>
+                <span style="min-width:20px; text-align:center;">${item.quantity}</span>
+                <button onclick="changeQty(${index}, -1)" style="background:none; border:none; color:var(--gold); cursor:pointer; font-weight:bold;">-</button>
             </div>
         </div>
     `).join('');
 }
 
-function changeQuantity(index, delta) {
+// 7. تغيير الكمية من داخل السلة
+function changeQty(index, delta) {
     cart[index].quantity += delta;
-    if (cart[index].quantity <= 0) cart.splice(index, 1);
+    if (cart[index].quantity <= 0) {
+        cart.splice(index, 1);
+    }
     renderCartItems();
     updateCartUI();
 }
 
+// 8. إرسال الطلب
 function sendOrderWhatsApp() {
-    const district = document.getElementById('neighborhood').value || "غير محدد";
-    const notes = document.getElementById('order-notes').value;
+    const district = document.getElementById('neighborhood').value || "لم يحدد";
+    const notes = document.getElementById('order-notes').value.trim();
     const total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
     
-    let msg = `*🕌 طلب جديد*%0a*الحي:* ${district}%0a%0a*المنتجات:*%0a`;
-    cart.forEach(i => msg += `- ${i.name} (x${i.quantity})%0a`);
-    msg += `%0a*الإجمالي:* ${total} ر.س%0a*ملاحظات:* ${notes}`;
+    let message = `*🕌 طلب جديد من متجرنا*%0a`;
+    message += `━━━━━━━━━━━━━━━━%0a`;
+    message += `*📍 الحي:* ${district}%0a%0a`;
+    message += `*📦 المنتجات:*%0a`;
     
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
+    cart.forEach(item => {
+        message += `- ${item.name} (الكمية: ${item.quantity})%0a`;
+    });
+    
+    message += `━━━━━━━━━━━━━━━━%0a`;
+    message += `💰 *الإجمالي: ${total} ر.س*`;
+    
+    if (notes) {
+        message += `%0a%0a📝 *ملاحظات:* ${notes}`;
+    }
+    
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank');
 }
-
  
         // ===== FILTER =====
         function filterProducts(cat, btn) {
