@@ -2,7 +2,8 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="theme-color" content="#0d0a07">
     <title>بخورنا | بخور فاخر أصيل</title>
     <style>
         :root {
@@ -14,160 +15,156 @@
             --dark-3: #261e14;
             --cream: #f5ead6;
             --cream-2: #ede0c4;
-            --smoke: rgba(201,168,76,0.08);
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
+ 
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+ 
+        html { scroll-behavior: smooth; }
+ 
         body {
             font-family: Arial, sans-serif;
             background-color: var(--dark);
             color: var(--cream);
             overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
         }
-
-        /* ===== NOISE TEXTURE ===== */
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.4;
-        }
-
+ 
         /* ===== NAVBAR ===== */
         nav {
             position: fixed;
             top: 0; left: 0; right: 0;
-            z-index: 100;
-            padding: 20px 40px;
+            z-index: 999;
+            padding: 0 24px;
+            height: 64px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: linear-gradient(to bottom, rgba(13,10,7,0.95), transparent);
+            background: rgba(13,10,7,0.96);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(201,168,76,0.12);
         }
-
+ 
         .nav-logo {
-            font-family: Arial, sans-serif;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
+            font-weight: 700;
             color: var(--gold);
             letter-spacing: 1px;
+            text-decoration: none;
         }
-
+ 
         .nav-links {
             display: flex;
-            gap: 32px;
+            gap: 28px;
             list-style: none;
+            align-items: center;
         }
-
+ 
         .nav-links a {
             color: var(--cream-2);
             text-decoration: none;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 500;
             transition: color 0.3s;
-            position: relative;
         }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            right: 0;
-            width: 0;
-            height: 1px;
-            background: var(--gold);
-            transition: width 0.3s;
-        }
-
+ 
         .nav-links a:hover { color: var(--gold); }
-        .nav-links a:hover::after { width: 100%; }
-
+ 
         .nav-cta {
             background: var(--gold);
             color: var(--dark) !important;
-            padding: 10px 24px;
-            border-radius: 4px;
+            padding: 9px 22px;
+            border-radius: 6px;
             font-weight: 700 !important;
-            font-family: Arial, sans-serif !important;
             transition: background 0.3s !important;
+            white-space: nowrap;
         }
-
+ 
         .nav-cta:hover { background: var(--gold-light) !important; }
-        .nav-cta::after { display: none !important; }
-
-       /* ===== HERO ===== */
+ 
+        /* Mobile nav */
+        .nav-mobile-order {
+            display: none;
+        }
+ 
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .nav-mobile-order {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .nav-mobile-btn {
+                background: var(--gold);
+                color: var(--dark);
+                padding: 9px 18px;
+                border-radius: 6px;
+                font-weight: 700;
+                font-size: 0.88rem;
+                text-decoration: none;
+                white-space: nowrap;
+            }
+        }
+ 
+        /* ===== HERO ===== */
         .hero {
-            min-height: 100vh;
+            min-height: 100svh;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             overflow: hidden;
             text-align: center;
-            padding: 120px 24px 80px;
+            padding: 80px 24px 80px;
         }
  
-        /* Smoke / glow effects */
         .hero-glow {
             position: absolute;
-            width: 600px;
-            height: 600px;
+            width: 500px;
+            height: 500px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(201,168,76,0.15) 0%, transparent 70%);
-            top: 50%;
-            left: 50%;
+            background: radial-gradient(circle, rgba(201,168,76,0.13) 0%, transparent 70%);
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             animation: pulse-glow 4s ease-in-out infinite;
+            pointer-events: none;
         }
  
         @keyframes pulse-glow {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
-            50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+            0%, 100% { transform: translate(-50%,-50%) scale(1); opacity: 0.6; }
+            50% { transform: translate(-50%,-50%) scale(1.2); opacity: 1; }
         }
  
         .smoke-line {
             position: absolute;
             width: 2px;
-            background: linear-gradient(to top, transparent, rgba(201,168,76,0.4), transparent);
+            background: linear-gradient(to top, transparent, rgba(201,168,76,0.35), transparent);
             animation: rise 6s ease-in-out infinite;
             border-radius: 10px;
+            pointer-events: none;
         }
- 
-        .smoke-line:nth-child(1) { height: 200px; left: 48%; top: 20%; animation-delay: 0s; }
-        .smoke-line:nth-child(2) { height: 150px; left: 50%; top: 25%; animation-delay: 1s; opacity: 0.5; }
-        .smoke-line:nth-child(3) { height: 180px; left: 52%; top: 22%; animation-delay: 2s; opacity: 0.7; }
+        .smoke-line:nth-child(2) { height: 200px; left: 48%; top: 18%; animation-delay: 0s; }
+        .smoke-line:nth-child(3) { height: 150px; left: 50%; top: 24%; animation-delay: 1.5s; opacity: 0.5; }
+        .smoke-line:nth-child(4) { height: 180px; left: 52%; top: 20%; animation-delay: 3s; opacity: 0.7; }
  
         @keyframes rise {
             0% { transform: translateY(0) scaleX(1); opacity: 0; }
             30% { opacity: 1; }
-            100% { transform: translateY(-120px) scaleX(3); opacity: 0; }
+            100% { transform: translateY(-130px) scaleX(3); opacity: 0; }
         }
  
-        .hero-badge {
-            display: inline-block;
-            border: 1px solid rgba(201,168,76,0.4);
-            color: var(--gold);
-            padding: 8px 20px;
-            border-radius: 2px;
-            font-size: 0.8rem;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            margin-bottom: 28px;
-            animation: fadeUp 1s ease forwards;
-            opacity: 0;
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 600px;
         }
  
         .hero h1 {
-            font-family: Arial, sans-serif;
-            font-size: clamp(3rem, 8vw, 6rem);
+            font-size: clamp(2.8rem, 8vw, 5.5rem);
             line-height: 1.1;
             color: var(--cream);
-            margin-bottom: 12px;
-            animation: fadeUp 1s ease 0.2s forwards;
-            opacity: 0;
+            margin-bottom: 10px;
+            animation: fadeUp 0.9s ease 0.1s both;
         }
  
         .hero h1 span {
@@ -176,345 +173,268 @@
         }
  
         .hero-sub {
-            font-size: clamp(1rem, 2.5vw, 1.3rem);
-            color: var(--cream-2);
-            opacity: 0.75;
-            max-width: 480px;
-            margin: 0 auto 40px;
+            font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+            color: rgba(245,234,214,0.72);
+            max-width: 420px;
+            margin: 0 auto 36px;
             line-height: 1.8;
-            animation: fadeUp 1s ease 0.4s forwards;
-            opacity: 0;
+            animation: fadeUp 0.9s ease 0.25s both;
         }
  
         .hero-btns {
             display: flex;
-            gap: 16px;
+            gap: 14px;
             justify-content: center;
             flex-wrap: wrap;
-            animation: fadeUp 1s ease 0.6s forwards;
-            opacity: 0;
+            animation: fadeUp 0.9s ease 0.4s both;
         }
-
+ 
         @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(22px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
+ 
         .btn-primary {
             background: var(--gold);
             color: var(--dark);
-            padding: 16px 36px;
-            border-radius: 4px;
+            padding: 15px 32px;
+            border-radius: 6px;
             font-size: 1rem;
             font-weight: 700;
-            font-family: 'Tajawal', sans-serif;
             text-decoration: none;
             transition: all 0.3s;
             border: 2px solid var(--gold);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            -webkit-tap-highlight-color: transparent;
         }
-
-        .btn-primary:hover {
-            background: transparent;
-            color: var(--gold);
-        }
-
+ 
+        .btn-primary:hover { background: transparent; color: var(--gold); }
+ 
         .btn-secondary {
             background: transparent;
             color: var(--cream);
-            padding: 16px 36px;
-            border-radius: 4px;
+            padding: 15px 32px;
+            border-radius: 6px;
             font-size: 1rem;
             font-weight: 500;
-            font-family: 'Tajawal', sans-serif;
             text-decoration: none;
             border: 1px solid rgba(245,234,214,0.3);
             transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            -webkit-tap-highlight-color: transparent;
         }
-
-        .btn-secondary:hover {
-            border-color: var(--gold);
-            color: var(--gold);
-        }
-
+ 
+        .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+ 
         .scroll-hint {
             position: absolute;
-            bottom: 32px;
+            bottom: 28px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
-            color: rgba(201,168,76,0.5);
-            font-size: 0.75rem;
+            gap: 6px;
+            color: rgba(201,168,76,0.45);
+            font-size: 0.72rem;
             letter-spacing: 2px;
-            animation: bounce 2s infinite;
+            animation: bounce 2.5s infinite;
         }
-
-        .scroll-hint svg { width: 20px; height: 20px; }
-
+ 
         @keyframes bounce {
             0%, 100% { transform: translateX(-50%) translateY(0); }
             50% { transform: translateX(-50%) translateY(8px); }
         }
-
-        /* ===== DIVIDER ===== */
-        .gold-divider {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin: 0 auto;
-            max-width: 300px;
-        }
-
-        .gold-divider::before, .gold-divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: linear-gradient(to right, transparent, var(--gold));
-        }
-
-        .gold-divider::before { background: linear-gradient(to left, transparent, var(--gold)); }
-
-        .divider-icon {
-            color: var(--gold);
-            font-size: 1.2rem;
-        }
-
-        /* ===== SECTION ===== */
+ 
+        /* ===== SECTIONS ===== */
         section {
             position: relative;
             z-index: 1;
-            padding: 80px 24px;
+            padding: 72px 24px;
         }
-
+ 
         .section-label {
             text-align: center;
             color: var(--gold);
-            font-size: 0.78rem;
+            font-size: 0.72rem;
             letter-spacing: 5px;
             text-transform: uppercase;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
-
+ 
         .section-title {
-            font-family: Arial, sans-serif;
-            font-size: clamp(2rem, 5vw, 3rem);
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
             text-align: center;
             color: var(--cream);
             margin-bottom: 12px;
+            font-weight: 700;
         }
-
+ 
         .section-desc {
             text-align: center;
-            color: rgba(245,234,214,0.6);
-            max-width: 500px;
-            margin: 0 auto 60px;
+            color: rgba(245,234,214,0.58);
+            max-width: 480px;
+            margin: 0 auto 52px;
             line-height: 1.8;
+            font-size: 0.97rem;
         }
-
+ 
         /* ===== FEATURES ===== */
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
             max-width: 1000px;
             margin: 0 auto;
         }
-
+ 
         .feature-card {
             background: var(--dark-2);
-            border: 1px solid rgba(201,168,76,0.15);
-            border-radius: 8px;
-            padding: 36px 28px;
-            transition: all 0.4s;
+            border: 1px solid rgba(201,168,76,0.14);
+            border-radius: 10px;
+            padding: 32px 24px;
+            transition: all 0.35s;
             position: relative;
             overflow: hidden;
         }
-
-        .feature-card::before {
+ 
+        .feature-card::after {
             content: '';
             position: absolute;
             inset: 0;
             background: linear-gradient(135deg, rgba(201,168,76,0.05), transparent);
             opacity: 0;
-            transition: opacity 0.4s;
+            transition: opacity 0.35s;
         }
-
-        .feature-card:hover {
-            border-color: rgba(201,168,76,0.4);
-            transform: translateY(-4px);
+ 
+        .feature-card:hover { border-color: rgba(201,168,76,0.4); transform: translateY(-4px); }
+        .feature-card:hover::after { opacity: 1; }
+ 
+        .feature-icon-wrap {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            background: rgba(201,168,76,0.1);
+            border: 1px solid rgba(201,168,76,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
         }
-
-        .feature-card:hover::before { opacity: 1; }
-
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-        }
-
+ 
+        .feature-icon-wrap svg { width: 22px; height: 22px; stroke: var(--gold); fill: none; stroke-width: 1.8; }
+ 
         .feature-title {
-            font-family: Arial, sans-serif;
-            font-size: 1.3rem;
-            color: var(--gold);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--cream);
             margin-bottom: 10px;
         }
-
+ 
         .feature-text {
-            color: rgba(245,234,214,0.65);
+            color: rgba(245,234,214,0.6);
             line-height: 1.8;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
-
+ 
         /* ===== PRODUCTS PREVIEW ===== */
-        .products-bg {
-            background: var(--dark-2);
-        }
-
-        .products-grid {
+        .products-bg { background: var(--dark-2); }
+ 
+        .preview-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 20px;
-            max-width: 1100px;
-            margin: 0 auto 48px;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 18px;
+            max-width: 1080px;
+            margin: 0 auto 44px;
         }
-
-        .product-card {
+ 
+        .preview-card {
             background: var(--dark-3);
             border: 1px solid rgba(201,168,76,0.12);
-            border-radius: 8px;
+            border-radius: 10px;
             overflow: hidden;
-            transition: all 0.4s;
-            cursor: pointer;
+            transition: all 0.35s;
+            text-decoration: none;
         }
-
-        .product-card:hover {
-            border-color: rgba(201,168,76,0.5);
-            transform: translateY(-6px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+ 
+        .preview-card:hover {
+            border-color: rgba(201,168,76,0.45);
+            transform: translateY(-5px);
+            box-shadow: 0 18px 36px rgba(0,0,0,0.4);
         }
-
-        .product-img-wrap {
-            height: 180px;
-            background: linear-gradient(135deg, #1e1710, #2a2015);
+ 
+        .preview-img {
+            height: 160px;
+            background: linear-gradient(135deg, #1c1508, #2a2015);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 4rem;
-            position: relative;
             overflow: hidden;
         }
-
-        .product-img-wrap::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 60px;
-            background: linear-gradient(to top, var(--dark-3), transparent);
-        }
-
-        .product-img-wrap img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .product-body {
-            padding: 20px;
-        }
-
-        .product-category {
-            font-size: 0.72rem;
+ 
+        .preview-img img { width: 100%; height: 100%; object-fit: cover; }
+ 
+        .preview-img-placeholder {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: rgba(201,168,76,0.25);
             letter-spacing: 3px;
+        }
+ 
+        .preview-body { padding: 16px; }
+ 
+        .preview-cat {
+            font-size: 0.68rem;
+            letter-spacing: 2px;
             color: var(--gold-dark);
             text-transform: uppercase;
-            margin-bottom: 8px;
-        }
-
-        .product-name {
-            font-family: Arial, sans-serif;
-            font-size: 1.2rem;
-            color: var(--cream);
             margin-bottom: 6px;
         }
-
-        .product-note {
-            font-size: 0.82rem;
-            color: rgba(245,234,214,0.5);
-            margin-bottom: 16px;
+ 
+        .preview-name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--cream);
+            margin-bottom: 12px;
+            line-height: 1.3;
         }
-
-        .product-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .product-price {
+ 
+        .preview-price {
             color: var(--gold);
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 700;
         }
-
-        .product-price span {
-            font-size: 0.75rem;
-            opacity: 0.7;
-        }
-
-        .product-btn {
-            background: var(--gold);
-            color: var(--dark);
-            border: none;
-            width: 36px;
-            height: 36px;
-            border-radius: 4px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Tajawal', sans-serif;
-        }
-
-        .product-btn:hover {
-            background: var(--gold-light);
-            transform: scale(1.1);
-        }
-
-        .view-all-wrap {
-            text-align: center;
-        }
-
-        /* ===== HOW IT WORKS ===== */
-        .steps {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0;
+ 
+        .preview-price small { font-size: 0.72rem; font-weight: 400; opacity: 0.75; }
+ 
+        .view-all-wrap { text-align: center; }
+ 
+        /* ===== STEPS ===== */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 24px;
             max-width: 900px;
             margin: 0 auto;
             position: relative;
         }
-
-        .steps::before {
+ 
+        .steps-grid::before {
             content: '';
             position: absolute;
-            top: 40px;
+            top: 36px;
             right: 10%;
             left: 10%;
             height: 1px;
-            background: linear-gradient(to right, transparent, var(--gold), transparent);
+            background: linear-gradient(to right, transparent, rgba(201,168,76,0.3), transparent);
         }
-
-        .step {
-            flex: 1;
-            min-width: 160px;
-            text-align: center;
-            padding: 20px;
-        }
-
+ 
+        .step { text-align: center; padding: 8px; }
+ 
         .step-num {
             width: 56px;
             height: 56px;
@@ -522,536 +442,462 @@
             background: var(--dark-3);
             border: 2px solid var(--gold);
             color: var(--gold);
-            font-family: 'Amiri', serif;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
+            font-weight: 700;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 20px;
+            margin: 0 auto 18px;
             position: relative;
             z-index: 1;
         }
-
+ 
         .step-title {
             font-weight: 700;
             color: var(--cream);
             margin-bottom: 8px;
-            font-size: 1rem;
+            font-size: 0.97rem;
         }
-
+ 
         .step-text {
-            font-size: 0.85rem;
-            color: rgba(245,234,214,0.55);
+            font-size: 0.83rem;
+            color: rgba(245,234,214,0.52);
             line-height: 1.7;
         }
-
-        /* ===== DELIVERY BANNER ===== */
-        .delivery-banner {
-            background: linear-gradient(135deg, var(--dark-3), #1e1508);
-            border: 1px solid rgba(201,168,76,0.2);
-            border-radius: 12px;
-            padding: 48px;
-            max-width: 800px;
+ 
+        /* ===== DELIVERY ===== */
+        .delivery-section { background: var(--dark-2); }
+ 
+        .delivery-box {
+            max-width: 720px;
             margin: 0 auto;
+            background: linear-gradient(135deg, var(--dark-3), #1c1408);
+            border: 1px solid rgba(201,168,76,0.2);
+            border-radius: 14px;
+            padding: 52px 40px;
             text-align: center;
             position: relative;
             overflow: hidden;
         }
-
-        .delivery-banner::before {
+ 
+        .delivery-box::before {
             content: '';
             position: absolute;
-            top: -50%;
+            top: -40%;
             left: 50%;
             transform: translateX(-50%);
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(201,168,76,0.1), transparent 70%);
+            width: 280px;
+            height: 280px;
+            background: radial-gradient(circle, rgba(201,168,76,0.08), transparent 70%);
+            pointer-events: none;
         }
-
-        .delivery-banner h2 {
-            font-family: Arial, sans-serif;
-            font-size: 2rem;
-            color: var(--gold);
-            margin-bottom: 16px;
+ 
+        .delivery-box h2 {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            color: var(--cream);
+            margin-bottom: 14px;
             position: relative;
         }
-
-        .delivery-banner p {
-            color: rgba(245,234,214,0.7);
-            margin-bottom: 32px;
+ 
+        .delivery-box h2 span { color: var(--gold); }
+ 
+        .delivery-box p {
+            color: rgba(245,234,214,0.65);
             line-height: 1.8;
+            margin-bottom: 28px;
             position: relative;
         }
-
-        .delivery-tags {
+ 
+        .delivery-tag-wrap {
             display: flex;
             flex-wrap: wrap;
-            gap: 12px;
+            gap: 10px;
             justify-content: center;
             margin-bottom: 32px;
             position: relative;
         }
-
+ 
         .delivery-tag {
             background: rgba(201,168,76,0.1);
-            border: 1px solid rgba(201,168,76,0.3);
+            border: 1px solid rgba(201,168,76,0.28);
             color: var(--gold);
-            padding: 8px 20px;
+            padding: 7px 18px;
             border-radius: 100px;
-            font-size: 0.88rem;
+            font-size: 0.86rem;
         }
-
+ 
+        /* ===== TESTIMONIALS ===== */
+        .testimonials-section {
+            padding: 72px 0;
+            overflow: hidden;
+            background: var(--dark);
+        }
+ 
+        .testimonials-section .section-label,
+        .testimonials-section .section-title {
+            padding: 0 24px;
+        }
+ 
+        .testimonials-track {
+            display: flex;
+            gap: 18px;
+            padding: 16px 24px;
+            width: max-content;
+            animation: slide 35s linear infinite;
+        }
+ 
+        .testimonials-section:hover .testimonials-track {
+            animation-play-state: paused;
+        }
+ 
+        @keyframes slide {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+ 
+        .t-card {
+            background: var(--dark-2);
+            border: 1px solid rgba(201,168,76,0.1);
+            border-radius: 12px;
+            padding: 28px;
+            width: 320px;
+            flex-shrink: 0;
+            transition: border-color 0.3s;
+        }
+ 
+        .t-card:hover { border-color: rgba(201,168,76,0.4); }
+ 
+        .t-stars { color: #ffc107; margin-bottom: 12px; font-size: 0.9rem; letter-spacing: 2px; }
+ 
+        .t-text {
+            color: var(--cream-2);
+            font-size: 0.92rem;
+            line-height: 1.7;
+            margin-bottom: 18px;
+            min-height: 54px;
+        }
+ 
+        .t-name {
+            color: var(--gold);
+            font-size: 0.9rem;
+            font-weight: 700;
+            border-top: 1px solid rgba(201,168,76,0.1);
+            padding-top: 14px;
+        }
+ 
         /* ===== FOOTER ===== */
         footer {
             background: var(--dark-2);
             border-top: 1px solid rgba(201,168,76,0.1);
-            padding: 60px 24px 32px;
+            padding: 52px 24px 28px;
             text-align: center;
             position: relative;
             z-index: 1;
         }
-
+ 
         .footer-logo {
-            font-family: Arial, sans-serif;
-            font-size: 2rem;
+            font-size: 1.9rem;
+            font-weight: 700;
             color: var(--gold);
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
-
+ 
         .footer-tagline {
-            color: rgba(245,234,214,0.5);
-            margin-bottom: 32px;
-            font-size: 0.9rem;
+            color: rgba(245,234,214,0.45);
+            margin-bottom: 28px;
+            font-size: 0.88rem;
         }
-
+ 
         .social-links {
             display: flex;
-            gap: 20px;
+            gap: 14px;
             justify-content: center;
-            margin-bottom: 40px;
+            margin-bottom: 36px;
         }
-
+ 
         .social-link {
             width: 44px;
             height: 44px;
             border-radius: 50%;
-            border: 1px solid rgba(201,168,76,0.3);
+            border: 1px solid rgba(201,168,76,0.28);
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--gold);
             transition: all 0.3s;
             text-decoration: none;
-            font-size: 1.2rem;
+            -webkit-tap-highlight-color: transparent;
         }
-
-        .social-link:hover {
+ 
+        .social-link:hover, .social-link:active {
             background: var(--gold);
             color: var(--dark);
             border-color: var(--gold);
         }
-
+ 
         .footer-bottom {
-            color: rgba(245,234,214,0.3);
-            font-size: 0.82rem;
-            padding-top: 24px;
-            border-top: 1px solid rgba(201,168,76,0.08);
+            color: rgba(245,234,214,0.28);
+            font-size: 0.8rem;
+            padding-top: 20px;
+            border-top: 1px solid rgba(201,168,76,0.07);
         }
-
-        /* ===== WHATSAPP FLOAT ===== */
+ 
+        /* ===== WA FLOAT ===== */
         .wa-float {
             position: fixed;
-            bottom: 28px;
-            left: 28px;
-            width: 56px;
-            height: 56px;
+            bottom: 24px;
+            left: 24px;
+            width: 54px;
+            height: 54px;
             background: #25D366;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 20px rgba(37,211,102,0.4);
-            z-index: 200;
+            box-shadow: 0 4px 18px rgba(37,211,102,0.4);
+            z-index: 998;
             text-decoration: none;
             transition: all 0.3s;
+            -webkit-tap-highlight-color: transparent;
         }
-
-        .wa-float:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 30px rgba(37,211,102,0.6);
-        }
-
-        .wa-float svg { width: 28px; height: 28px; fill: white; }
-
-        /* ===== MOBILE ===== */
-        @media (max-width: 768px) {
-            nav { padding: 16px 20px; }
-            .nav-links { display: none; }
-            .steps::before { display: none; }
-            .delivery-banner { padding: 32px 24px; }
-        }
-
-        /* ===== TESTIMONIALS SLIDER ===== */
-        .testimonials-section {
-            padding: 80px 0;
-            overflow: hidden;
-            background: var(--dark);
-        }
-
-        .testimonials-container {
-            display: flex;
-            gap: 20px;
-            padding: 20px;
-            width: max-content;
-            animation: scroll 40s linear infinite;
-        }
-
-        /* توقف الحركة عند مرور الماوس */
-        .testimonials-section:hover .testimonials-container {
-            animation-play-state: paused;
-        }
-
-        .testimonial-card {
-            background: var(--dark-2);
-            border: 1px solid rgba(201,168,76,0.1);
-            border-radius: 12px;
-            padding: 30px;
-            width: 350px;
-            flex-shrink: 0;
-            transition: border-color 0.3s;
-        }
-
-        .testimonial-card:hover {
-            border-color: var(--gold);
-        }
-
-        .stars {
-            color: #ffc107;
-            margin-bottom: 12px;
-            font-size: 0.9rem;
-        }
-
-        .testimonial-text {
-            color: var(--cream-2);
-            font-size: 0.95rem;
-            line-height: 1.7;
-            margin-bottom: 20px;
-            min-height: 60px;
-        }
-
-        .testimonial-user {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-top: 1px solid rgba(201,168,76,0.1);
-            padding-top: 15px;
-        }
-
-        .user-info h4 {
-            color: var(--gold);
-            font-size: 1rem;
-            margin-bottom: 2px;
-        }
-
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(calc(350px * 4 + 20px * 4)); }
-        }
-
-        /* لضمان انسيابية الحركة في الشاشات الصغيرة */
-        @media (max-width: 768px) {
-            .testimonial-card { width: 300px; }
-            @keyframes scroll {
-                0% { transform: translateX(0); }
-                100% { transform: translateX(calc(300px * 4 + 20px * 4)); }
-            }
+ 
+        .wa-float:hover, .wa-float:active { transform: scale(1.1); }
+        .wa-float svg { width: 26px; height: 26px; fill: white; }
+ 
+        /* ===== MOBILE FULL ===== */
+        @media (max-width: 600px) {
+            section { padding: 56px 18px; }
+            .hero { padding: 80px 18px 60px; }
+            .hero-btns { flex-direction: column; align-items: center; }
+            .btn-primary, .btn-secondary { width: 100%; max-width: 300px; justify-content: center; padding: 15px 24px; }
+            .steps-grid::before { display: none; }
+            .delivery-box { padding: 36px 22px; }
+            .preview-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .preview-name { font-size: 0.88rem; }
+            .features-grid { grid-template-columns: 1fr; gap: 14px; }
+            .t-card { width: 280px; }
         }
     </style>
 </head>
 <body>
-
-    <!-- NAV -->
-    <nav>
-        <div class="nav-logo">بخورنا</div>
-        <ul class="nav-links">
-            <li><a href="#products">منتجاتنا</a></li>
-            <li><a href="#how">كيف تطلب؟</a></li>
-            <li><a href="#delivery">التوصيل</a></li>
-            <li><a href="products.html" class="nav-cta">اطلب الآن</a></li>
-        </ul>
-    </nav>
-
-<!-- HERO -->
-    <div class="hero">
-        <div class="hero-glow"></div>
-        <div class="smoke-line"></div>
-        <div class="smoke-line"></div>
-        <div class="smoke-line"></div>
  
-        <div style="position:relative; z-index:2;">
-            <h1>
-                رائحة تبقى
-                <span>في الذاكرة</span>
-            </h1>
-            <p class="hero-sub">
-                رائحة بخورنا ستجدها بكل مكان لأنك من أهلها
-            </p>
-            <div class="hero-btns">
-                <a href="products.html" class="btn-primary">🛒 تصفح المنتجات</a>
-                <a href="https://wa.me/966500000000" target="_blank" class="btn-secondary">📞 تواصل معنا</a>
-            </div>
-        </div>
-
-        <div class="scroll-hint">
-            <span>اكتشف</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 5v14M5 12l7 7 7-7"/>
-            </svg>
+<!-- NAV -->
+<nav>
+    <a href="index.html" class="nav-logo">بخورنا</a>
+    <ul class="nav-links">
+        <li><a href="#products">منتجاتنا</a></li>
+        <li><a href="#how">كيف تطلب؟</a></li>
+        <li><a href="#delivery">التوصيل</a></li>
+        <li><a href="products.html" class="nav-cta">اطلب الآن 🛒</a></li>
+    </ul>
+    <div class="nav-mobile-order">
+        <a href="products.html" class="nav-mobile-btn">🛒 اطلب الآن</a>
+    </div>
+</nav>
+ 
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-glow"></div>
+    <div class="smoke-line"></div>
+    <div class="smoke-line"></div>
+    <div class="smoke-line"></div>
+ 
+    <div class="hero-content">
+        <h1>
+            رائحة تبقى
+            <span>في الذاكرة</span>
+        </h1>
+        <p class="hero-sub">
+            رائحة بخورنا ستجدها بكل مكان لأنك من أهلها
+        </p>
+        <div class="hero-btns">
+            <a href="products.html" class="btn-primary">🛒 تصفح المنتجات</a>
+            <a href="https://wa.me/966500000000" target="_blank" class="btn-secondary">📞 تواصل معنا</a>
         </div>
     </div>
-
-    <!-- FEATURES -->
-    <section>
-        <p class="section-label">لماذا نحن</p>
-        <h2 class="section-title">تميّز لا مثيل له</h2>
-        <p class="section-desc">نختار لك أرقى أنواع البخور والعود من مصادر موثوقة، ونوصله لك </p>
-
-        <div class="features-grid">
-            <div class="feature-card">
-                <h3 class="feature-title">جودة مضمونة</h3>
-                <p class="feature-text">كل منتج يمر بمراجعة دقيقة قبل وصوله إليك. لا نتنازل عن الجودة أبداً.</p>
-            </div>
-            <div class="feature-card">
-                <h3 class="feature-title">توصيل لبريدة</h3>
-                <p class="feature-text">نوصل مباشرة داخل بريدة. الدفع عند الاستلام — كاش أو بطاقة.</p>
-            </div>
-            <div class="feature-card">
-                <h3 class="feature-title">جميع الأسعار شاملة القيمة المضافة</h3>
-                <p class="feature-text">أسعارنا بالأوقية (٢٨ جرام) شفافة وواضحة. لا مفاجآت في الفاتورة.</p>
-            </div>
-            <div class="feature-card">
-                <h3 class="feature-title">تغليف أنيق</h3>
-                <p class="feature-text">منتجاتنا تصلك في تغليف محكم يحافظ على العطر والرائحة حتى لحظة الفتح.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- PRODUCTS PREVIEW -->
-    <section class="products-bg" id="products">
-        <p class="section-label">تشكيلتنا</p>
-        <h2 class="section-title">أبرز منتجاتنا</h2>
-        <p class="section-desc">من العود الكمبودي النادر إلى البخور المروكي الأصيل — كل شيء في مكان واحد</p>
-
-        <div class="products-grid">
-            <!-- Product 1 -->
-            <div class="product-card">
-                <div class="product-img-wrap" style="font-size:1rem;color:rgba(201,168,76,0.3);letter-spacing:1px;">28g</div>
-                <div class="product-body">
-                    <p class="product-category">عود فاخر</p>
-                    <h3 class="product-name">عود تايقر كمبودي</h3>
-                    <p class="product-note">أوقية 28 جرام — رائحة شرقية عميقة</p>
-                    <div class="product-footer">
-                        <div class="product-price">49 <span>ر.س</span></div>
-                        <a href="products.html" class="product-btn">+</a>
-                    </div>
-                </div>
-            </div>
-            <!-- Product 2 -->
-            <div class="product-card">
-                <div class="product-img-wrap" style="font-size:1rem;color:rgba(201,168,76,0.3);letter-spacing:1px;">28g</div>
-                <div class="product-body">
-                    <p class="product-category">بخور</p>
-                    <h3 class="product-name">بخور كلمنتاين أزرق</h3>
-                    <p class="product-note">أوقية 28 جرام — عطر منعش ومميز</p>
-                    <div class="product-footer">
-                        <div class="product-price">36 <span>ر.س</span></div>
-                        <a href="products.html" class="product-btn">+</a>
-                    </div>
-                </div>
-            </div>
-            <!-- Product 3 -->
-            <div class="product-card">
-                <div class="product-img-wrap" style="font-size:1rem;color:rgba(201,168,76,0.3);letter-spacing:1px;">28g</div>
-                <div class="product-body">
-                    <p class="product-category">بخور</p>
-                    <h3 class="product-name">بخور مروكي فاخر</h3>
-                    <p class="product-note">أوقية 28 جرام </p>
-                    <div class="product-footer">
-                        <div class="product-price">76 <span>ر.س</span></div>
-                        <a href="products.html" class="product-btn">+</a>
-                    </div>
-                </div>
-            </div>
-            <!-- Product 4 -->
-            <div class="product-card">
-                <div class="product-img-wrap" style="font-size:1rem;color:rgba(201,168,76,0.3);letter-spacing:1px;">28g</div>
-                <div class="product-body">
-                    <p class="product-category">بخور</p>
-                    <h3 class="product-name">عود فراشة</h3>
-                     <p class="product-note">أوقية 28 جرام </p>                                                                                                                                                                                                                                                                     
-                       <div class="product-footer">
-                        <div class="product-price">18 <span>ر.س</span></div>
-                        <a href="products.html" class="product-btn">+</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="view-all-wrap">
-            <a href="products.html" class="btn-primary">عرض جميع المنتجات ←</a>
-        </div>
-    </section>
-
-    <!-- HOW IT WORKS -->
-    <section id="how">
-        <p class="section-label">خطوات بسيطة</p>
-        <h2 class="section-title">كيف تطلب؟</h2>
-        <p class="section-desc">أربع خطوات وطلبك على بابك</p>
-
-        <div class="steps">
-            <div class="step">
-                <div class="step-num">1</div>
-                <div class="step-title">تصفح المنتجات</div>
-                <p class="step-text">اختر ما يعجبك من تشكيلتنا الواسعة</p>
-            </div>
-            <div class="step">
-                <div class="step-num">2</div>
-                <div class="step-title">أضف للسلة</div>
-                <p class="step-text">أضف منتجاتك المفضلة وراجع طلبك</p>
-            </div>
-            <div class="step">
-                <div class="step-num">3</div>
-                <div class="step-title">أرسل عبر واتساب</div>
-                <p class="step-text">أرسل طلبك بضغطة زر مباشرة لواتساب</p>
-            </div>
-            <div class="step">
-                <div class="step-num">4</div>
-                <div class="step-title">استقبل وادفع</div>
-                <p class="step-text">يصلك المندوب وتدفع عند الاستلام</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- DELIVERY -->
-    <section id="delivery" style="background: var(--dark-2);">
-        <div class="delivery-banner">
-            <h2>نوصّل داخل بريدة</h2>
-            <p>
-                خدمة التوصيل متاحة داخل بريدة.<br>
-                الدفع كاش أو بطاقة عند استلام الطلب — بدون دفع مسبق.
-            </p>
-            <div class="delivery-tags">
-                <span class="delivery-tag">بريدة</span>
-            </div>
-            <a href="products.html" class="btn-primary">اطلب الآن 🛒</a>
-        </div>
-    </section>
-    <!-- TESTIMONIALS -->
-    <section class="testimonials-section">
-        <p class="section-label">ثقتكم فخرنا</p>
-        <h2 class="section-title">قالوا عن بخورنا</h2>
-        
-        <div class="testimonials-container">
-            <!-- التقييم 1 -->
-            <div class="testimonial-card">
-                <div class="stars">⭐⭐⭐⭐⭐</div>
-                <p class="testimonial-text">سريععييينننننن بشكككلل</p>
-                <div class="testimonial-user">
-                    <div class="user-info">
-                        <h4>دانا سليمان</h4>
-                    </div>
-                </div>
-            </div>
-
-            <!-- التقييم 2 -->
-            <div class="testimonial-card">
-                <div class="stars">⭐⭐⭐⭐⭐</div>
-                <p class="testimonial-text">تعامل راقي ومنتجات تبيض الوجه، أنصح بالتعامل معهم وبقوة.</p>
-                <div class="testimonial-user">
-                    <div class="user-info">
-                        <h4>عبدالرحمن العتيبي</h4>
-                    </div>
-                </div>
-            </div>
-
-            <!-- التقييم 3 -->
-            <div class="testimonial-card">
-                <div class="stars">⭐⭐⭐⭐⭐</div>
-                <p class="testimonial-text">فخممم فخمممم 🤍</p>
-                <div class="testimonial-user">
-                    <div class="user-info">
-                        <h4>سلام الشراري</h4>
-                    </div>
-                </div>
-            </div>
-
-            <!-- التقييم 4 -->
-            <div class="testimonial-card">
-                <div class="stars">⭐⭐⭐⭐⭐</div>
-                <p class="testimonial-text">بأختصار افضل متجر في المجال والتجاوب مع الزباين عسل ناس اخلاااق والصراحة الاسعار تخليك تستحي جداً رخيصة كل شي تبارك الرحمن شكراً بخورنا 🤍🤍</p>
-                <div class="testimonial-user">
-                    <div class="user-info">
-                        <h4>ريان الفايز</h4>
-                    </div>
-                </div>
-            </div>
-
-            <!-- نكرر التقييمات هنا لضمان استمرارية الحركة بدون انقطاع (Infinite Loop) -->
-            <div class="testimonial-card">
-                <div class="stars">⭐⭐⭐⭐⭐</div>
-                <p class="testimonial-text">سريععييينننننن بشكككلل</p>
-                <div class="testimonial-user">
-                    <div class="user-info">
-                        <h4>دانا سليمان</h4>
-                    </div>
-                </div>
-            </div>
-            <div class="testimonial-card">
-                <div class="stars">⭐⭐⭐⭐⭐</div>
-                <p class="testimonial-text">بأختصار افضل متجر في المجال والتجاوب مع الزباين عسل ناس اخلاااق..</p>
-                <div class="testimonial-user">
-                    <div class="user-info">
-                        <h4>ريان الفايز</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer>
-        <div class="footer-logo">بخورنا</div>
-        <p class="footer-tagline">بخورنا يصلك الى باب بيتك</p>
-
-        <div class="social-links">
-            <a href="https://wa.me/966500000000" target="_blank" class="social-link">
-                <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.63 1.438h.004c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                </svg>
-            </a>
-            <a href="https://www.instagram.com/bakhurna?igshid=OGQ5ZDc2ODk2ZA%3D%3D" target="_blank" class="social-link">
-                <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                </svg>
-            </a>
-            <a href="https://www.tiktok.com/@bakhurna" target="_blank" class="social-link">
-                <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-                    <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.9-.39-2.81-.12-.9.24-1.72.88-2.12 1.71-.39.81-.43 1.76-.27 2.63.2 1.05.84 2.01 1.71 2.63.95.71 2.15.93 3.3.62 1.2-.31 2.16-1.28 2.54-2.43.14-.42.22-.86.23-1.3l.01-13.91z"/>
-                </svg>
-            </a>
-        </div>
-
-        <div class="footer-bottom">
-            <p>© 2026 بخورنا — جميع الحقوق محفوظة | الأسعار تشمل ضريبة القيمة المضافة</p>
-        </div>
-    </footer>
-
-    <!-- WhatsApp Float -->
-    <a href="https://wa.me/966500000000" target="_blank" class="wa-float">
-        <svg viewBox="0 0 24 24">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.63 1.438h.004c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+ 
+    <div class="scroll-hint">
+        <span>اكتشف</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 5v14M5 12l7 7 7-7"/>
         </svg>
-    </a>
+    </div>
+</div>
+ 
+<!-- FEATURES -->
+<section>
+    <p class="section-label">لماذا نحن</p>
+    <h2 class="section-title">تميّز لا مثيل له</h2>
+    <p class="section-desc">نختار لك أرقى أنواع البخور والعود من مصادر موثوقة، ونوصله لك على بابك</p>
+ 
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon-wrap">
+                <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+            </div>
+            <h3 class="feature-title">جودة مضمونة</h3>
+            <p class="feature-text">كل منتج يمر بمراجعة دقيقة قبل وصوله إليك. لا نتنازل عن الجودة أبداً.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon-wrap">
+                <svg viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            </div>
+            <h3 class="feature-title">توصيل لبريدة</h3>
+            <p class="feature-text">نوصل مباشرة داخل بريدة. الدفع عند الاستلام — كاش أو بطاقة.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon-wrap">
+                <svg viewBox="0 0 24 24"><path d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z"/></svg>
+            </div>
+            <h3 class="feature-title">أسعار شاملة القيمة المضافة</h3>
+            <p class="feature-text">جميع أسعارنا بالأوقية (28 جرام) شفافة وشاملة. لا مفاجآت في الفاتورة.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon-wrap">
+                <svg viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+            </div>
+            <h3 class="feature-title">تغليف أنيق</h3>
+            <p class="feature-text">منتجاتنا تصلك في تغليف محكم يحافظ على العطر والرائحة حتى لحظة الفتح.</p>
+        </div>
+    </div>
+</section>
+ 
+<!-- PRODUCTS PREVIEW -->
+<section class="products-bg" id="products">
+    <p class="section-label">تشكيلتنا</p>
+    <h2 class="section-title">أبرز منتجاتنا</h2>
+    <p class="section-desc">من العود الكمبودي النادر إلى البخور المروكي الأصيل — كل شيء في مكان واحد</p>
+ 
+    <div class="preview-grid">
+        <a href="products.html" class="preview-card">
+            <div class="preview-img"><div class="preview-img-placeholder">28g</div></div>
+            <div class="preview-body">
+                <p class="preview-cat">عود فاخر</p>
+                <h3 class="preview-name">عود تايقر كمبودي</h3>
+                <div class="preview-price">49 <small>ر.س</small></div>
+            </div>
+        </a>
+        <a href="products.html" class="preview-card">
+            <div class="preview-img"><div class="preview-img-placeholder">28g</div></div>
+            <div class="preview-body">
+                <p class="preview-cat">بخور</p>
+                <h3 class="preview-name">بخور كلمنتاين أزرق</h3>
+                <div class="preview-price">36 <small>ر.س</small></div>
+            </div>
+        </a>
+        <a href="products.html" class="preview-card">
+            <div class="preview-img"><div class="preview-img-placeholder">28g</div></div>
+            <div class="preview-body">
+                <p class="preview-cat">بخور مغربي</p>
+                <h3 class="preview-name">بخور مروكي فاخر</h3>
+                <div class="preview-price">76 <small>ر.س</small></div>
+            </div>
+        </a>
+        <a href="products.html" class="preview-card">
+            <div class="preview-img"><div class="preview-img-placeholder">28g</div></div>
+            <div class="preview-body">
+                <p class="preview-cat">بخور</p>
+                <h3 class="preview-name">عود فراشة</h3>
+                <div class="preview-price">18 <small>ر.س</small></div>
+            </div>
+        </a>
+    </div>
+ 
+    <div class="view-all-wrap">
+        <a href="products.html" class="btn-primary">عرض جميع المنتجات ←</a>
+    </div>
+</section>
+ 
+<!-- HOW IT WORKS -->
+<section id="how">
+    <p class="section-label">خطوات بسيطة</p>
+    <h2 class="section-title">كيف تطلب؟</h2>
+    <p class="section-desc">أربع خطوات وطلبك على بابك</p>
+ 
+    <div class="steps-grid">
+        <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-title">تصفح المنتجات</div>
+            <p class="step-text">اختر ما يعجبك من تشكيلتنا الواسعة</p>
+        </div>
+        <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-title">أضف للسلة</div>
+            <p class="step-text">أضف منتجاتك المفضلة وراجع طلبك</p>
+        </div>
+        <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-title">أرسل عبر واتساب</div>
+            <p class="step-text">أرسل طلبك بضغطة زر مباشرة لواتساب</p>
+        </div>
+        <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-title">استقبل وادفع</div>
+            <p class="step-text">يصلك المندوب وتدفع عند الاستلام</p>
+        </div>
+    </div>
+</section>
+ 
+<!-- DELIVERY -->
+<section class="delivery-section" id="delivery">
+    <div class="delivery-box">
+        <h2>نوصّل داخل <span>بريدة</span></h2>
+        <p>
+            خدمة التوصيل متاحة داخل بريدة.<br>
+            الدفع كاش أو بطاقة عند استلام الطلب — بدون دفع مسبق.
+        </p>
+        <div class="delivery-tag-wrap">
+            <span class="delivery-tag">بريدة</span>
+            <span class="delivery-tag">دفع عند الاستلام</span>
+            <span class="delivery-tag">كاش أو بطاقة</span>
+        </div>
+        <a href="products.html" class="btn-primary">اطلب الآن 🛒</a>
+    </div>
+</section>
+ 
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+    <p class="section-label">ثقتكم فخرنا</p>
+    <h2 class="section-title" style="margin-bottom:36px;">قالوا عن بخورنا</h2>
+ 
+    <div class="testimonials-track">
+        <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">سريع بشكل لا يصدق! وصل الطلب في نفس اليوم.</p><div class="t-name">دانا سليمان</div></div>
+        <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">تعامل راقي ومنتجات تبيض الوجه، أنصح بالتعامل معهم وبقوة.</p><div class="t-name">عبدالرحمن العتيبي</div></div>
+        <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">فخم بكل معنى الكلمة، الرائحة تملأ البيت كله.</p><div class="t-name">سلام الشراري</div></div>
+        <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">أفضل متجر في المجال، الأسعار معقولة جداً والتعامل ممتاز. شكراً بخورنا!</p><div class="t-name">ريان الفايز</div></div>
+        <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">سريع بشكل لا يصدق! وصل الطلب في نفس اليوم.</p><div class="t-name">دانا سليمان</div></div>
+        <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">تعامل راقي ومنتجات تبيض الوجه، أنصح بالتعامل معهم وبقوة.</p><div class="t-name">عبدالرحمن العتيبي</div></div>
+        <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">فخم بكل معنى الكلمة، الرائحة تملأ البيت كله.</p><div class="t-name">سلام الشراري</div></div>
+        <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">أفضل متجر في المجال، الأسعار معقولة جداً والتعامل ممتاز. شكراً بخورنا!</p><div class="t-name">ريان الفايز</div></div>
+    </div>
+</section>
+ 
+<!-- FOOTER -->
+<footer>
+    <div class="footer-logo">بخورنا</div>
+    <p class="footer-tagline">بخورنا يصلك إلى باب بيتك</p>
+ 
+    <div class="social-links">
+        <a href="https://wa.me/966500000000" target="_blank" class="social-link" aria-label="واتساب">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.63 1.438h.004c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/bakhurna" target="_blank" class="social-link" aria-label="انستغرام">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+        <a href="https://www.tiktok.com/@bakhurna" target="_blank" class="social-link" aria-label="تيك توك">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.9-.39-2.81-.12-.9.24-1.72.88-2.12 1.71-.39.81-.43 1.76-.27 2.63.2 1.05.84 2.01 1.71 2.63.95.71 2.15.93 3.3.62 1.2-.31 2.16-1.28 2.54-2.43.14-.42.22-.86.23-1.3l.01-13.91z"/></svg>
+        </a>
+    </div>
+ 
+    <div class="footer-bottom">
+        <p>© 2026 بخورنا — جميع الحقوق محفوظة | الأسعار تشمل ضريبة القيمة المضافة</p>
+    </div>
+</footer>
+ 
+<!-- WA Float -->
+<a href="https://wa.me/966500000000" target="_blank" class="wa-float" aria-label="تواصل عبر واتساب">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.63 1.438h.004c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+ 
 </body>
 </html>
