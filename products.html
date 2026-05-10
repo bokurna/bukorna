@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta name="theme-color" content="#1a1410">
     <title>المنتجات | بخورنا</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --gold: #c9a84c;
@@ -23,7 +24,7 @@
         html { scroll-behavior: smooth; }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Cairo', Arial, sans-serif;
             background-color: var(--dark);
             color: var(--cream);
             min-height: 100vh;
@@ -85,7 +86,7 @@
             font-weight: 700;
             font-size: 0.88rem;
             cursor: pointer;
-            font-family: Arial, sans-serif;
+            font-family: 'Cairo', Arial, sans-serif;
             transition: background 0.3s;
             -webkit-tap-highlight-color: transparent;
             white-space: nowrap;
@@ -144,7 +145,7 @@
             border: 1px solid rgba(201,168,76,0.25);
             background: transparent;
             color: rgba(245,234,214,0.6);
-            font-family: Arial, sans-serif;
+            font-family: 'Cairo', Arial, sans-serif;
             font-size: 0.88rem;
             cursor: pointer;
             transition: all 0.25s;
@@ -271,40 +272,6 @@
 
         .product-price small { font-size: 0.68rem; font-weight: 400; opacity: 0.7; }
 
-        /* ===== زر الإضافة ===== */
-        .add-btn {
-            background: var(--gold);
-            color: var(--dark);
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-size: 1.5rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background 0.25s, transform 0.15s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            line-height: 1;
-            font-family: Arial, sans-serif;
-            /* مهم للجوال */
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            user-select: none;
-            -webkit-user-select: none;
-        }
-
-        .add-btn:hover { background: var(--gold-light); }
-        .add-btn:active { transform: scale(0.9); background: var(--gold-light); }
-
-        @keyframes pop {
-            0% { transform: scale(1); }
-            40% { transform: scale(1.3); }
-            100% { transform: scale(1); }
-        }
-        .add-btn.pop-anim { animation: pop 0.25s ease; }
-
         /* ===== CART MODAL (Bottom Sheet) ===== */
         .cart-overlay {
             display: none;
@@ -401,45 +368,155 @@
             font-size: 0.95rem;
         }
 
+        /* ===== نظام الكميات في السلة ===== */
         .cart-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 20px;
+            padding: 11px 16px;
             border-bottom: 1px solid rgba(245,234,214,0.05);
+            gap: 8px;
         }
 
         .cart-item-name {
-            font-size: 0.92rem;
+            font-size: 0.88rem;
             font-weight: 600;
             color: var(--cream);
             flex: 1;
-            padding-left: 10px;
+            line-height: 1.3;
+        }
+
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            background: rgba(201,168,76,0.08);
+            border: 1px solid rgba(201,168,76,0.2);
+            border-radius: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .qty-btn {
+            background: none;
+            border: none;
+            color: var(--gold);
+            width: 32px;
+            height: 32px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            font-family: 'Cairo', Arial, sans-serif;
+        }
+
+        .qty-btn:hover, .qty-btn:active { background: rgba(201,168,76,0.15); }
+        .qty-btn.minus { color: rgba(245,234,214,0.5); }
+        .qty-btn.minus:hover { color: #ff6b6b; background: rgba(255,107,107,0.1); }
+
+        .qty-num {
+            min-width: 28px;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--cream);
+            border-right: 1px solid rgba(201,168,76,0.15);
+            border-left: 1px solid rgba(201,168,76,0.15);
+            line-height: 32px;
         }
 
         .cart-item-price {
             color: var(--gold);
             font-weight: 700;
-            font-size: 0.92rem;
-            margin-left: 10px;
+            font-size: 0.88rem;
             white-space: nowrap;
+            min-width: 56px;
+            text-align: left;
         }
 
-        .cart-remove {
-            background: none;
-            border: none;
-            color: rgba(245,234,214,0.3);
-            cursor: pointer;
-            padding: 6px;
-            font-size: 1rem;
-            transition: color 0.2s;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
+        /* زر + على الكارد - يتحول لمؤشر الكمية بعد الإضافة */
+        .add-btn-wrap {
             display: flex;
             align-items: center;
+            gap: 0;
         }
 
-        .cart-remove:hover, .cart-remove:active { color: #ff6b6b; }
+        .qty-indicator {
+            display: none;
+            align-items: center;
+            gap: 0;
+            background: var(--gold);
+            border-radius: 50px;
+            overflow: hidden;
+            height: 36px;
+        }
+
+        .qty-indicator.show { display: flex; }
+
+        .qi-btn {
+            background: none;
+            border: none;
+            color: var(--dark);
+            width: 30px;
+            height: 36px;
+            font-size: 1rem;
+            font-weight: 900;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            transition: background 0.15s;
+            font-family: 'Cairo', Arial, sans-serif;
+        }
+
+        .qi-btn:active { background: rgba(0,0,0,0.1); }
+
+        .qi-num {
+            min-width: 24px;
+            text-align: center;
+            font-size: 0.88rem;
+            font-weight: 900;
+            color: var(--dark);
+        }
+
+        .add-btn {
+            background: var(--gold);
+            color: var(--dark);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 1.4rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.25s, transform 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            font-family: 'Cairo', Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .add-btn:hover { background: var(--gold-light); }
+        .add-btn:active { transform: scale(0.88); }
+
+        @keyframes pop {
+            0% { transform: scale(1); }
+            40% { transform: scale(1.25); }
+            100% { transform: scale(1); }
+        }
+        .add-btn.pop-anim { animation: pop 0.22s ease; }
 
         /* القسم السفلي الثابت */
         .cart-footer {
@@ -472,7 +549,7 @@
             border-radius: 8px;
             padding: 10px 14px;
             color: var(--cream);
-            font-family: Arial, sans-serif;
+            font-family: 'Cairo', Arial, sans-serif;
             font-size: 0.9rem;
             outline: none;
             margin-bottom: 10px;
@@ -490,7 +567,7 @@
             border-radius: 8px;
             padding: 10px 14px;
             color: var(--cream);
-            font-family: Arial, sans-serif;
+            font-family: 'Cairo', Arial, sans-serif;
             font-size: 0.88rem;
             resize: none;
             height: 64px;
@@ -514,7 +591,7 @@
             border-radius: 8px;
             padding: 11px;
             color: var(--gold);
-            font-family: Arial, sans-serif;
+            font-family: 'Cairo', Arial, sans-serif;
             font-size: 0.88rem;
             font-weight: 600;
             cursor: pointer;
@@ -568,7 +645,7 @@
             border: none;
             padding: 15px;
             border-radius: 12px;
-            font-family: Arial, sans-serif;
+            font-family: 'Cairo', Arial, sans-serif;
             font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
@@ -606,9 +683,142 @@
                 transform: translateX(-50%) translateY(0);
             }
         }
+
+        /* ===== مؤشر أوقات العمل ===== */
+        .status-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(201,168,76,0.06);
+            border-bottom: 1px solid rgba(201,168,76,0.1);
+            font-size: 0.82rem;
+            color: rgba(245,234,214,0.7);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .status-dot.open-now {
+            background: #25D366;
+            box-shadow: 0 0 0 3px rgba(37,211,102,0.2);
+            animation: pulse-dot 2s infinite;
+        }
+
+        .status-dot.closed-now {
+            background: #ff6b6b;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { box-shadow: 0 0 0 3px rgba(37,211,102,0.2); }
+            50% { box-shadow: 0 0 0 6px rgba(37,211,102,0.08); }
+        }
+
+        .status-text { font-weight: 600; }
+        .status-text.open-now  { color: #25D366; }
+        .status-text.closed-now { color: #ff6b6b; }
+
+        /* ===== شاشة تأكيد الطلب ===== */
+        .confirm-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 1100;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .confirm-overlay.open { display: flex; }
+
+        .confirm-box {
+            background: var(--dark-2);
+            border: 1px solid rgba(201,168,76,0.25);
+            border-radius: 20px;
+            padding: 40px 32px;
+            text-align: center;
+            max-width: 360px;
+            width: 100%;
+            animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both;
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.7); opacity: 0; }
+            to   { transform: scale(1);   opacity: 1; }
+        }
+
+        .confirm-icon {
+            width: 72px;
+            height: 72px;
+            background: rgba(37,211,102,0.12);
+            border: 2px solid rgba(37,211,102,0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .confirm-icon svg { width: 36px; height: 36px; stroke: #25D366; fill: none; stroke-width: 2.5; }
+
+        .confirm-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--cream);
+            margin-bottom: 10px;
+        }
+
+        .confirm-msg {
+            font-size: 0.9rem;
+            color: rgba(245,234,214,0.6);
+            line-height: 1.7;
+            margin-bottom: 28px;
+        }
+
+        .confirm-order-num {
+            font-size: 0.78rem;
+            color: var(--gold);
+            background: rgba(201,168,76,0.08);
+            border: 1px solid rgba(201,168,76,0.2);
+            border-radius: 6px;
+            padding: 6px 14px;
+            display: inline-block;
+            margin-bottom: 24px;
+            letter-spacing: 1px;
+        }
+
+        .confirm-btn {
+            width: 100%;
+            background: var(--gold);
+            color: var(--dark);
+            border: none;
+            padding: 13px;
+            border-radius: 10px;
+            font-family: 'Cairo', Arial, sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .confirm-btn:hover { background: var(--gold-light); }
     </style>
 </head>
 <body>
+
+<!-- مؤشر أوقات العمل -->
+<div class="status-bar" id="status-bar">
+    <span class="status-dot" id="status-dot"></span>
+    <span class="status-text" id="status-text"></span>
+    <span id="status-hours"></span>
+</div>
 
 <!-- NAV -->
 <nav>
@@ -658,7 +868,14 @@
                 <p class="product-note">أوقية 28 جرام</p>
                 <div class="product-footer">
                     <div class="product-price">49 <small>ر.س</small></div>
+                    <div class="add-btn-wrap">
+                    <div class="qty-indicator" id="qi-49-عود">
+                        <button class="qi-btn" onclick="cardQtyChange('عود تايقر كمبودي', -1, this)">−</button>
+                        <span class="qi-num">1</span>
+                        <button class="qi-btn" onclick="addToCart('عود تايقر كمبودي', 49, this.closest('.add-btn-wrap').querySelector('.add-btn'))">+</button>
+                    </div>
                     <button class="add-btn" onclick="addToCart('عود تايقر كمبودي', 49, this)" aria-label="أضف للسلة">+</button>
+                </div>
                 </div>
             </div>
         </div>
@@ -671,7 +888,14 @@
                 <p class="product-note">أوقية 28 جرام</p>
                 <div class="product-footer">
                     <div class="product-price">36 <small>ر.س</small></div>
+                    <div class="add-btn-wrap">
+                    <div class="qty-indicator" id="qi-36-بخور">
+                        <button class="qi-btn" onclick="cardQtyChange('بخور كلمنتاين أزرق', -1, this)">−</button>
+                        <span class="qi-num">1</span>
+                        <button class="qi-btn" onclick="addToCart('بخور كلمنتاين أزرق', 36, this.closest('.add-btn-wrap').querySelector('.add-btn'))">+</button>
+                    </div>
                     <button class="add-btn" onclick="addToCart('بخور كلمنتاين أزرق', 36, this)" aria-label="أضف للسلة">+</button>
+                </div>
                 </div>
             </div>
         </div>
@@ -684,7 +908,14 @@
                 <p class="product-note">أوقية 28 جرام</p>
                 <div class="product-footer">
                     <div class="product-price">39 <small>ر.س</small></div>
+                    <div class="add-btn-wrap">
+                    <div class="qty-indicator" id="qi-39-بخور">
+                        <button class="qi-btn" onclick="cardQtyChange('بخور دقة مروكي', -1, this)">−</button>
+                        <span class="qi-num">1</span>
+                        <button class="qi-btn" onclick="addToCart('بخور دقة مروكي', 39, this.closest('.add-btn-wrap').querySelector('.add-btn'))">+</button>
+                    </div>
                     <button class="add-btn" onclick="addToCart('بخور دقة مروكي', 39, this)" aria-label="أضف للسلة">+</button>
+                </div>
                 </div>
             </div>
         </div>
@@ -697,7 +928,14 @@
                 <p class="product-note">أوقية 28 جرام</p>
                 <div class="product-footer">
                     <div class="product-price">16 <small>ر.س</small></div>
+                    <div class="add-btn-wrap">
+                    <div class="qty-indicator" id="qi-16-بخور">
+                        <button class="qi-btn" onclick="cardQtyChange('بخور البيت مروكي', -1, this)">−</button>
+                        <span class="qi-num">1</span>
+                        <button class="qi-btn" onclick="addToCart('بخور البيت مروكي', 16, this.closest('.add-btn-wrap').querySelector('.add-btn'))">+</button>
+                    </div>
                     <button class="add-btn" onclick="addToCart('بخور البيت مروكي', 16, this)" aria-label="أضف للسلة">+</button>
+                </div>
                 </div>
             </div>
         </div>
@@ -710,7 +948,14 @@
                 <p class="product-note">أوقية 28 جرام</p>
                 <div class="product-footer">
                     <div class="product-price">18 <small>ر.س</small></div>
+                    <div class="add-btn-wrap">
+                    <div class="qty-indicator" id="qi-18-عود">
+                        <button class="qi-btn" onclick="cardQtyChange('عود فراشة', -1, this)">−</button>
+                        <span class="qi-num">1</span>
+                        <button class="qi-btn" onclick="addToCart('عود فراشة', 18, this.closest('.add-btn-wrap').querySelector('.add-btn'))">+</button>
+                    </div>
                     <button class="add-btn" onclick="addToCart('عود فراشة', 18, this)" aria-label="أضف للسلة">+</button>
+                </div>
                 </div>
             </div>
         </div>
@@ -726,7 +971,14 @@
                 <p class="product-note">أوقية 28 جرام</p>
                 <div class="product-footer">
                     <div class="product-price">76 <small>ر.س</small></div>
+                    <div class="add-btn-wrap">
+                    <div class="qty-indicator" id="qi-76-بخور">
+                        <button class="qi-btn" onclick="cardQtyChange('بخور مروكي فاخر', -1, this)">−</button>
+                        <span class="qi-num">1</span>
+                        <button class="qi-btn" onclick="addToCart('بخور مروكي فاخر', 76, this.closest('.add-btn-wrap').querySelector('.add-btn'))">+</button>
+                    </div>
                     <button class="add-btn" onclick="addToCart('بخور مروكي فاخر', 76, this)" aria-label="أضف للسلة">+</button>
+                </div>
                 </div>
             </div>
         </div>
@@ -744,7 +996,14 @@
                 <p class="product-note">10 قطع</p>
                 <div class="product-footer">
                     <div class="product-price">10 <small>ر.س</small></div>
+                    <div class="add-btn-wrap">
+                    <div class="qty-indicator" id="qi-10-فحم">
+                        <button class="qi-btn" onclick="cardQtyChange('فحم وادي حلفا (10 قطع)', -1, this)">−</button>
+                        <span class="qi-num">1</span>
+                        <button class="qi-btn" onclick="addToCart('فحم وادي حلفا (10 قطع)', 10, this.closest('.add-btn-wrap').querySelector('.add-btn'))">+</button>
+                    </div>
                     <button class="add-btn" onclick="addToCart('فحم وادي حلفا (10 قطع)', 10, this)" aria-label="أضف للسلة">+</button>
+                </div>
                 </div>
             </div>
         </div>
@@ -757,7 +1016,14 @@
                 <p class="product-note">قطعة واحدة</p>
                 <div class="product-footer">
                     <div class="product-price">5 <small>ر.س</small></div>
+                    <div class="add-btn-wrap">
+                    <div class="qty-indicator" id="qi-5-ولاع">
+                        <button class="qi-btn" onclick="cardQtyChange('ولاعة', -1, this)">−</button>
+                        <span class="qi-num">1</span>
+                        <button class="qi-btn" onclick="addToCart('ولاعة', 5, this.closest('.add-btn-wrap').querySelector('.add-btn'))">+</button>
+                    </div>
                     <button class="add-btn" onclick="addToCart('ولاعة', 5, this)" aria-label="أضف للسلة">+</button>
+                </div>
                 </div>
             </div>
         </div>
@@ -770,7 +1036,14 @@
                 <p class="product-note">لون أسود أنيق</p>
                 <div class="product-footer">
                     <div class="product-price">8 <small>ر.س</small></div>
+                    <div class="add-btn-wrap">
+                    <div class="qty-indicator" id="qi-8-مبخر">
+                        <button class="qi-btn" onclick="cardQtyChange('مبخرة متنقلة سوداء', -1, this)">−</button>
+                        <span class="qi-num">1</span>
+                        <button class="qi-btn" onclick="addToCart('مبخرة متنقلة سوداء', 8, this.closest('.add-btn-wrap').querySelector('.add-btn'))">+</button>
+                    </div>
                     <button class="add-btn" onclick="addToCart('مبخرة متنقلة سوداء', 8, this)" aria-label="أضف للسلة">+</button>
+                </div>
                 </div>
             </div>
         </div>
@@ -783,7 +1056,14 @@
                 <p class="product-note">لون ذهبي فاخر</p>
                 <div class="product-footer">
                     <div class="product-price">8 <small>ر.س</small></div>
+                    <div class="add-btn-wrap">
+                    <div class="qty-indicator" id="qi-8-مبخر">
+                        <button class="qi-btn" onclick="cardQtyChange('مبخرة متنقلة ذهبية', -1, this)">−</button>
+                        <span class="qi-num">1</span>
+                        <button class="qi-btn" onclick="addToCart('مبخرة متنقلة ذهبية', 8, this.closest('.add-btn-wrap').querySelector('.add-btn'))">+</button>
+                    </div>
                     <button class="add-btn" onclick="addToCart('مبخرة متنقلة ذهبية', 8, this)" aria-label="أضف للسلة">+</button>
+                </div>
                 </div>
             </div>
         </div>
@@ -857,35 +1137,125 @@
     </div>
 </div>
 
+<!-- شاشة تأكيد الطلب -->
+<div class="confirm-overlay" id="confirm-overlay">
+    <div class="confirm-box">
+        <div class="confirm-icon">
+            <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+        </div>
+        <div class="confirm-title">تم إرسال طلبك!</div>
+        <div class="confirm-msg">
+            شكراً لثقتك ببخورنا<br>
+            سيتواصل معك المندوب قريباً لتأكيد الطلب وتحديد موعد التوصيل
+        </div>
+        <div class="confirm-order-num" id="confirm-order-num">رقم الطلب: #0000</div>
+        <button class="confirm-btn" onclick="closeConfirm()">حسناً، شكراً!</button>
+    </div>
+</div>
+
 <script>
     const WHATSAPP = '966500000000'; // ← غيّر لرقمك
-    let cart = [];
-    let savedLocationUrl = ''; // رابط الموقع المحفوظ
+
+    /* ============================================================
+       البيانات — cart كـ Map: key=name, value={price, qty}
+    ============================================================ */
+    let cart = new Map();
+    let savedLocationUrl = '';
+
+    /* ===== مؤشر أوقات العمل ===== */
+    function updateStatusBar() {
+        const now = new Date();
+        // توقيت السعودية UTC+3
+        const saHour = (now.getUTCHours() + 3) % 24;
+        const OPEN = 9, CLOSE = 23; // أوقات العمل: 9 صباحاً - 11 مساءً
+        const isOpen = saHour >= OPEN && saHour < CLOSE;
+
+        const dot  = document.getElementById('status-dot');
+        const text = document.getElementById('status-text');
+        const hrs  = document.getElementById('status-hours');
+
+        if (isOpen) {
+            dot.className  = 'status-dot open-now';
+            text.className = 'status-text open-now';
+            text.textContent = 'متاح للتوصيل الآن';
+            hrs.textContent  = `— يغلق الساعة ${CLOSE}:00`;
+        } else {
+            dot.className  = 'status-dot closed-now';
+            text.className = 'status-text closed-now';
+            text.textContent = 'مغلق حالياً';
+            hrs.textContent  = `— يفتح الساعة ${OPEN}:00 صباحاً`;
+        }
+    }
+    updateStatusBar();
+    setInterval(updateStatusBar, 60000);
 
     /* ===== إضافة للسلة ===== */
-    function addToCart(name, price, btn) {
-        cart.push({ name, price });
-        btn.classList.remove('pop-anim');
-        void btn.offsetWidth;
-        btn.classList.add('pop-anim');
+    function addToCart(name, price, addBtn) {
+        const wrap = addBtn.closest('.add-btn-wrap');
+        const indicator = wrap ? wrap.querySelector('.qty-indicator') : null;
+
+        if (cart.has(name)) {
+            cart.get(name).qty += 1;
+        } else {
+            cart.set(name, { price, qty: 1 });
+        }
+
+        // تأثير الضغط
+        addBtn.classList.remove('pop-anim');
+        void addBtn.offsetWidth;
+        addBtn.classList.add('pop-anim');
+
+        // تحديث مؤشر الكمية على الكارد
+        if (indicator) {
+            indicator.classList.add('show');
+            indicator.querySelector('.qi-num').textContent = cart.get(name).qty;
+            addBtn.style.display = 'none';
+        }
+
         updateNavBtn();
     }
 
-    /* ===== حذف من السلة ===== */
-    function removeFromCart(idx) {
-        cart.splice(idx, 1);
+    /* ===== تعديل كمية على الكارد ===== */
+    function cardQtyChange(name, delta, qiBtn) {
+        const wrap = qiBtn.closest('.add-btn-wrap');
+        const indicator = wrap.querySelector('.qty-indicator');
+        const addBtn = wrap.querySelector('.add-btn');
+        const qiNum = indicator.querySelector('.qi-num');
+
+        const item = cart.get(name);
+        if (!item) return;
+        item.qty += delta;
+
+        if (item.qty <= 0) {
+            cart.delete(name);
+            indicator.classList.remove('show');
+            addBtn.style.display = 'flex';
+        } else {
+            qiNum.textContent = item.qty;
+        }
+        updateNavBtn();
+    }
+
+    /* ===== تغيير كمية من السلة ===== */
+    function cartQtyChange(name, delta) {
+        if (!cart.has(name)) return;
+        cart.get(name).qty += delta;
+        if (cart.get(name).qty <= 0) cart.delete(name);
         updateNavBtn();
         renderCartBody();
-        if (cart.length === 0) closeCart();
+        if (cart.size === 0) closeCart();
     }
 
     /* ===== تحديث زر NAV ===== */
     function updateNavBtn() {
-        const btn = document.getElementById('nav-cart-btn');
+        const btn   = document.getElementById('nav-cart-btn');
         const badge = document.getElementById('nav-cart-badge');
-        if (cart.length > 0) {
+        const total = [...cart.values()].reduce((s, i) => s + i.price * i.qty, 0);
+
+        if (cart.size > 0) {
             btn.style.display = 'flex';
-            badge.textContent = cart.length;
+            const totalItems = [...cart.values()].reduce((s, i) => s + i.qty, 0);
+            badge.textContent = totalItems;
         } else {
             btn.style.display = 'none';
         }
@@ -893,35 +1263,35 @@
 
     /* ===== رسم محتوى السلة ===== */
     function renderCartBody() {
-        const body = document.getElementById('cart-body');
-        const footer = document.getElementById('cart-footer');
+        const body    = document.getElementById('cart-body');
+        const footer  = document.getElementById('cart-footer');
         const totalEl = document.getElementById('cart-total-display');
 
-        if (cart.length === 0) {
+        if (cart.size === 0) {
             body.innerHTML = '<div class="cart-empty-msg">السلة فارغة</div>';
             footer.style.display = 'none';
             return;
         }
 
-        const total = cart.reduce((s, i) => s + i.price, 0);
+        const total = [...cart.values()].reduce((s, i) => s + i.price * i.qty, 0);
         totalEl.innerHTML = `${total} <small>ر.س</small>`;
 
-        body.innerHTML = cart.map((item, i) => `
+        body.innerHTML = [...cart.entries()].map(([name, item]) => `
             <div class="cart-item">
-                <button class="cart-remove" onclick="removeFromCart(${i})" aria-label="حذف">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                    </svg>
-                </button>
-                <span class="cart-item-name">${item.name}</span>
-                <span class="cart-item-price">${item.price} ر.س</span>
+                <span class="cart-item-name">${name}</span>
+                <div class="qty-controls">
+                    <button class="qty-btn minus" onclick="cartQtyChange('${name.replace(/'/g,"\'")}', -1)">−</button>
+                    <span class="qty-num">${item.qty}</span>
+                    <button class="qty-btn" onclick="cartQtyChange('${name.replace(/'/g,"\'")}', +1)">+</button>
+                </div>
+                <span class="cart-item-price">${item.price * item.qty} ر.س</span>
             </div>
         `).join('');
 
         footer.style.display = 'block';
     }
 
-    /* ===== فتح السلة ===== */
+    /* ===== فتح / إغلاق السلة ===== */
     function openCart() {
         renderCartBody();
         document.getElementById('cart-overlay').classList.add('open');
@@ -931,7 +1301,6 @@
         document.body.style.overflow = 'hidden';
     }
 
-    /* ===== إغلاق السلة ===== */
     function closeCart() {
         document.getElementById('cart-sheet').classList.remove('open');
         document.getElementById('cart-overlay').classList.remove('open');
@@ -940,46 +1309,35 @@
 
     /* ===== الحصول على الموقع ===== */
     function getLocation() {
-        const btn = document.getElementById('location-btn');
+        const btn     = document.getElementById('location-btn');
         const btnText = document.getElementById('location-btn-text');
         const preview = document.getElementById('location-preview');
-        const link = document.getElementById('location-link');
+        const link    = document.getElementById('location-link');
 
         if (!navigator.geolocation) {
             btn.className = 'location-btn err';
             btnText.textContent = 'المتصفح لا يدعم تحديد الموقع';
             return;
         }
-
-        // حالة التحميل
         btn.className = 'location-btn loading';
         btnText.textContent = 'جارٍ تحديد موقعك...';
 
         navigator.geolocation.getCurrentPosition(
-            // نجح
             (pos) => {
                 const lat = pos.coords.latitude.toFixed(6);
                 const lng = pos.coords.longitude.toFixed(6);
                 const mapUrl = `https://www.google.com/maps?q=${lat},${lng}`;
-
                 savedLocationUrl = mapUrl;
-
-                // تحديث الزر
                 btn.className = 'location-btn got';
-                btnText.textContent = 'تم تحديد موقعك بنجاح — اضغط لتحديثه';
-
-                // إظهار المعاينة
+                btnText.textContent = 'تم تحديد موقعك — اضغط لتحديثه';
                 link.href = mapUrl;
                 preview.style.display = 'block';
             },
-            // فشل
             (err) => {
                 btn.className = 'location-btn err';
-                if (err.code === 1) {
-                    btnText.textContent = 'لم تسمح بالوصول للموقع — اضغط هنا مجدداً';
-                } else {
-                    btnText.textContent = 'تعذّر تحديد الموقع — حاول مجدداً';
-                }
+                btnText.textContent = err.code === 1
+                    ? 'لم تسمح بالوصول للموقع — اضغط مجدداً'
+                    : 'تعذّر تحديد الموقع — حاول مجدداً';
                 savedLocationUrl = '';
                 preview.style.display = 'none';
             },
@@ -989,58 +1347,71 @@
 
     /* ===== إرسال الطلب ===== */
     function sendOrderWhatsApp() {
-        if (cart.length === 0) return;
+        if (cart.size === 0) return;
 
         const neighborhood = document.getElementById('neighborhood').value;
-        const notes = document.getElementById('order-notes').value.trim();
-        const total = cart.reduce((s, i) => s + i.price, 0);
+        const notes        = document.getElementById('order-notes').value.trim();
+        const total        = [...cart.values()].reduce((s, i) => s + i.price * i.qty, 0);
+        const orderNum     = Math.floor(1000 + Math.random() * 9000);
 
-        let msg = `*طلب جديد - بخورنا*%0a`;
+        let msg = `*طلب جديد #${orderNum} - بخورنا*%0a`;
         msg += `━━━━━━━━━━━━━━━━%0a`;
         if (neighborhood) msg += `*الحي:* ${neighborhood}%0a`;
-        if (savedLocationUrl) msg += `*الموقع على الخريطة:* ${encodeURIComponent(savedLocationUrl)}%0a`;
+        if (savedLocationUrl) msg += `*الموقع:* ${encodeURIComponent(savedLocationUrl)}%0a`;
         msg += `%0a*المنتجات:*%0a`;
-        cart.forEach((item, i) => {
-            msg += `${i + 1}. ${item.name} — ${item.price} ر.س%0a`;
+        let i = 1;
+        cart.forEach((item, name) => {
+            msg += `${i++}. ${name} × ${item.qty} — ${item.price * item.qty} ر.س%0a`;
         });
         msg += `━━━━━━━━━━━━━━━━%0a`;
         msg += `*الإجمالي: ${total} ر.س*%0a`;
         msg += `*الدفع: كاش أو بطاقة عند الاستلام*`;
         if (notes) msg += `%0a%0a*ملاحظات:* ${notes}`;
 
+        // فتح واتساب
         window.open(`https://wa.me/${WHATSAPP}?text=${msg}`, '_blank');
+
+        // إغلاق السلة وإظهار شاشة التأكيد
+        closeCart();
+        setTimeout(() => showConfirm(orderNum), 400);
+    }
+
+    /* ===== شاشة التأكيد ===== */
+    function showConfirm(orderNum) {
+        document.getElementById('confirm-order-num').textContent = `رقم الطلب: #${orderNum}`;
+        document.getElementById('confirm-overlay').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeConfirm() {
+        document.getElementById('confirm-overlay').classList.remove('open');
+        document.body.style.overflow = '';
+        // تفريغ السلة وإعادة ضبط الكروت
+        cart.clear();
+        updateNavBtn();
+        // إعادة ضبط مؤشرات الكميات على الكروت
+        document.querySelectorAll('.qty-indicator').forEach(el => el.classList.remove('show'));
+        document.querySelectorAll('.add-btn').forEach(el => el.style.display = 'flex');
     }
 
     /* ===== فلتر الأقسام ===== */
     function filterProducts(cat, btn) {
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-
-        const oudTitle = document.getElementById('title-oud');
-        const oudGrid  = document.getElementById('grid-oud');
-        const accTitle = document.getElementById('title-acc');
-        const accGrid  = document.getElementById('grid-acc');
-
         const showOud = cat === 'all' || cat === 'oud';
         const showAcc = cat === 'all' || cat === 'acc';
-
-        oudTitle.style.display = showOud ? 'block' : 'none';
-        oudGrid.style.display  = showOud ? 'grid'  : 'none';
-        accTitle.style.display = showAcc ? 'block' : 'none';
-        accGrid.style.display  = showAcc ? 'grid'  : 'none';
+        document.getElementById('title-oud').style.display = showOud ? 'block' : 'none';
+        document.getElementById('grid-oud').style.display  = showOud ? 'grid'  : 'none';
+        document.getElementById('title-acc').style.display = showAcc ? 'block' : 'none';
+        document.getElementById('grid-acc').style.display  = showAcc ? 'grid'  : 'none';
     }
 
-    /* ===== إغلاق السلة بالسحب (swipe down) ===== */
+    /* ===== إغلاق السلة بالسحب ===== */
     let touchStartY = 0;
     const sheet = document.getElementById('cart-sheet');
-
-    sheet.addEventListener('touchstart', e => {
-        touchStartY = e.touches[0].clientY;
-    }, { passive: true });
-
-    sheet.addEventListener('touchend', e => {
-        const diff = e.changedTouches[0].clientY - touchStartY;
-        if (diff > 80) closeCart(); // سحب لأسفل 80px يغلق
+    sheet.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, { passive: true });
+    sheet.addEventListener('touchend',   e => {
+        if (e.changedTouches[0].clientY - touchStartY > 80) closeCart();
     }, { passive: true });
 </script>
 </body>
