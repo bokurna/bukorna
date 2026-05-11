@@ -27,7 +27,7 @@ body {
   color: var(--cream);
   min-height: 100vh;
 }
-
+ 
 /* ===== LOGIN ===== */
 #login-screen {
   min-height: 100vh;
@@ -78,7 +78,7 @@ body {
 }
 .login-btn:hover { background: var(--gold-light); }
 .login-err { color: var(--red); font-size: 0.82rem; margin-top: 10px; min-height: 20px; }
-
+ 
 /* ===== SETUP SCREEN ===== */
 #setup-screen {
   min-height: 100vh;
@@ -127,10 +127,10 @@ body {
   transition: background 0.2s;
 }
 .setup-btn:hover { background: var(--gold-light); }
-
+ 
 /* ===== MAIN APP ===== */
 #app { display: none; }
-
+ 
 /* ===== NAV ===== */
 .app-nav {
   background: var(--dark-2);
@@ -159,7 +159,7 @@ body {
   transition: background 0.2s;
 }
 .logout-btn:hover { background: rgba(255,107,107,0.2); }
-
+ 
 /* ===== TABS ===== */
 .tabs {
   display: flex;
@@ -185,10 +185,10 @@ body {
 }
 .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
 .tab-btn:hover  { color: rgba(245,234,214,0.75); }
-
+ 
 /* ===== CONTENT ===== */
 .content { padding: 24px; max-width: 1100px; margin: 0 auto; }
-
+ 
 /* ===== STATS ===== */
 .stats-grid {
   display: grid;
@@ -205,7 +205,7 @@ body {
 .stat-label { font-size: 0.78rem; color: rgba(245,234,214,0.45); margin-bottom: 8px; }
 .stat-value { font-size: 1.8rem; font-weight: 900; color: var(--gold); line-height: 1; }
 .stat-sub   { font-size: 0.75rem; color: rgba(245,234,214,0.3); margin-top: 4px; }
-
+ 
 /* ===== SECTION HEADER ===== */
 .section-head {
   display: flex;
@@ -216,7 +216,7 @@ body {
   gap: 10px;
 }
 .section-title { font-size: 1.1rem; font-weight: 700; color: var(--cream); }
-
+ 
 /* ===== TABLE ===== */
 .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid rgba(201,168,76,0.12); }
 table { width: 100%; border-collapse: collapse; }
@@ -237,7 +237,7 @@ td {
   white-space: nowrap;
 }
 tbody tr:hover { background: rgba(201,168,76,0.04); }
-
+ 
 /* ===== BADGES ===== */
 .badge {
   display: inline-block;
@@ -250,7 +250,7 @@ tbody tr:hover { background: rgba(201,168,76,0.04); }
 .badge-confirmed { background: rgba(201,168,76,0.15); color: var(--gold); }
 .badge-delivered { background: rgba(37,211,102,0.15); color: var(--green); }
 .badge-cancelled { background: rgba(255,107,107,0.15); color: var(--red); }
-
+ 
 /* ===== BUTTONS ===== */
 .btn {
   background: var(--gold);
@@ -282,7 +282,7 @@ tbody tr:hover { background: rgba(201,168,76,0.04); }
 }
 .btn-danger:hover { background: rgba(255,107,107,0.25); }
 .action-btns { display: flex; gap: 6px; }
-
+ 
 /* ===== STATUS SELECT ===== */
 .status-select {
   background: var(--dark-3);
@@ -295,7 +295,7 @@ tbody tr:hover { background: rgba(201,168,76,0.04); }
   cursor: pointer;
   outline: none;
 }
-
+ 
 /* ===== MODAL ===== */
 .modal-overlay {
   display: none;
@@ -348,12 +348,12 @@ tbody tr:hover { background: rgba(201,168,76,0.04); }
 .form-select option { background: var(--dark-2); }
 .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
 .modal-actions .btn { flex: 1; }
-
+ 
 /* ===== LOADING / EMPTY ===== */
 .loading-row td { text-align: center; color: rgba(245,234,214,0.3); padding: 40px; }
 .empty-state   { text-align: center; padding: 60px 20px; color: rgba(245,234,214,0.3); }
 .empty-icon    { font-size: 2.5rem; margin-bottom: 12px; }
-
+ 
 /* ===== TOAST ===== */
 #toast {
   position: fixed;
@@ -374,7 +374,7 @@ tbody tr:hover { background: rgba(201,168,76,0.04); }
 #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 #toast.success { border-color: rgba(37,211,102,0.4); color: var(--green); }
 #toast.error   { border-color: rgba(255,107,107,0.4); color: var(--red); }
-
+ 
 /* ===== ORDER DETAIL ===== */
 .order-items-list { margin-top: 14px; }
 .order-item-row {
@@ -400,7 +400,7 @@ tbody tr:hover { background: rgba(201,168,76,0.04); }
   flex-wrap: wrap;
 }
 .info-label { color: rgba(245,234,214,0.35); }
-
+ 
 @media (max-width: 600px) {
   .content { padding: 16px; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -409,34 +409,34 @@ tbody tr:hover { background: rgba(201,168,76,0.04); }
 </style>
 </head>
 <body>
-
+ 
 <!-- ===== SETUP SCREEN ===== -->
 <div id="setup-screen">
   <div class="setup-box">
     <div class="login-logo">بخورنا ⚙️</div>
     <div class="login-sub" style="margin-bottom:24px;">إعداد الاتصال بـ Supabase</div>
-
+ 
     <div class="setup-desc">
       أدخل بيانات مشروع Supabase الخاص بك. ستجد هذه البيانات في:<br>
       <strong style="color:var(--gold)">Supabase → Project Settings → API</strong>
     </div>
-
+ 
     <div class="setup-label">Project URL</div>
-    <input class="setup-input" id="setup-url" placeholder="https://xxxxxxxxxxxx.supabase.co" type="url">
-
+    <input class="setup-input" id="setup-url" placeholder="https://xxxxxxxxxxxx.supabase.co" type="text" autocomplete="off">
+ 
     <div class="setup-label">anon / public key</div>
-    <input class="setup-input" id="setup-anon" placeholder="eyJhbGciOiJIUzI1NiIs..." type="text">
+    <input class="setup-input" id="setup-anon" placeholder="eyJhbGciOiJIUzI1NiIs..." type="text" autocomplete="off">
     <div class="setup-hint">* المفتاح العام (anon key) — آمن للاستخدام في المتصفح</div>
-
+ 
     <div class="setup-label">service_role key <span style="color:var(--red);font-size:0.75rem">(للوحة التحكم فقط)</span></div>
-    <input class="setup-input" id="setup-service" placeholder="eyJhbGciOiJIUzI1NiIs..." type="password">
+    <input class="setup-input" id="setup-service" placeholder="eyJhbGciOiJIUzI1NiIs..." type="password" autocomplete="off">
     <div class="setup-hint">* مفتاح الخدمة — لا تشاركه مع أحد، يستخدم فقط هنا</div>
-
-    <button class="setup-btn" onclick="saveSetup()">💾 حفظ والمتابعة</button>
+ 
+    <button type="button" class="setup-btn" id="save-btn">💾 حفظ والمتابعة</button>
     <div id="setup-err" class="login-err"></div>
   </div>
 </div>
-
+ 
 <!-- ===== LOGIN SCREEN ===== -->
 <div id="login-screen" style="display:none">
   <div class="login-box">
@@ -451,7 +451,7 @@ tbody tr:hover { background: rgba(201,168,76,0.04); }
     </button>
   </div>
 </div>
-
+ 
 <!-- ===== MAIN APP ===== -->
 <div id="app">
   <nav class="app-nav">
@@ -461,13 +461,13 @@ tbody tr:hover { background: rgba(201,168,76,0.04); }
     </div>
     <button class="logout-btn" onclick="doLogout()">خروج</button>
   </nav>
-
+ 
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('orders',this)">📋 الطلبات</button>
     <button class="tab-btn"        onclick="switchTab('products',this)">📦 المنتجات</button>
     <button class="tab-btn"        onclick="switchTab('stats',this)">📊 الإحصائيات</button>
   </div>
-
+ 
   <!-- ===== ORDERS TAB ===== -->
   <div id="tab-orders" class="content">
     <div class="stats-grid" id="orders-stats">
@@ -476,12 +476,12 @@ tbody tr:hover { background: rgba(201,168,76,0.04); }
       <div class="stat-card"><div class="stat-label">مكتملة</div><div class="stat-value" id="s-done" style="color:var(--green)">—</div></div>
       <div class="stat-card"><div class="stat-label">إجمالي المبيعات</div><div class="stat-value" id="s-revenue">—</div><div class="stat-sub">ر.س</div></div>
     </div>
-
+ 
     <div class="section-head">
       <div class="section-title">الطلبات الأخيرة</div>
       <button class="btn btn-ghost btn-sm" onclick="loadOrders()">🔄 تحديث</button>
     </div>
-
+ 
     <div class="table-wrap">
       <table>
         <thead>
@@ -500,14 +500,14 @@ tbody tr:hover { background: rgba(201,168,76,0.04); }
       </table>
     </div>
   </div>
-
+ 
   <!-- ===== PRODUCTS TAB ===== -->
   <div id="tab-products" class="content" style="display:none">
     <div class="section-head">
       <div class="section-title">إدارة المنتجات</div>
       <button class="btn" onclick="openProductModal()">+ إضافة منتج</button>
     </div>
-
+ 
     <div class="table-wrap">
       <table>
         <thead>
@@ -525,7 +525,7 @@ tbody tr:hover { background: rgba(201,168,76,0.04); }
       </table>
     </div>
   </div>
-
+ 
   <!-- ===== STATS TAB ===== -->
   <div id="tab-stats" class="content" style="display:none">
     <div class="stats-grid" id="full-stats">
@@ -547,7 +547,7 @@ tbody tr:hover { background: rgba(201,168,76,0.04); }
     </div>
   </div>
 </div>
-
+ 
 <!-- ===== ORDER DETAIL MODAL ===== -->
 <div class="modal-overlay" id="order-modal">
   <div class="modal">
@@ -558,7 +558,7 @@ tbody tr:hover { background: rgba(201,168,76,0.04); }
     </div>
   </div>
 </div>
-
+ 
 <!-- ===== PRODUCT MODAL ===== -->
 <div class="modal-overlay" id="product-modal">
   <div class="modal">
@@ -601,39 +601,25 @@ tbody tr:hover { background: rgba(201,168,76,0.04); }
     </div>
   </div>
 </div>
-
+ 
 <!-- TOAST -->
 <div id="toast"></div>
-
+ 
 <script>
 /* ==========================================
-   CONFIG
+   CONFIG — يُخزَّن في الذاكرة (يعمل من file://)
    ========================================== */
 let supabase = null;
-
-function getConfig() {
-  const get = (k) => {
-    try { return localStorage.getItem(k) || sessionStorage.getItem(k) || ''; }
-    catch(e) { try { return sessionStorage.getItem(k) || ''; } catch(e2) { return ''; } }
-  };
-  return { url: get('sb_url'), anon: get('sb_anon'), service: get('sb_service') };
-}
-
-function initSupabase() {
-  const cfg = getConfig();
-  if (!cfg.url || !cfg.anon) return false;
-  // استخدام service_role key للوحة التحكم إن توفّر
-  const key = cfg.service || cfg.anon;
-  supabase = window.supabase.createClient(cfg.url, key);
-  return true;
-}
-
+let _cfg = { url: '', anon: '', service: '' };
+ 
 function saveSetup() {
   let url     = document.getElementById('setup-url').value.trim();
   const anon    = document.getElementById('setup-anon').value.trim();
   const service = document.getElementById('setup-service').value.trim();
   const errEl   = document.getElementById('setup-err');
-
+ 
+  errEl.style.color = '#ff6b6b';
+ 
   if (!url || !anon) {
     errEl.textContent = 'يرجى إدخال URL والـ anon key على الأقل';
     return;
@@ -642,41 +628,44 @@ function saveSetup() {
     errEl.textContent = 'الـ URL يجب أن يبدأ بـ https://';
     return;
   }
-
-  // تنظيف URL من أي مسارات زائدة
-  url = url.replace(/\/(rest|auth|storage).*$/, '').replace(/\/$/, '');
-
-  try {
-    localStorage.setItem('sb_url',     url);
-    localStorage.setItem('sb_anon',    anon);
-    localStorage.setItem('sb_service', service);
-  } catch(e) {
-    // fallback لـ sessionStorage إذا كان localStorage ممنوعاً
-    sessionStorage.setItem('sb_url',     url);
-    sessionStorage.setItem('sb_anon',    anon);
-    sessionStorage.setItem('sb_service', service);
-  }
-
+ 
+  // تنظيف URL — احذف /rest/v1 أو أي مسار زائد
+  url = url.replace(/\/(rest|auth|storage|realtime)[^\s]*/i, '').replace(/\/+$/, '');
+ 
+  _cfg = { url, anon, service };
+ 
+  // محاولة حفظ في localStorage (اختياري، لا يضر لو فشل)
+  try { localStorage.setItem('sb_cfg', JSON.stringify(_cfg)); } catch(e) {}
+ 
   errEl.textContent = '';
+  initSupabase();
+ 
   document.getElementById('setup-screen').style.display = 'none';
   document.getElementById('login-screen').style.display = 'flex';
 }
-
+ 
+function initSupabase() {
+  if (!_cfg.url || !_cfg.anon) return false;
+  const key = _cfg.service || _cfg.anon;
+  supabase = window.supabase.createClient(_cfg.url, key);
+  return true;
+}
+ 
 function resetSetup() {
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('setup-screen').style.display = 'flex';
 }
-
+ 
 /* ==========================================
    AUTH
    ========================================== */
 async function doLogin() {
-  if (!initSupabase()) { alert('يرجى إعداد Supabase أولاً'); return; }
+  if (!supabase) { alert('يرجى إعداد Supabase أولاً'); return; }
   const email = document.getElementById('login-email').value.trim();
   const pass  = document.getElementById('login-pass').value;
   const errEl = document.getElementById('login-err');
   errEl.textContent = 'جارٍ التحقق...';
-
+ 
   const { data, error } = await supabase.auth.signInWithPassword({ email, password: pass });
   if (error) {
     errEl.textContent = 'بيانات الدخول غير صحيحة';
@@ -684,20 +673,20 @@ async function doLogin() {
   }
   showApp();
 }
-
+ 
 async function doLogout() {
   await supabase.auth.signOut();
   document.getElementById('app').style.display = 'none';
   document.getElementById('login-screen').style.display = 'flex';
 }
-
+ 
 function showApp() {
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('app').style.display = 'block';
   loadOrders();
   loadProducts();
 }
-
+ 
 /* ==========================================
    TABS
    ========================================== */
@@ -709,38 +698,38 @@ function switchTab(name, btn) {
   });
   if (name === 'stats') loadStats();
 }
-
+ 
 /* ==========================================
    ORDERS
    ========================================== */
 async function loadOrders() {
   const tbody = document.getElementById('orders-tbody');
   tbody.innerHTML = '<tr class="loading-row"><td colspan="6">جارٍ التحميل...</td></tr>';
-
+ 
   const { data: orders, error } = await supabase
     .from('orders')
     .select('*')
     .order('created_at', { ascending: false })
     .limit(100);
-
+ 
   if (error) { tbody.innerHTML = `<tr class="loading-row"><td colspan="6">خطأ: ${error.message}</td></tr>`; return; }
-
+ 
   // Stats
   const total   = orders.length;
   const newOrds = orders.filter(o => o.status === 'new').length;
   const done    = orders.filter(o => o.status === 'delivered').length;
   const revenue = orders.filter(o => o.status !== 'cancelled').reduce((s,o) => s + parseFloat(o.total), 0);
-
+ 
   document.getElementById('s-total').textContent   = total;
   document.getElementById('s-new').textContent     = newOrds;
   document.getElementById('s-done').textContent    = done;
   document.getElementById('s-revenue').textContent = revenue.toFixed(0);
-
+ 
   if (!orders.length) {
     tbody.innerHTML = '<tr class="loading-row"><td colspan="6">لا توجد طلبات بعد</td></tr>';
     return;
   }
-
+ 
   tbody.innerHTML = orders.map(o => `
     <tr>
       <td><strong style="color:var(--gold)">#${o.order_number}</strong></td>
@@ -764,17 +753,17 @@ async function loadOrders() {
     </tr>
   `).join('');
 }
-
+ 
 async function updateStatus(orderId, status) {
   const { error } = await supabase.from('orders').update({ status }).eq('id', orderId);
   if (error) toast('خطأ في التحديث', 'error');
   else toast('تم تحديث الحالة', 'success');
 }
-
+ 
 async function viewOrder(orderId) {
   const { data: order } = await supabase.from('orders').select('*').eq('id', orderId).single();
   const { data: items  } = await supabase.from('order_items').select('*').eq('order_id', orderId);
-
+ 
   const content = document.getElementById('order-detail-content');
   content.innerHTML = `
     <div class="info-row"><span class="info-label">رقم الطلب:</span> <strong>#${order.order_number}</strong></div>
@@ -782,7 +771,7 @@ async function viewOrder(orderId) {
     <div class="info-row"><span class="info-label">ملاحظات:</span> ${order.notes || '—'}</div>
     ${order.location_url ? `<div class="info-row"><span class="info-label">الموقع:</span> <a href="${order.location_url}" target="_blank" style="color:var(--green)">فتح الخريطة</a></div>` : ''}
     <div class="info-row"><span class="info-label">التاريخ:</span> ${formatDate(order.created_at)}</div>
-
+ 
     <div class="order-items-list">
       ${(items||[]).map(i => `
         <div class="order-item-row">
@@ -798,19 +787,19 @@ async function viewOrder(orderId) {
   `;
   openModal('order-modal');
 }
-
+ 
 /* ==========================================
    PRODUCTS
    ========================================== */
 async function loadProducts() {
   const tbody = document.getElementById('products-tbody');
   tbody.innerHTML = '<tr class="loading-row"><td colspan="5">جارٍ التحميل...</td></tr>';
-
+ 
   const { data, error } = await supabase.from('products').select('*').order('sort_order');
   if (error) { tbody.innerHTML = `<tr class="loading-row"><td colspan="5">خطأ: ${error.message}</td></tr>`; return; }
-
+ 
   if (!data.length) { tbody.innerHTML = '<tr class="loading-row"><td colspan="5">لا توجد منتجات</td></tr>'; return; }
-
+ 
   tbody.innerHTML = data.map(p => `
     <tr>
       <td><strong>${p.name}</strong>${p.badge ? `<span class="badge badge-confirmed" style="margin-right:8px">${p.badge}</span>` : ''}</td>
@@ -831,13 +820,13 @@ async function loadProducts() {
     </tr>
   `).join('');
 }
-
+ 
 async function toggleStock(id, inStock) {
   const { error } = await supabase.from('products').update({ in_stock: inStock }).eq('id', id);
   if (error) toast('خطأ في التحديث', 'error');
   else { toast(inStock ? 'المنتج متاح الآن' : 'تم إيقاف المنتج', 'success'); loadProducts(); }
 }
-
+ 
 function openProductModal(p = null) {
   document.getElementById('product-modal-title').textContent = p ? 'تعديل المنتج' : 'إضافة منتج جديد';
   document.getElementById('product-id').value  = p?.id    || '';
@@ -850,9 +839,9 @@ function openProductModal(p = null) {
   document.getElementById('p-sort').value      = p?.sort_order ?? 0;
   openModal('product-modal');
 }
-
+ 
 function editProduct(p) { openProductModal(p); }
-
+ 
 async function saveProduct() {
   const id    = document.getElementById('product-id').value;
   const name  = document.getElementById('p-name').value.trim();
@@ -862,50 +851,50 @@ async function saveProduct() {
   const badge = document.getElementById('p-badge').value.trim();
   const img   = document.getElementById('p-img').value.trim();
   const sort  = parseInt(document.getElementById('p-sort').value) || 0;
-
+ 
   if (!name || !price) { toast('يرجى ملء الحقول المطلوبة', 'error'); return; }
-
+ 
   const payload = { name, category: cat, price, note: note||null, badge: badge||null, image_url: img||null, sort_order: sort };
-
+ 
   let error;
   if (id) {
     ({ error } = await supabase.from('products').update(payload).eq('id', id));
   } else {
     ({ error } = await supabase.from('products').insert(payload));
   }
-
+ 
   if (error) { toast('خطأ: ' + error.message, 'error'); return; }
   toast(id ? 'تم تحديث المنتج' : 'تم إضافة المنتج', 'success');
   closeModal('product-modal');
   loadProducts();
 }
-
+ 
 async function deleteProduct(id, name) {
   if (!confirm(`هل أنت متأكد من حذف "${name}"؟`)) return;
   const { error } = await supabase.from('products').delete().eq('id', id);
   if (error) toast('خطأ في الحذف', 'error');
   else { toast('تم حذف المنتج', 'success'); loadProducts(); }
 }
-
+ 
 /* ==========================================
    STATS
    ========================================== */
 async function loadStats() {
   const { data: orders } = await supabase.from('orders').select('total, status');
   const { data: items   } = await supabase.from('order_items').select('product_name, qty, price');
-
+ 
   const total   = orders?.length || 0;
   const active  = orders?.filter(o => o.status !== 'cancelled') || [];
   const revenue = active.reduce((s,o) => s + parseFloat(o.total), 0);
   const avg     = total ? (revenue / active.length || 0) : 0;
   const delivered = orders?.filter(o => o.status === 'delivered').length || 0;
   const rate    = total ? Math.round((delivered / total) * 100) : 0;
-
+ 
   document.getElementById('fs-orders').textContent  = total;
   document.getElementById('fs-revenue').textContent = revenue.toFixed(0);
   document.getElementById('fs-avg').textContent     = avg.toFixed(0);
   document.getElementById('fs-rate').textContent    = rate;
-
+ 
   // Top products
   const map = {};
   (items || []).forEach(i => {
@@ -913,26 +902,26 @@ async function loadStats() {
     map[i.product_name].qty     += i.qty;
     map[i.product_name].revenue += i.price * i.qty;
   });
-
+ 
   const sorted = Object.entries(map).sort((a,b) => b[1].qty - a[1].qty).slice(0, 10);
   const tbody  = document.getElementById('top-products-tbody');
   tbody.innerHTML = sorted.length
     ? sorted.map(([name, d]) => `<tr><td>${name}</td><td>${d.qty}</td><td style="color:var(--gold)">${d.revenue.toFixed(0)} ر.س</td></tr>`).join('')
     : '<tr class="loading-row"><td colspan="3">لا توجد بيانات</td></tr>';
 }
-
+ 
 /* ==========================================
    HELPERS
    ========================================== */
 function openModal(id)  { document.getElementById(id).classList.add('open'); }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-
+ 
 function formatDate(iso) {
   const d = new Date(iso);
   return d.toLocaleDateString('ar-SA', { month: 'short', day: 'numeric' }) + ' ' +
          d.toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' });
 }
-
+ 
 let toastTimer;
 function toast(msg, type = 'success') {
   const el = document.getElementById('toast');
@@ -941,27 +930,34 @@ function toast(msg, type = 'success') {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => { el.className = ''; }, 2800);
 }
-
+ 
 /* ==========================================
    INIT
    ========================================== */
 (function init() {
-  const cfg = getConfig();
-  if (!cfg.url || !cfg.anon) {
-    // إظهار شاشة الإعداد
-    return;
-  }
-  // تخطي الإعداد، الانتقال لتسجيل الدخول
-  document.getElementById('setup-screen').style.display = 'none';
-  document.getElementById('login-screen').style.display = 'flex';
-
-  initSupabase();
-
-  // تحقق إذا كان المستخدم مسجلاً دخوله
-  supabase.auth.getSession().then(({ data }) => {
-    if (data.session) showApp();
-  });
+  // ربط زر الحفظ بـ event listener مباشرة
+  document.getElementById('save-btn').addEventListener('click', saveSetup);
+ 
+  // محاولة استرجاع الإعدادات المحفوظة سابقاً من localStorage
+  try {
+    const saved = localStorage.getItem('sb_cfg');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (parsed && parsed.url && parsed.anon) {
+        _cfg = parsed;
+        initSupabase();
+        document.getElementById('setup-screen').style.display = 'none';
+        document.getElementById('login-screen').style.display = 'flex';
+        supabase.auth.getSession().then(({ data }) => {
+          if (data && data.session) showApp();
+        });
+        return;
+      }
+    }
+  } catch(e) {}
+  // إذا ما في إعدادات محفوظة، تبقى على شاشة الإعداد
 })();
 </script>
 </body>
 </html>
+ 
