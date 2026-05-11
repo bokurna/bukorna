@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بخورنا | لوحة التحكم</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root {
+  --gold: #c9a84c;
+  --gold-light: #e8c97a;
+  --gold-dark: #8a6a1f;
+  --dark: #0d0a07;
+  --dark-2: #1a1410;
+  --dark-3: #261e14;
+  --cream: #f5ead6;
+  --cream-2: #ede0c4;
+  --green: #25D366;
+  --red: #ff6b6b;
+  --blue: #4da6ff;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Cairo', Arial, sans-serif;
+  background: var(--dark);
+  color: var(--cream);
+  min-height: 100vh;
+}
+
+/* ===== LOGIN ===== */
+#login-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.login-box {
+  background: var(--dark-2);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 16px;
+  padding: 40px 36px;
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+}
+.login-logo { font-size: 2rem; font-weight: 900; color: var(--gold); margin-bottom: 6px; }
+.login-sub  { font-size: 0.85rem; color: rgba(245,234,214,0.45); margin-bottom: 32px; }
+.login-field {
+  width: 100%;
+  background: rgba(245,234,214,0.06);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: var(--cream);
+  font-family: 'Cairo', Arial, sans-serif;
+  font-size: 0.95rem;
+  outline: none;
+  margin-bottom: 12px;
+  text-align: right;
+  direction: ltr;
+}
+.login-field:focus { border-color: var(--gold); }
+.login-btn {
+  width: 100%;
+  background: var(--gold);
+  color: var(--dark);
+  border: none;
+  padding: 13px;
+  border-radius: 8px;
+  font-family: 'Cairo', Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: background 0.2s;
+}
+.login-btn:hover { background: var(--gold-light); }
+.login-err { color: var(--red); font-size: 0.82rem; margin-top: 10px; min-height: 20px; }
+
+/* ===== SETUP SCREEN ===== */
+#setup-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.setup-box {
+  background: var(--dark-2);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 16px;
+  padding: 36px;
+  width: 100%;
+  max-width: 520px;
+}
+.setup-title { font-size: 1.4rem; font-weight: 700; color: var(--gold); margin-bottom: 8px; }
+.setup-desc  { font-size: 0.85rem; color: rgba(245,234,214,0.5); margin-bottom: 28px; line-height: 1.6; }
+.setup-label { font-size: 0.82rem; color: rgba(245,234,214,0.6); margin-bottom: 6px; font-weight: 600; }
+.setup-input {
+  width: 100%;
+  background: rgba(245,234,214,0.06);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 8px;
+  padding: 11px 14px;
+  color: var(--cream);
+  font-family: 'Cairo', Arial, sans-serif;
+  font-size: 0.9rem;
+  outline: none;
+  margin-bottom: 16px;
+  direction: ltr;
+  text-align: left;
+}
+.setup-input:focus { border-color: var(--gold); }
+.setup-hint { font-size: 0.75rem; color: rgba(245,234,214,0.3); margin-top: -12px; margin-bottom: 16px; }
+.setup-btn {
+  background: var(--gold);
+  color: var(--dark);
+  border: none;
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-family: 'Cairo', Arial, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.setup-btn:hover { background: var(--gold-light); }
+
+/* ===== MAIN APP ===== */
+#app { display: none; }
+
+/* ===== NAV ===== */
+.app-nav {
+  background: var(--dark-2);
+  border-bottom: 1px solid rgba(201,168,76,0.15);
+  padding: 0 24px;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.app-nav-logo { font-size: 1.3rem; font-weight: 900; color: var(--gold); }
+.app-nav-sub  { font-size: 0.7rem; color: rgba(245,234,214,0.4); font-weight: 400; }
+.logout-btn {
+  background: rgba(255,107,107,0.1);
+  border: 1px solid rgba(255,107,107,0.2);
+  color: var(--red);
+  padding: 7px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'Cairo', Arial, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.logout-btn:hover { background: rgba(255,107,107,0.2); }
+
+/* ===== TABS ===== */
+.tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid rgba(201,168,76,0.1);
+  padding: 0 24px;
+  background: var(--dark-2);
+  overflow-x: auto;
+}
+.tab-btn {
+  background: none;
+  border: none;
+  padding: 14px 20px;
+  font-family: 'Cairo', Arial, sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: rgba(245,234,214,0.45);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+.tab-btn:hover  { color: rgba(245,234,214,0.75); }
+
+/* ===== CONTENT ===== */
+.content { padding: 24px; max-width: 1100px; margin: 0 auto; }
+
+/* ===== STATS ===== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.stat-card {
+  background: var(--dark-2);
+  border: 1px solid rgba(201,168,76,0.12);
+  border-radius: 12px;
+  padding: 20px;
+}
+.stat-label { font-size: 0.78rem; color: rgba(245,234,214,0.45); margin-bottom: 8px; }
+.stat-value { font-size: 1.8rem; font-weight: 900; color: var(--gold); line-height: 1; }
+.stat-sub   { font-size: 0.75rem; color: rgba(245,234,214,0.3); margin-top: 4px; }
+
+/* ===== SECTION HEADER ===== */
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.section-title { font-size: 1.1rem; font-weight: 700; color: var(--cream); }
+
+/* ===== TABLE ===== */
+.table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid rgba(201,168,76,0.12); }
+table { width: 100%; border-collapse: collapse; }
+thead { background: rgba(201,168,76,0.06); }
+th {
+  padding: 12px 16px;
+  text-align: right;
+  font-size: 0.78rem;
+  color: rgba(245,234,214,0.5);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+td {
+  padding: 12px 16px;
+  font-size: 0.88rem;
+  border-top: 1px solid rgba(245,234,214,0.04);
+  white-space: nowrap;
+}
+tbody tr:hover { background: rgba(201,168,76,0.04); }
+
+/* ===== BADGES ===== */
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+.badge-new       { background: rgba(77,166,255,0.15); color: var(--blue); }
+.badge-confirmed { background: rgba(201,168,76,0.15); color: var(--gold); }
+.badge-delivered { background: rgba(37,211,102,0.15); color: var(--green); }
+.badge-cancelled { background: rgba(255,107,107,0.15); color: var(--red); }
+
+/* ===== BUTTONS ===== */
+.btn {
+  background: var(--gold);
+  color: var(--dark);
+  border: none;
+  padding: 9px 20px;
+  border-radius: 8px;
+  font-family: 'Cairo', Arial, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn:hover { background: var(--gold-light); }
+.btn-sm {
+  padding: 5px 12px;
+  font-size: 0.75rem;
+  border-radius: 6px;
+}
+.btn-ghost {
+  background: rgba(201,168,76,0.1);
+  color: var(--gold);
+}
+.btn-ghost:hover { background: rgba(201,168,76,0.2); }
+.btn-danger {
+  background: rgba(255,107,107,0.15);
+  color: var(--red);
+  border: 1px solid rgba(255,107,107,0.2);
+}
+.btn-danger:hover { background: rgba(255,107,107,0.25); }
+.action-btns { display: flex; gap: 6px; }
+
+/* ===== STATUS SELECT ===== */
+.status-select {
+  background: var(--dark-3);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 6px;
+  color: var(--cream);
+  font-family: 'Cairo', Arial, sans-serif;
+  font-size: 0.78rem;
+  padding: 4px 8px;
+  cursor: pointer;
+  outline: none;
+}
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  z-index: 500;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--dark-2);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 16px;
+  padding: 28px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.modal-title { font-size: 1.1rem; font-weight: 700; color: var(--gold); margin-bottom: 20px; }
+.form-group { margin-bottom: 14px; }
+.form-label { font-size: 0.8rem; color: rgba(245,234,214,0.6); margin-bottom: 5px; font-weight: 600; display: block; }
+.form-input {
+  width: 100%;
+  background: rgba(245,234,214,0.06);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: var(--cream);
+  font-family: 'Cairo', Arial, sans-serif;
+  font-size: 0.9rem;
+  outline: none;
+}
+.form-input:focus { border-color: var(--gold); }
+.form-select {
+  width: 100%;
+  background: rgba(245,234,214,0.06);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: var(--cream);
+  font-family: 'Cairo', Arial, sans-serif;
+  font-size: 0.9rem;
+  outline: none;
+  -webkit-appearance: none;
+}
+.form-select option { background: var(--dark-2); }
+.modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+.modal-actions .btn { flex: 1; }
+
+/* ===== LOADING / EMPTY ===== */
+.loading-row td { text-align: center; color: rgba(245,234,214,0.3); padding: 40px; }
+.empty-state   { text-align: center; padding: 60px 20px; color: rgba(245,234,214,0.3); }
+.empty-icon    { font-size: 2.5rem; margin-bottom: 12px; }
+
+/* ===== TOAST ===== */
+#toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--dark-3);
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 10px;
+  padding: 12px 24px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  opacity: 0;
+  transition: all 0.3s;
+  z-index: 9999;
+  white-space: nowrap;
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+#toast.success { border-color: rgba(37,211,102,0.4); color: var(--green); }
+#toast.error   { border-color: rgba(255,107,107,0.4); color: var(--red); }
+
+/* ===== ORDER DETAIL ===== */
+.order-items-list { margin-top: 14px; }
+.order-item-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(245,234,214,0.06);
+  font-size: 0.85rem;
+}
+.order-total-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0 0;
+  font-weight: 700;
+  color: var(--gold);
+}
+.info-row {
+  display: flex;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: rgba(245,234,214,0.55);
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+.info-label { color: rgba(245,234,214,0.35); }
+
+@media (max-width: 600px) {
+  .content { padding: 16px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  th, td { padding: 10px 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== SETUP SCREEN ===== -->
+<div id="setup-screen">
+  <div class="setup-box">
+    <div class="login-logo">بخورنا ⚙️</div>
+    <div class="login-sub" style="margin-bottom:24px;">إعداد الاتصال بـ Supabase</div>
+
+    <div class="setup-desc">
+      أدخل بيانات مشروع Supabase الخاص بك. ستجد هذه البيانات في:<br>
+      <strong style="color:var(--gold)">Supabase → Project Settings → API</strong>
+    </div>
+
+    <div class="setup-label">Project URL</div>
+    <input class="setup-input" id="setup-url" placeholder="https://xxxxxxxxxxxx.supabase.co" type="url">
+
+    <div class="setup-label">anon / public key</div>
+    <input class="setup-input" id="setup-anon" placeholder="eyJhbGciOiJIUzI1NiIs..." type="text">
+    <div class="setup-hint">* المفتاح العام (anon key) — آمن للاستخدام في المتصفح</div>
+
+    <div class="setup-label">service_role key <span style="color:var(--red);font-size:0.75rem">(للوحة التحكم فقط)</span></div>
+    <input class="setup-input" id="setup-service" placeholder="eyJhbGciOiJIUzI1NiIs..." type="password">
+    <div class="setup-hint">* مفتاح الخدمة — لا تشاركه مع أحد، يستخدم فقط هنا</div>
+
+    <button class="setup-btn" onclick="saveSetup()">💾 حفظ والمتابعة</button>
+    <div id="setup-err" class="login-err"></div>
+  </div>
+</div>
+
+<!-- ===== LOGIN SCREEN ===== -->
+<div id="login-screen" style="display:none">
+  <div class="login-box">
+    <div class="login-logo">بخورنا</div>
+    <div class="login-sub">لوحة التحكم — تسجيل الدخول</div>
+    <input class="login-field" id="login-email" type="email" placeholder="البريد الإلكتروني" autocomplete="email">
+    <input class="login-field" id="login-pass"  type="password" placeholder="كلمة المرور" autocomplete="current-password">
+    <button class="login-btn" onclick="doLogin()">دخول</button>
+    <div id="login-err" class="login-err"></div>
+    <button onclick="resetSetup()" style="background:none;border:none;color:rgba(245,234,214,0.3);font-size:0.75rem;cursor:pointer;margin-top:16px;font-family:'Cairo',Arial,sans-serif;">
+      تغيير إعدادات Supabase
+    </button>
+  </div>
+</div>
+
+<!-- ===== MAIN APP ===== -->
+<div id="app">
+  <nav class="app-nav">
+    <div>
+      <div class="app-nav-logo">بخورنا</div>
+      <div class="app-nav-sub">لوحة التحكم</div>
+    </div>
+    <button class="logout-btn" onclick="doLogout()">خروج</button>
+  </nav>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('orders',this)">📋 الطلبات</button>
+    <button class="tab-btn"        onclick="switchTab('products',this)">📦 المنتجات</button>
+    <button class="tab-btn"        onclick="switchTab('stats',this)">📊 الإحصائيات</button>
+  </div>
+
+  <!-- ===== ORDERS TAB ===== -->
+  <div id="tab-orders" class="content">
+    <div class="stats-grid" id="orders-stats">
+      <div class="stat-card"><div class="stat-label">إجمالي الطلبات</div><div class="stat-value" id="s-total">—</div></div>
+      <div class="stat-card"><div class="stat-label">طلبات جديدة</div><div class="stat-value" id="s-new" style="color:var(--blue)">—</div></div>
+      <div class="stat-card"><div class="stat-label">مكتملة</div><div class="stat-value" id="s-done" style="color:var(--green)">—</div></div>
+      <div class="stat-card"><div class="stat-label">إجمالي المبيعات</div><div class="stat-value" id="s-revenue">—</div><div class="stat-sub">ر.س</div></div>
+    </div>
+
+    <div class="section-head">
+      <div class="section-title">الطلبات الأخيرة</div>
+      <button class="btn btn-ghost btn-sm" onclick="loadOrders()">🔄 تحديث</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>رقم الطلب</th>
+            <th>الحي</th>
+            <th>الإجمالي</th>
+            <th>الحالة</th>
+            <th>الوقت</th>
+            <th>إجراءات</th>
+          </tr>
+        </thead>
+        <tbody id="orders-tbody">
+          <tr class="loading-row"><td colspan="6">جارٍ التحميل...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== PRODUCTS TAB ===== -->
+  <div id="tab-products" class="content" style="display:none">
+    <div class="section-head">
+      <div class="section-title">إدارة المنتجات</div>
+      <button class="btn" onclick="openProductModal()">+ إضافة منتج</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>اسم المنتج</th>
+            <th>الفئة</th>
+            <th>السعر</th>
+            <th>الحالة</th>
+            <th>إجراءات</th>
+          </tr>
+        </thead>
+        <tbody id="products-tbody">
+          <tr class="loading-row"><td colspan="5">جارٍ التحميل...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== STATS TAB ===== -->
+  <div id="tab-stats" class="content" style="display:none">
+    <div class="stats-grid" id="full-stats">
+      <div class="stat-card"><div class="stat-label">إجمالي الطلبات</div><div class="stat-value" id="fs-orders">—</div></div>
+      <div class="stat-card"><div class="stat-label">إجمالي المبيعات</div><div class="stat-value" id="fs-revenue">—</div><div class="stat-sub">ريال سعودي</div></div>
+      <div class="stat-card"><div class="stat-label">متوسط قيمة الطلب</div><div class="stat-value" id="fs-avg">—</div><div class="stat-sub">ريال سعودي</div></div>
+      <div class="stat-card"><div class="stat-label">نسبة الإتمام</div><div class="stat-value" id="fs-rate">—</div><div class="stat-sub">%</div></div>
+    </div>
+    <div class="section-head" style="margin-top:28px">
+      <div class="section-title">أكثر المنتجات طلباً</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>المنتج</th><th>عدد الطلبات</th><th>إجمالي المبيعات</th></tr></thead>
+        <tbody id="top-products-tbody">
+          <tr class="loading-row"><td colspan="3">جارٍ التحميل...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ORDER DETAIL MODAL ===== -->
+<div class="modal-overlay" id="order-modal">
+  <div class="modal">
+    <div class="modal-title">تفاصيل الطلب</div>
+    <div id="order-detail-content"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('order-modal')">إغلاق</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PRODUCT MODAL ===== -->
+<div class="modal-overlay" id="product-modal">
+  <div class="modal">
+    <div class="modal-title" id="product-modal-title">إضافة منتج جديد</div>
+    <input type="hidden" id="product-id">
+    <div class="form-group">
+      <label class="form-label">اسم المنتج *</label>
+      <input class="form-input" id="p-name" placeholder="مثال: عود كمبودي أصيل">
+    </div>
+    <div class="form-group">
+      <label class="form-label">الفئة *</label>
+      <select class="form-select" id="p-cat">
+        <option value="oud">عود وبخور</option>
+        <option value="acc">إكسسوارات</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">السعر (ر.س) *</label>
+      <input class="form-input" id="p-price" type="number" min="0" step="0.01" placeholder="0.00">
+    </div>
+    <div class="form-group">
+      <label class="form-label">ملاحظة / وصف</label>
+      <input class="form-input" id="p-note" placeholder="مثال: رائحة دافئة عميقة">
+    </div>
+    <div class="form-group">
+      <label class="form-label">شارة (اختياري)</label>
+      <input class="form-input" id="p-badge" placeholder="مثال: الأكثر مبيعاً / جديد">
+    </div>
+    <div class="form-group">
+      <label class="form-label">رابط الصورة (اختياري)</label>
+      <input class="form-input" id="p-img" placeholder="https://...">
+    </div>
+    <div class="form-group">
+      <label class="form-label">ترتيب العرض</label>
+      <input class="form-input" id="p-sort" type="number" value="0">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('product-modal')">إلغاء</button>
+      <button class="btn" onclick="saveProduct()">💾 حفظ</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+/* ==========================================
+   CONFIG
+   ========================================== */
+let supabase = null;
+
+function getConfig() {
+  const get = (k) => {
+    try { return localStorage.getItem(k) || sessionStorage.getItem(k) || ''; }
+    catch(e) { try { return sessionStorage.getItem(k) || ''; } catch(e2) { return ''; } }
+  };
+  return { url: get('sb_url'), anon: get('sb_anon'), service: get('sb_service') };
+}
+
+function initSupabase() {
+  const cfg = getConfig();
+  if (!cfg.url || !cfg.anon) return false;
+  // استخدام service_role key للوحة التحكم إن توفّر
+  const key = cfg.service || cfg.anon;
+  supabase = window.supabase.createClient(cfg.url, key);
+  return true;
+}
+
+function saveSetup() {
+  let url     = document.getElementById('setup-url').value.trim();
+  const anon    = document.getElementById('setup-anon').value.trim();
+  const service = document.getElementById('setup-service').value.trim();
+  const errEl   = document.getElementById('setup-err');
+
+  if (!url || !anon) {
+    errEl.textContent = 'يرجى إدخال URL والـ anon key على الأقل';
+    return;
+  }
+  if (!url.startsWith('https://')) {
+    errEl.textContent = 'الـ URL يجب أن يبدأ بـ https://';
+    return;
+  }
+
+  // تنظيف URL من أي مسارات زائدة
+  url = url.replace(/\/(rest|auth|storage).*$/, '').replace(/\/$/, '');
+
+  try {
+    localStorage.setItem('sb_url',     url);
+    localStorage.setItem('sb_anon',    anon);
+    localStorage.setItem('sb_service', service);
+  } catch(e) {
+    // fallback لـ sessionStorage إذا كان localStorage ممنوعاً
+    sessionStorage.setItem('sb_url',     url);
+    sessionStorage.setItem('sb_anon',    anon);
+    sessionStorage.setItem('sb_service', service);
+  }
+
+  errEl.textContent = '';
+  document.getElementById('setup-screen').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+}
+
+function resetSetup() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('setup-screen').style.display = 'flex';
+}
+
+/* ==========================================
+   AUTH
+   ========================================== */
+async function doLogin() {
+  if (!initSupabase()) { alert('يرجى إعداد Supabase أولاً'); return; }
+  const email = document.getElementById('login-email').value.trim();
+  const pass  = document.getElementById('login-pass').value;
+  const errEl = document.getElementById('login-err');
+  errEl.textContent = 'جارٍ التحقق...';
+
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password: pass });
+  if (error) {
+    errEl.textContent = 'بيانات الدخول غير صحيحة';
+    return;
+  }
+  showApp();
+}
+
+async function doLogout() {
+  await supabase.auth.signOut();
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+}
+
+function showApp() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  loadOrders();
+  loadProducts();
+}
+
+/* ==========================================
+   TABS
+   ========================================== */
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  ['orders','products','stats'].forEach(t => {
+    document.getElementById('tab-' + t).style.display = t === name ? 'block' : 'none';
+  });
+  if (name === 'stats') loadStats();
+}
+
+/* ==========================================
+   ORDERS
+   ========================================== */
+async function loadOrders() {
+  const tbody = document.getElementById('orders-tbody');
+  tbody.innerHTML = '<tr class="loading-row"><td colspan="6">جارٍ التحميل...</td></tr>';
+
+  const { data: orders, error } = await supabase
+    .from('orders')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(100);
+
+  if (error) { tbody.innerHTML = `<tr class="loading-row"><td colspan="6">خطأ: ${error.message}</td></tr>`; return; }
+
+  // Stats
+  const total   = orders.length;
+  const newOrds = orders.filter(o => o.status === 'new').length;
+  const done    = orders.filter(o => o.status === 'delivered').length;
+  const revenue = orders.filter(o => o.status !== 'cancelled').reduce((s,o) => s + parseFloat(o.total), 0);
+
+  document.getElementById('s-total').textContent   = total;
+  document.getElementById('s-new').textContent     = newOrds;
+  document.getElementById('s-done').textContent    = done;
+  document.getElementById('s-revenue').textContent = revenue.toFixed(0);
+
+  if (!orders.length) {
+    tbody.innerHTML = '<tr class="loading-row"><td colspan="6">لا توجد طلبات بعد</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = orders.map(o => `
+    <tr>
+      <td><strong style="color:var(--gold)">#${o.order_number}</strong></td>
+      <td>${o.neighborhood || '—'}</td>
+      <td style="color:var(--gold);font-weight:700">${parseFloat(o.total).toFixed(0)} ر.س</td>
+      <td>
+        <select class="status-select" onchange="updateStatus('${o.id}', this.value)">
+          <option value="new"       ${o.status==='new'       ?'selected':''}>🔵 جديد</option>
+          <option value="confirmed" ${o.status==='confirmed' ?'selected':''}>🟡 مؤكد</option>
+          <option value="delivered" ${o.status==='delivered' ?'selected':''}>🟢 مكتمل</option>
+          <option value="cancelled" ${o.status==='cancelled' ?'selected':''}>🔴 ملغي</option>
+        </select>
+      </td>
+      <td style="color:rgba(245,234,214,0.45);font-size:0.78rem">${formatDate(o.created_at)}</td>
+      <td>
+        <div class="action-btns">
+          <button class="btn btn-ghost btn-sm" onclick="viewOrder('${o.id}')">عرض</button>
+          ${o.location_url ? `<a href="${o.location_url}" target="_blank" class="btn btn-sm" style="text-decoration:none;color:var(--dark)">📍</a>` : ''}
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+async function updateStatus(orderId, status) {
+  const { error } = await supabase.from('orders').update({ status }).eq('id', orderId);
+  if (error) toast('خطأ في التحديث', 'error');
+  else toast('تم تحديث الحالة', 'success');
+}
+
+async function viewOrder(orderId) {
+  const { data: order } = await supabase.from('orders').select('*').eq('id', orderId).single();
+  const { data: items  } = await supabase.from('order_items').select('*').eq('order_id', orderId);
+
+  const content = document.getElementById('order-detail-content');
+  content.innerHTML = `
+    <div class="info-row"><span class="info-label">رقم الطلب:</span> <strong>#${order.order_number}</strong></div>
+    <div class="info-row"><span class="info-label">الحي:</span> ${order.neighborhood || '—'}</div>
+    <div class="info-row"><span class="info-label">ملاحظات:</span> ${order.notes || '—'}</div>
+    ${order.location_url ? `<div class="info-row"><span class="info-label">الموقع:</span> <a href="${order.location_url}" target="_blank" style="color:var(--green)">فتح الخريطة</a></div>` : ''}
+    <div class="info-row"><span class="info-label">التاريخ:</span> ${formatDate(order.created_at)}</div>
+
+    <div class="order-items-list">
+      ${(items||[]).map(i => `
+        <div class="order-item-row">
+          <span>${i.product_name} × ${i.qty}</span>
+          <span style="color:var(--gold)">${i.subtotal || (i.price * i.qty).toFixed(0)} ر.س</span>
+        </div>
+      `).join('')}
+      <div class="order-total-row">
+        <span>الإجمالي</span>
+        <span>${parseFloat(order.total).toFixed(0)} ر.س</span>
+      </div>
+    </div>
+  `;
+  openModal('order-modal');
+}
+
+/* ==========================================
+   PRODUCTS
+   ========================================== */
+async function loadProducts() {
+  const tbody = document.getElementById('products-tbody');
+  tbody.innerHTML = '<tr class="loading-row"><td colspan="5">جارٍ التحميل...</td></tr>';
+
+  const { data, error } = await supabase.from('products').select('*').order('sort_order');
+  if (error) { tbody.innerHTML = `<tr class="loading-row"><td colspan="5">خطأ: ${error.message}</td></tr>`; return; }
+
+  if (!data.length) { tbody.innerHTML = '<tr class="loading-row"><td colspan="5">لا توجد منتجات</td></tr>'; return; }
+
+  tbody.innerHTML = data.map(p => `
+    <tr>
+      <td><strong>${p.name}</strong>${p.badge ? `<span class="badge badge-confirmed" style="margin-right:8px">${p.badge}</span>` : ''}</td>
+      <td>${p.category === 'oud' ? 'عود وبخور' : 'إكسسوارات'}</td>
+      <td style="color:var(--gold);font-weight:700">${parseFloat(p.price).toFixed(0)} ر.س</td>
+      <td>
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer">
+          <input type="checkbox" ${p.in_stock ? 'checked' : ''} onchange="toggleStock('${p.id}', this.checked)">
+          <span style="font-size:0.8rem;color:${p.in_stock ? 'var(--green)' : 'var(--red)'}">${p.in_stock ? 'متاح' : 'غير متاح'}</span>
+        </label>
+      </td>
+      <td>
+        <div class="action-btns">
+          <button class="btn btn-ghost btn-sm" onclick="editProduct(${JSON.stringify(p).replace(/"/g,'&quot;')})">تعديل</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteProduct('${p.id}', '${p.name}')">حذف</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+async function toggleStock(id, inStock) {
+  const { error } = await supabase.from('products').update({ in_stock: inStock }).eq('id', id);
+  if (error) toast('خطأ في التحديث', 'error');
+  else { toast(inStock ? 'المنتج متاح الآن' : 'تم إيقاف المنتج', 'success'); loadProducts(); }
+}
+
+function openProductModal(p = null) {
+  document.getElementById('product-modal-title').textContent = p ? 'تعديل المنتج' : 'إضافة منتج جديد';
+  document.getElementById('product-id').value  = p?.id    || '';
+  document.getElementById('p-name').value      = p?.name  || '';
+  document.getElementById('p-cat').value       = p?.category || 'oud';
+  document.getElementById('p-price').value     = p?.price  || '';
+  document.getElementById('p-note').value      = p?.note   || '';
+  document.getElementById('p-badge').value     = p?.badge  || '';
+  document.getElementById('p-img').value       = p?.image_url || '';
+  document.getElementById('p-sort').value      = p?.sort_order ?? 0;
+  openModal('product-modal');
+}
+
+function editProduct(p) { openProductModal(p); }
+
+async function saveProduct() {
+  const id    = document.getElementById('product-id').value;
+  const name  = document.getElementById('p-name').value.trim();
+  const cat   = document.getElementById('p-cat').value;
+  const price = parseFloat(document.getElementById('p-price').value);
+  const note  = document.getElementById('p-note').value.trim();
+  const badge = document.getElementById('p-badge').value.trim();
+  const img   = document.getElementById('p-img').value.trim();
+  const sort  = parseInt(document.getElementById('p-sort').value) || 0;
+
+  if (!name || !price) { toast('يرجى ملء الحقول المطلوبة', 'error'); return; }
+
+  const payload = { name, category: cat, price, note: note||null, badge: badge||null, image_url: img||null, sort_order: sort };
+
+  let error;
+  if (id) {
+    ({ error } = await supabase.from('products').update(payload).eq('id', id));
+  } else {
+    ({ error } = await supabase.from('products').insert(payload));
+  }
+
+  if (error) { toast('خطأ: ' + error.message, 'error'); return; }
+  toast(id ? 'تم تحديث المنتج' : 'تم إضافة المنتج', 'success');
+  closeModal('product-modal');
+  loadProducts();
+}
+
+async function deleteProduct(id, name) {
+  if (!confirm(`هل أنت متأكد من حذف "${name}"؟`)) return;
+  const { error } = await supabase.from('products').delete().eq('id', id);
+  if (error) toast('خطأ في الحذف', 'error');
+  else { toast('تم حذف المنتج', 'success'); loadProducts(); }
+}
+
+/* ==========================================
+   STATS
+   ========================================== */
+async function loadStats() {
+  const { data: orders } = await supabase.from('orders').select('total, status');
+  const { data: items   } = await supabase.from('order_items').select('product_name, qty, price');
+
+  const total   = orders?.length || 0;
+  const active  = orders?.filter(o => o.status !== 'cancelled') || [];
+  const revenue = active.reduce((s,o) => s + parseFloat(o.total), 0);
+  const avg     = total ? (revenue / active.length || 0) : 0;
+  const delivered = orders?.filter(o => o.status === 'delivered').length || 0;
+  const rate    = total ? Math.round((delivered / total) * 100) : 0;
+
+  document.getElementById('fs-orders').textContent  = total;
+  document.getElementById('fs-revenue').textContent = revenue.toFixed(0);
+  document.getElementById('fs-avg').textContent     = avg.toFixed(0);
+  document.getElementById('fs-rate').textContent    = rate;
+
+  // Top products
+  const map = {};
+  (items || []).forEach(i => {
+    if (!map[i.product_name]) map[i.product_name] = { qty: 0, revenue: 0 };
+    map[i.product_name].qty     += i.qty;
+    map[i.product_name].revenue += i.price * i.qty;
+  });
+
+  const sorted = Object.entries(map).sort((a,b) => b[1].qty - a[1].qty).slice(0, 10);
+  const tbody  = document.getElementById('top-products-tbody');
+  tbody.innerHTML = sorted.length
+    ? sorted.map(([name, d]) => `<tr><td>${name}</td><td>${d.qty}</td><td style="color:var(--gold)">${d.revenue.toFixed(0)} ر.س</td></tr>`).join('')
+    : '<tr class="loading-row"><td colspan="3">لا توجد بيانات</td></tr>';
+}
+
+/* ==========================================
+   HELPERS
+   ========================================== */
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function formatDate(iso) {
+  const d = new Date(iso);
+  return d.toLocaleDateString('ar-SA', { month: 'short', day: 'numeric' }) + ' ' +
+         d.toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' });
+}
+
+let toastTimer;
+function toast(msg, type = 'success') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = `show ${type}`;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { el.className = ''; }, 2800);
+}
+
+/* ==========================================
+   INIT
+   ========================================== */
+(function init() {
+  const cfg = getConfig();
+  if (!cfg.url || !cfg.anon) {
+    // إظهار شاشة الإعداد
+    return;
+  }
+  // تخطي الإعداد، الانتقال لتسجيل الدخول
+  document.getElementById('setup-screen').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+
+  initSupabase();
+
+  // تحقق إذا كان المستخدم مسجلاً دخوله
+  supabase.auth.getSession().then(({ data }) => {
+    if (data.session) showApp();
+  });
+})();
+</script>
+</body>
+</html>
