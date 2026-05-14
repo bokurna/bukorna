@@ -6,6 +6,7 @@
     <meta name="theme-color" content="#1a1410">
     <title>المنتجات | بخورنا</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
             --gold: #c9a84c;
@@ -809,6 +810,51 @@
         }
 
         .confirm-btn:hover { background: var(--gold-light); }
+
+        /* ===== Skeleton loader ===== */
+        .skeleton-card {
+            background: var(--dark-2);
+            border: 1px solid rgba(201,168,76,0.08);
+            border-radius: 12px;
+            overflow: hidden;
+            animation: shimmer 1.4s infinite;
+        }
+        .skeleton-img { height: 150px; background: var(--dark-3); }
+        .skeleton-body { padding: 14px; }
+        .skeleton-line { height: 12px; border-radius: 4px; background: var(--dark-3); margin-bottom: 10px; }
+        .skeleton-line.w60 { width: 60%; }
+        .skeleton-line.w40 { width: 40%; }
+        @keyframes shimmer {
+            0%,100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* صورة المنتج الحقيقية */
+        .product-img img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+
+        /* حالة خطأ التحميل */
+        .load-error {
+            text-align: center;
+            padding: 60px 24px;
+            color: rgba(245,234,214,0.4);
+        }
+        .load-error-icon { font-size: 3rem; margin-bottom: 12px; }
+        .load-error h3 { font-size: 1rem; margin-bottom: 8px; color: var(--cream); }
+        .load-error p  { font-size: 0.85rem; }
+        .retry-btn {
+            margin-top: 16px;
+            background: var(--gold);
+            color: var(--dark);
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-family: 'Cairo', Arial, sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -852,222 +898,29 @@
 </div>
 
 <!-- PRODUCTS -->
-<div class="products-wrap">
-
-    <h2 class="cat-header" id="title-oud">البخور والعود</h2>
-    <div class="products-grid" id="grid-oud">
-
-        <div class="product-card">
-            <div class="product-img">
-                <div class="product-img-placeholder">28g</div>
-                <span class="product-badge">الأكثر طلباً</span>
-            </div>
-            <div class="product-body">
-                <p class="product-cat">عود فاخر</p>
-                <h3 class="product-name">عود تايقر كمبودي</h3>
-                <p class="product-note">أوقية 28 جرام</p>
-                <div class="product-footer">
-                    <div class="product-price">49 <small>ر.س</small></div>
-                    <div class="add-btn-wrap">
-                    <div class="qty-indicator" id="qi-49-عود">
-                        <button class="qi-btn" onclick="cardQtyChange('عود تايقر كمبودي', -1, this)">−</button>
-                        <span class="qi-num">1</span>
-                        <button class="qi-btn" onclick="addToCart('عود تايقر كمبودي', 49, this.closest('.add-btn-wrap').querySelector('.add-btn'))">+</button>
-                    </div>
-                    <button class="add-btn" onclick="addToCart('عود تايقر كمبودي', 49, this)" aria-label="أضف للسلة">+</button>
-                </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="product-card">
-            <div class="product-img"><div class="product-img-placeholder">28g</div></div>
-            <div class="product-body">
-                <p class="product-cat">بخور</p>
-                <h3 class="product-name">بخور كلمنتاين أزرق</h3>
-                <p class="product-note">أوقية 28 جرام</p>
-                <div class="product-footer">
-                    <div class="product-price">36 <small>ر.س</small></div>
-                    <div class="add-btn-wrap">
-                    <div class="qty-indicator" id="qi-36-بخور">
-                        <button class="qi-btn" onclick="cardQtyChange('بخور كلمنتاين أزرق', -1, this)">−</button>
-                        <span class="qi-num">1</span>
-                        <button class="qi-btn" onclick="addToCart('بخور كلمنتاين أزرق', 36, this.closest('.add-btn-wrap').querySelector('.add-btn'))">+</button>
-                    </div>
-                    <button class="add-btn" onclick="addToCart('بخور كلمنتاين أزرق', 36, this)" aria-label="أضف للسلة">+</button>
-                </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="product-card">
-            <div class="product-img"><div class="product-img-placeholder">28g</div></div>
-            <div class="product-body">
-                <p class="product-cat">بخور مغربي</p>
-                <h3 class="product-name">بخور دقة مروكي</h3>
-                <p class="product-note">أوقية 28 جرام</p>
-                <div class="product-footer">
-                    <div class="product-price">39 <small>ر.س</small></div>
-                    <div class="add-btn-wrap">
-                    <div class="qty-indicator" id="qi-39-بخور">
-                        <button class="qi-btn" onclick="cardQtyChange('بخور دقة مروكي', -1, this)">−</button>
-                        <span class="qi-num">1</span>
-                        <button class="qi-btn" onclick="addToCart('بخور دقة مروكي', 39, this.closest('.add-btn-wrap').querySelector('.add-btn'))">+</button>
-                    </div>
-                    <button class="add-btn" onclick="addToCart('بخور دقة مروكي', 39, this)" aria-label="أضف للسلة">+</button>
-                </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="product-card">
-            <div class="product-img"><div class="product-img-placeholder">28g</div></div>
-            <div class="product-body">
-                <p class="product-cat">بخور البيت</p>
-                <h3 class="product-name">بخور البيت "مروكي"</h3>
-                <p class="product-note">أوقية 28 جرام</p>
-                <div class="product-footer">
-                    <div class="product-price">16 <small>ر.س</small></div>
-                    <div class="add-btn-wrap">
-                    <div class="qty-indicator" id="qi-16-بخور">
-                        <button class="qi-btn" onclick="cardQtyChange('بخور البيت مروكي', -1, this)">−</button>
-                        <span class="qi-num">1</span>
-                        <button class="qi-btn" onclick="addToCart('بخور البيت مروكي', 16, this.closest('.add-btn-wrap').querySelector('.add-btn'))">+</button>
-                    </div>
-                    <button class="add-btn" onclick="addToCart('بخور البيت مروكي', 16, this)" aria-label="أضف للسلة">+</button>
-                </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="product-card">
-            <div class="product-img"><div class="product-img-placeholder">28g</div></div>
-            <div class="product-body">
-                <p class="product-cat">بخور</p>
-                <h3 class="product-name">عود فراشة</h3>
-                <p class="product-note">أوقية 28 جرام</p>
-                <div class="product-footer">
-                    <div class="product-price">18 <small>ر.س</small></div>
-                    <div class="add-btn-wrap">
-                    <div class="qty-indicator" id="qi-18-عود">
-                        <button class="qi-btn" onclick="cardQtyChange('عود فراشة', -1, this)">−</button>
-                        <span class="qi-num">1</span>
-                        <button class="qi-btn" onclick="addToCart('عود فراشة', 18, this.closest('.add-btn-wrap').querySelector('.add-btn'))">+</button>
-                    </div>
-                    <button class="add-btn" onclick="addToCart('عود فراشة', 18, this)" aria-label="أضف للسلة">+</button>
-                </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="product-card">
-            <div class="product-img">
-                <div class="product-img-placeholder">28g</div>
-                <span class="product-badge">فاخر</span>
-            </div>
-            <div class="product-body">
-                <p class="product-cat">بخور مغربي فاخر</p>
-                <h3 class="product-name">بخور مروكي فاخر</h3>
-                <p class="product-note">أوقية 28 جرام</p>
-                <div class="product-footer">
-                    <div class="product-price">76 <small>ر.س</small></div>
-                    <div class="add-btn-wrap">
-                    <div class="qty-indicator" id="qi-76-بخور">
-                        <button class="qi-btn" onclick="cardQtyChange('بخور مروكي فاخر', -1, this)">−</button>
-                        <span class="qi-num">1</span>
-                        <button class="qi-btn" onclick="addToCart('بخور مروكي فاخر', 76, this.closest('.add-btn-wrap').querySelector('.add-btn'))">+</button>
-                    </div>
-                    <button class="add-btn" onclick="addToCart('بخور مروكي فاخر', 76, this)" aria-label="أضف للسلة">+</button>
-                </div>
-                </div>
-            </div>
-        </div>
-
+<div class="products-wrap" id="products-wrap">
+    <!-- يُملأ ديناميكياً من Supabase -->
+    <div id="products-loading" class="products-grid" style="margin-top:24px;">
+        <!-- skeleton placeholders -->
+        <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line w60"></div><div class="skeleton-line w40"></div></div></div>
+        <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line w60"></div><div class="skeleton-line w40"></div></div></div>
+        <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line w60"></div><div class="skeleton-line w40"></div></div></div>
+        <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line w60"></div><div class="skeleton-line w40"></div></div></div>
     </div>
 
-    <h2 class="cat-header" id="title-acc">الملحقات</h2>
-    <div class="products-grid" id="grid-acc">
+    <div id="products-error" style="display:none;" class="load-error">
+        <div class="load-error-icon">⚠️</div>
+        <h3>تعذّر تحميل المنتجات</h3>
+        <p>تحقق من اتصالك بالإنترنت وأعد المحاولة</p>
+        <button class="retry-btn" onclick="loadProducts()">إعادة المحاولة</button>
+    </div>
 
-        <div class="product-card">
-            <div class="product-img"><div class="product-img-placeholder">10 قطع</div></div>
-            <div class="product-body">
-                <p class="product-cat">فحم</p>
-                <h3 class="product-name">فحم وادي حلفا</h3>
-                <p class="product-note">10 قطع</p>
-                <div class="product-footer">
-                    <div class="product-price">10 <small>ر.س</small></div>
-                    <div class="add-btn-wrap">
-                    <div class="qty-indicator" id="qi-10-فحم">
-                        <button class="qi-btn" onclick="cardQtyChange('فحم وادي حلفا (10 قطع)', -1, this)">−</button>
-                        <span class="qi-num">1</span>
-                        <button class="qi-btn" onclick="addToCart('فحم وادي حلفا (10 قطع)', 10, this.closest('.add-btn-wrap').querySelector('.add-btn'))">+</button>
-                    </div>
-                    <button class="add-btn" onclick="addToCart('فحم وادي حلفا (10 قطع)', 10, this)" aria-label="أضف للسلة">+</button>
-                </div>
-                </div>
-            </div>
+    <div id="products-content" style="display:none;">
+        <h2 class="cat-header" id="title-oud" style="display:none;">البخور والعود</h2>
+        <div class="products-grid" id="grid-oud">
         </div>
-
-        <div class="product-card">
-            <div class="product-img"><div class="product-img-placeholder">×1</div></div>
-            <div class="product-body">
-                <p class="product-cat">ملحقات</p>
-                <h3 class="product-name">ولاعة</h3>
-                <p class="product-note">قطعة واحدة</p>
-                <div class="product-footer">
-                    <div class="product-price">5 <small>ر.س</small></div>
-                    <div class="add-btn-wrap">
-                    <div class="qty-indicator" id="qi-5-ولاع">
-                        <button class="qi-btn" onclick="cardQtyChange('ولاعة', -1, this)">−</button>
-                        <span class="qi-num">1</span>
-                        <button class="qi-btn" onclick="addToCart('ولاعة', 5, this.closest('.add-btn-wrap').querySelector('.add-btn'))">+</button>
-                    </div>
-                    <button class="add-btn" onclick="addToCart('ولاعة', 5, this)" aria-label="أضف للسلة">+</button>
-                </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="product-card">
-            <div class="product-img"><div class="product-img-placeholder">أسود</div></div>
-            <div class="product-body">
-                <p class="product-cat">مبخرة متنقلة</p>
-                <h3 class="product-name">مبخرة متنقلة سوداء</h3>
-                <p class="product-note">لون أسود أنيق</p>
-                <div class="product-footer">
-                    <div class="product-price">8 <small>ر.س</small></div>
-                    <div class="add-btn-wrap">
-                    <div class="qty-indicator" id="qi-8-مبخر">
-                        <button class="qi-btn" onclick="cardQtyChange('مبخرة متنقلة سوداء', -1, this)">−</button>
-                        <span class="qi-num">1</span>
-                        <button class="qi-btn" onclick="addToCart('مبخرة متنقلة سوداء', 8, this.closest('.add-btn-wrap').querySelector('.add-btn'))">+</button>
-                    </div>
-                    <button class="add-btn" onclick="addToCart('مبخرة متنقلة سوداء', 8, this)" aria-label="أضف للسلة">+</button>
-                </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="product-card">
-            <div class="product-img"><div class="product-img-placeholder">ذهبي</div></div>
-            <div class="product-body">
-                <p class="product-cat">مبخرة متنقلة</p>
-                <h3 class="product-name">مبخرة متنقلة ذهبية</h3>
-                <p class="product-note">لون ذهبي فاخر</p>
-                <div class="product-footer">
-                    <div class="product-price">8 <small>ر.س</small></div>
-                    <div class="add-btn-wrap">
-                    <div class="qty-indicator" id="qi-8-مبخر">
-                        <button class="qi-btn" onclick="cardQtyChange('مبخرة متنقلة ذهبية', -1, this)">−</button>
-                        <span class="qi-num">1</span>
-                        <button class="qi-btn" onclick="addToCart('مبخرة متنقلة ذهبية', 8, this.closest('.add-btn-wrap').querySelector('.add-btn'))">+</button>
-                    </div>
-                    <button class="add-btn" onclick="addToCart('مبخرة متنقلة ذهبية', 8, this)" aria-label="أضف للسلة">+</button>
-                </div>
-                </div>
-            </div>
-        </div>
-
+        <h2 class="cat-header" id="title-acc" style="display:none;">الملحقات</h2>
+        <div class="products-grid" id="grid-acc"></div>
     </div>
 </div>
 
@@ -1154,7 +1007,99 @@
 </div>
 
 <script>
-    const WHATSAPP = '966500000000'; // ← غيّر لرقمك
+    /* ============================================================
+       ⚙️  الإعدادات — عدّل هذين السطرين فقط
+    ============================================================ */
+    const SUPABASE_URL  = 'https://ulaeuhltcsbvceaklobu.supabase.co';   // ← Project URL
+    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVsYWV1aGx0Y3NidmNlYWtsb2J1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1MjU1NjEsImV4cCI6MjA5NDEwMTU2MX0.ixR5qANmq5GPE9E6tQZfekyIT5t9zZ3Yuy9euOKeyEY';                      // ← anon/public key
+    const WHATSAPP      = '966503550319';                       // ← رقم الواتساب
+
+    /* ============================================================
+       Supabase client
+    ============================================================ */
+    const _sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    /* ============================================================
+       تحميل المنتجات من Supabase
+    ============================================================ */
+    async function loadProducts() {
+        document.getElementById('products-loading').style.display = 'grid';
+        document.getElementById('products-error').style.display   = 'none';
+        document.getElementById('products-content').style.display = 'none';
+
+        const { data, error } = await _sb
+            .from('products')
+            .select('*')
+            .eq('in_stock', true)
+            .order('sort_order', { ascending: true });
+
+        document.getElementById('products-loading').style.display = 'none';
+
+        if (error || !data) {
+            document.getElementById('products-error').style.display = 'block';
+            console.error('Supabase error:', error);
+            return;
+        }
+
+        // تقسيم المنتجات حسب الفئة
+        const oudList = data.filter(p => p.category === 'oud');
+        const accList = data.filter(p => p.category === 'acc');
+
+        const oudTitle = document.getElementById('title-oud');
+        const accTitle = document.getElementById('title-acc');
+        const oudGrid  = document.getElementById('grid-oud');
+        const accGrid  = document.getElementById('grid-acc');
+
+        oudTitle.style.display = oudList.length ? 'block' : 'none';
+        accTitle.style.display = accList.length ? 'block' : 'none';
+
+        oudGrid.innerHTML = oudList.map(p => buildCard(p)).join('');
+        accGrid.innerHTML = accList.map(p => buildCard(p)).join('');
+
+        document.getElementById('products-content').style.display = 'block';
+    }
+
+    /* بناء HTML كارت المنتج */
+    function buildCard(p) {
+        const imgHtml = p.image_url
+            ? `<img src="${p.image_url}" alt="${p.name}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\'product-img-placeholder\'>${p.category === 'oud' ? '28g' : '×1'}</div>'">`
+            : `<div class="product-img-placeholder">${p.category === 'oud' ? '28g' : '×1'}</div>`;
+
+        const badgeHtml = p.badge
+            ? `<span class="product-badge">${p.badge}</span>`
+            : '';
+
+        const safeName = (p.name || '').replace(/'/g, "\'").replace(/"/g, '&quot;');
+        const price    = parseFloat(p.price) || 0;
+        const uid      = p.id.slice(0, 8);
+
+        return `
+        <div class="product-card">
+            <div class="product-img">
+                ${imgHtml}
+                ${badgeHtml}
+            </div>
+            <div class="product-body">
+                <p class="product-cat">${p.category === 'oud' ? 'بخور وعود' : 'ملحقات'}</p>
+                <h3 class="product-name">${p.name}</h3>
+                <p class="product-note">${p.note || ''}</p>
+                <div class="product-footer">
+                    <div class="product-price">${price} <small>ر.س</small></div>
+                    <div class="add-btn-wrap">
+                        <div class="qty-indicator" id="qi-${uid}">
+                            <button class="qi-btn" onclick="cardQtyChange('${safeName}', -1, this)">−</button>
+                            <span class="qi-num">1</span>
+                            <button class="qi-btn" onclick="addToCart('${safeName}', ${price}, this.closest('.add-btn-wrap').querySelector('.add-btn'))">+</button>
+                        </div>
+                        <button class="add-btn" onclick="addToCart('${safeName}', ${price}, this)" aria-label="أضف للسلة">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+    }
+
+    // تشغيل التحميل عند فتح الصفحة
+    loadProducts();
 
     /* ============================================================
        البيانات — cart كـ Map: key=name, value={price, qty}
@@ -1164,16 +1109,12 @@
 
     /* ===== مؤشر أوقات العمل ===== */
     function updateStatusBar() {
-        const now = new Date();
-        // توقيت السعودية UTC+3
-        const saHour = (now.getUTCHours() + 3) % 24;
-        const OPEN = 9, CLOSE = 23; // أوقات العمل: 9 صباحاً - 11 مساءً
+        const saHour = (new Date().getUTCHours() + 3) % 24;
+        const OPEN = 9, CLOSE = 23;
         const isOpen = saHour >= OPEN && saHour < CLOSE;
-
         const dot  = document.getElementById('status-dot');
         const text = document.getElementById('status-text');
         const hrs  = document.getElementById('status-hours');
-
         if (isOpen) {
             dot.className  = 'status-dot open-now';
             text.className = 'status-text open-now';
@@ -1193,39 +1134,30 @@
     function addToCart(name, price, addBtn) {
         const wrap = addBtn.closest('.add-btn-wrap');
         const indicator = wrap ? wrap.querySelector('.qty-indicator') : null;
-
         if (cart.has(name)) {
             cart.get(name).qty += 1;
         } else {
             cart.set(name, { price, qty: 1 });
         }
-
-        // تأثير الضغط
         addBtn.classList.remove('pop-anim');
         void addBtn.offsetWidth;
         addBtn.classList.add('pop-anim');
-
-        // تحديث مؤشر الكمية على الكارد
         if (indicator) {
             indicator.classList.add('show');
             indicator.querySelector('.qi-num').textContent = cart.get(name).qty;
             addBtn.style.display = 'none';
         }
-
         updateNavBtn();
     }
 
-    /* ===== تعديل كمية على الكارد ===== */
     function cardQtyChange(name, delta, qiBtn) {
         const wrap = qiBtn.closest('.add-btn-wrap');
         const indicator = wrap.querySelector('.qty-indicator');
         const addBtn = wrap.querySelector('.add-btn');
         const qiNum = indicator.querySelector('.qi-num');
-
         const item = cart.get(name);
         if (!item) return;
         item.qty += delta;
-
         if (item.qty <= 0) {
             cart.delete(name);
             indicator.classList.remove('show');
@@ -1236,7 +1168,6 @@
         updateNavBtn();
     }
 
-    /* ===== تغيير كمية من السلة ===== */
     function cartQtyChange(name, delta) {
         if (!cart.has(name)) return;
         cart.get(name).qty += delta;
@@ -1246,36 +1177,28 @@
         if (cart.size === 0) closeCart();
     }
 
-    /* ===== تحديث زر NAV ===== */
     function updateNavBtn() {
         const btn   = document.getElementById('nav-cart-btn');
         const badge = document.getElementById('nav-cart-badge');
-        const total = [...cart.values()].reduce((s, i) => s + i.price * i.qty, 0);
-
         if (cart.size > 0) {
             btn.style.display = 'flex';
-            const totalItems = [...cart.values()].reduce((s, i) => s + i.qty, 0);
-            badge.textContent = totalItems;
+            badge.textContent = [...cart.values()].reduce((s,i) => s + i.qty, 0);
         } else {
             btn.style.display = 'none';
         }
     }
 
-    /* ===== رسم محتوى السلة ===== */
     function renderCartBody() {
         const body    = document.getElementById('cart-body');
         const footer  = document.getElementById('cart-footer');
         const totalEl = document.getElementById('cart-total-display');
-
         if (cart.size === 0) {
             body.innerHTML = '<div class="cart-empty-msg">السلة فارغة</div>';
             footer.style.display = 'none';
             return;
         }
-
-        const total = [...cart.values()].reduce((s, i) => s + i.price * i.qty, 0);
+        const total = [...cart.values()].reduce((s,i) => s + i.price * i.qty, 0);
         totalEl.innerHTML = `${total} <small>ر.س</small>`;
-
         body.innerHTML = [...cart.entries()].map(([name, item]) => `
             <div class="cart-item">
                 <span class="cart-item-name">${name}</span>
@@ -1287,17 +1210,13 @@
                 <span class="cart-item-price">${item.price * item.qty} ر.س</span>
             </div>
         `).join('');
-
         footer.style.display = 'block';
     }
 
-    /* ===== فتح / إغلاق السلة ===== */
     function openCart() {
         renderCartBody();
         document.getElementById('cart-overlay').classList.add('open');
-        requestAnimationFrame(() => {
-            document.getElementById('cart-sheet').classList.add('open');
-        });
+        requestAnimationFrame(() => document.getElementById('cart-sheet').classList.add('open'));
         document.body.style.overflow = 'hidden';
     }
 
@@ -1307,13 +1226,11 @@
         document.body.style.overflow = '';
     }
 
-    /* ===== الحصول على الموقع ===== */
     function getLocation() {
         const btn     = document.getElementById('location-btn');
         const btnText = document.getElementById('location-btn-text');
         const preview = document.getElementById('location-preview');
         const link    = document.getElementById('location-link');
-
         if (!navigator.geolocation) {
             btn.className = 'location-btn err';
             btnText.textContent = 'المتصفح لا يدعم تحديد الموقع';
@@ -1321,7 +1238,6 @@
         }
         btn.className = 'location-btn loading';
         btnText.textContent = 'جارٍ تحديد موقعك...';
-
         navigator.geolocation.getCurrentPosition(
             (pos) => {
                 const lat = pos.coords.latitude.toFixed(6);
@@ -1335,9 +1251,7 @@
             },
             (err) => {
                 btn.className = 'location-btn err';
-                btnText.textContent = err.code === 1
-                    ? 'لم تسمح بالوصول للموقع — اضغط مجدداً'
-                    : 'تعذّر تحديد الموقع — حاول مجدداً';
+                btnText.textContent = err.code === 1 ? 'لم تسمح بالوصول للموقع — اضغط مجدداً' : 'تعذّر تحديد الموقع — حاول مجدداً';
                 savedLocationUrl = '';
                 preview.style.display = 'none';
             },
@@ -1345,38 +1259,71 @@
         );
     }
 
-    /* ===== إرسال الطلب ===== */
-    function sendOrderWhatsApp() {
+    /* ===== إرسال الطلب + حفظه في Supabase ===== */
+    async function sendOrderWhatsApp() {
         if (cart.size === 0) return;
 
         const neighborhood = document.getElementById('neighborhood').value;
         const notes        = document.getElementById('order-notes').value.trim();
-        const total        = [...cart.values()].reduce((s, i) => s + i.price * i.qty, 0);
+        const total        = [...cart.values()].reduce((s,i) => s + i.price * i.qty, 0);
         const orderNum     = Math.floor(1000 + Math.random() * 9000);
 
+        /* --- 1) حفظ الطلب في Supabase --- */
+        const items = [...cart.entries()].map(([name, item]) => ({
+            product_name: name,
+            qty:   item.qty,
+            price: item.price
+        }));
+
+        try {
+            const { data: orderData, error: orderError } = await _sb
+                .from('orders')
+                .insert({
+                    order_number: String(orderNum),
+                    neighborhood: neighborhood || null,
+                    location_url: savedLocationUrl || null,
+                    notes:        notes || null,
+                    total:        total,
+                    status:       'new'
+                })
+                .select('id')
+                .single();
+
+            if (!orderError && orderData) {
+                // حفظ تفاصيل المنتجات في order_items
+                const orderItems = items.map(item => ({
+                    order_id:     orderData.id,
+                    product_name: item.product_name,
+                    qty:          item.qty,
+                    price:        item.price
+                }));
+                await _sb.from('order_items').insert(orderItems);
+            }
+        } catch(e) {
+            // الخطأ لا يوقف إرسال واتساب
+            console.warn('Order save error:', e);
+        }
+
+        /* --- 2) إرسال واتساب --- */
         let msg = `*طلب جديد #${orderNum} - بخورنا*%0a`;
         msg += `━━━━━━━━━━━━━━━━%0a`;
         if (neighborhood) msg += `*الحي:* ${neighborhood}%0a`;
         if (savedLocationUrl) msg += `*الموقع:* ${encodeURIComponent(savedLocationUrl)}%0a`;
         msg += `%0a*المنتجات:*%0a`;
-        let i = 1;
+        let idx = 1;
         cart.forEach((item, name) => {
-            msg += `${i++}. ${name} × ${item.qty} — ${item.price * item.qty} ر.س%0a`;
+            msg += `${idx++}. ${name} × ${item.qty} — ${item.price * item.qty} ر.س%0a`;
         });
         msg += `━━━━━━━━━━━━━━━━%0a`;
         msg += `*الإجمالي: ${total} ر.س*%0a`;
         msg += `*الدفع: كاش أو بطاقة عند الاستلام*`;
         if (notes) msg += `%0a%0a*ملاحظات:* ${notes}`;
 
-        // فتح واتساب
         window.open(`https://wa.me/${WHATSAPP}?text=${msg}`, '_blank');
-
-        // إغلاق السلة وإظهار شاشة التأكيد
         closeCart();
         setTimeout(() => showConfirm(orderNum), 400);
     }
 
-    /* ===== شاشة التأكيد ===== */
     function showConfirm(orderNum) {
         document.getElementById('confirm-order-num').textContent = `رقم الطلب: #${orderNum}`;
         document.getElementById('confirm-overlay').classList.add('open');
@@ -1386,15 +1333,12 @@
     function closeConfirm() {
         document.getElementById('confirm-overlay').classList.remove('open');
         document.body.style.overflow = '';
-        // تفريغ السلة وإعادة ضبط الكروت
         cart.clear();
         updateNavBtn();
-        // إعادة ضبط مؤشرات الكميات على الكروت
         document.querySelectorAll('.qty-indicator').forEach(el => el.classList.remove('show'));
         document.querySelectorAll('.add-btn').forEach(el => el.style.display = 'flex');
     }
 
-    /* ===== فلتر الأقسام ===== */
     function filterProducts(cat, btn) {
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
@@ -1406,13 +1350,13 @@
         document.getElementById('grid-acc').style.display  = showAcc ? 'grid'  : 'none';
     }
 
-    /* ===== إغلاق السلة بالسحب ===== */
     let touchStartY = 0;
     const sheet = document.getElementById('cart-sheet');
     sheet.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, { passive: true });
     sheet.addEventListener('touchend',   e => {
         if (e.changedTouches[0].clientY - touchStartY > 80) closeCart();
     }, { passive: true });
+
 </script>
 </body>
 </html>
