@@ -1062,7 +1062,7 @@
     /* بناء HTML كارت المنتج */
     function buildCard(p) {
         const imgHtml = p.image_url
-            ? `<img src="${p.image_url}" alt="${p.name}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\'product-img-placeholder\'>${p.category === 'oud' ? '28g' : '×1'}</div>'">`
+            ? `<img src="${p.image_url}" alt="${p.name}" loading="lazy" onerror="this.style.display='none';this.parentElement.insertAdjacentHTML('afterbegin','<div class=\"product-img-placeholder\">${p.category === 'oud' ? '28g' : '1×'}</div>')">`
             : `<div class="product-img-placeholder">${p.category === 'oud' ? '28g' : '×1'}</div>`;
  
         const badgeHtml = p.badge
@@ -1260,7 +1260,7 @@
     }
  
     /* ===== إرسال الطلب + حفظه في Supabase ===== */
-    async function sendOrderWhatsApp() {
+    function sendOrderWhatsApp() {
         if (cart.size === 0) return;
  
         const neighborhood = document.getElementById('neighborhood').value;
@@ -1303,36 +1303,27 @@
             price: item.price
         }));
  
-        try {
-            const { data: orderData, error: orderError } = await _sb
-                .from('orders')
-                .insert({
-                    order_number: String(orderNum),
-                    neighborhood: neighborhood || null,
-                    location_url: savedLocationUrl || null,
-                    notes:        notes || null,
-                    total:        total,
-                    status:       'new'
-                })
-                .select('id')
-                .single();
- 
-            if (orderError) {
-                console.error('❌ خطأ حفظ الطلب:', orderError.message, orderError.details);
-            } else if (orderData) {
-                const orderItems = items.map(item => ({
-                    order_id:     orderData.id,
-                    product_name: item.product_name,
-                    qty:          item.qty,
-                    price:        item.price
-                }));
-                const { error: itemsError } = await _sb.from('order_items').insert(orderItems);
-                if (itemsError) console.error('❌ خطأ حفظ المنتجات:', itemsError.message);
-                else console.log('✅ تم حفظ الطلب #' + orderNum + ' في Supabase');
+        _sb.from('orders').insert({
+            order_number: String(orderNum),
+            neighborhood: neighborhood || null,
+            location_url: savedLocationUrl || null,
+            notes:        notes || null,
+            total:        total,
+            status:       'new'
+        }).select('id').single().then(function(res) {
+            if (res.error) {
+                console.error('❌ Supabase error:', res.error.message);
+                return;
             }
-        } catch(e) {
-            console.warn('Order save exception:', e);
-        }
+            var oid = res.data.id;
+            var rows = items.map(function(it) {
+                return { order_id: oid, product_name: it.product_name, qty: it.qty, price: it.price };
+            });
+            _sb.from('order_items').insert(rows).then(function(r2) {
+                if (r2.error) console.error('❌ items error:', r2.error.message);
+                else console.log('✅ Order saved #' + orderNum);
+            });
+        });
     }
  
     function showConfirm(orderNum) {
