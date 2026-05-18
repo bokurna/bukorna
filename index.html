@@ -54,7 +54,7 @@
             font-weight: 900;
             color: var(--gold);
             text-decoration: none;
-            letter-spacing: 1px;
+            letter-spacing: 0;
         }
 
         .nav-links {
@@ -203,7 +203,7 @@
             padding: 6px 16px;
             border-radius: 100px;
             font-size: 0.78rem;
-            letter-spacing: 2px;
+            letter-spacing: 0;
             margin-bottom: 24px;
             animation: fadeUp 0.8s ease 0.05s both;
         }
@@ -302,7 +302,7 @@
         .stat-label {
             font-size: 0.78rem;
             color: rgba(245,234,214,0.45);
-            letter-spacing: 1px;
+            letter-spacing: 0;
         }
 
         .stat-divider {
@@ -323,7 +323,7 @@
             gap: 6px;
             color: rgba(201,168,76,0.4);
             font-size: 0.7rem;
-            letter-spacing: 2px;
+            letter-spacing: 0;
             animation: bounce 2.5s infinite;
         }
 
@@ -339,8 +339,8 @@
             text-align: center;
             color: var(--gold);
             font-size: 0.72rem;
-            letter-spacing: 5px;
-            text-transform: uppercase;
+            letter-spacing: 0;
+            
             margin-bottom: 12px;
         }
 
@@ -450,7 +450,7 @@
             font-size: 0.75rem;
             font-weight: 700;
             color: rgba(201,168,76,0.2);
-            letter-spacing: 3px;
+            letter-spacing: 0;
         }
 
         /* شارة على المنتج */
@@ -467,7 +467,7 @@
         }
 
         .preview-body { padding: 16px; }
-        .preview-cat  { font-size: 0.67rem; letter-spacing: 2px; color: var(--gold-dark); text-transform: uppercase; margin-bottom: 6px; }
+        .preview-cat  { font-size: 0.67rem; color: var(--gold-dark); margin-bottom: 6px; }
         .preview-name { font-size: 0.97rem; font-weight: 700; color: var(--cream); margin-bottom: 12px; line-height: 1.3; }
 
         .preview-footer { display: flex; justify-content: space-between; align-items: center; }
@@ -568,51 +568,35 @@
         .testimonials-section .section-label,
         .testimonials-section .section-title { padding: 0 24px; }
 
-        /* Slider container */
-        .t-slider {
-            position: relative;
-            margin-top: 36px;
+        .t-viewport {
             overflow: hidden;
-            cursor: grab;
-            user-select: none;
+            margin-top: 36px;
+            position: relative;
         }
-        .t-slider.is-dragging { cursor: grabbing; }
-
-        /* Pause button */
-        .t-controls {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-top: 20px;
-        }
-        .t-pause-btn {
-            background: rgba(201,168,76,0.12);
-            border: 1px solid rgba(201,168,76,0.3);
-            color: var(--gold);
-            border-radius: 20px;
-            padding: 7px 20px;
-            font-size: 0.82rem;
-            font-family: 'Cairo', sans-serif;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .t-pause-btn:hover { background: rgba(201,168,76,0.22); }
 
         .t-track {
             display: flex;
             gap: 16px;
-            width: max-content;
-            padding: 4px 24px 12px;
+            padding: 4px 0 12px;
             will-change: transform;
+            cursor: grab;
         }
-        .t-track.animating {
-            animation: slide-rtl 30s linear infinite;
-        }
-        .t-track.paused { animation-play-state: paused; }
+        .t-track:active { cursor: grabbing; }
 
-        @keyframes slide-rtl {
-            0%   { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+        /* pause/play button */
+        .t-controls {
+            text-align: center;
+            margin-top: 18px;
+        }
+        .t-btn {
+            background: rgba(201,168,76,0.1);
+            border: 1px solid rgba(201,168,76,0.3);
+            color: var(--gold);
+            border-radius: 20px;
+            padding: 8px 24px;
+            font-size: 0.85rem;
+            font-family: inherit;
+            cursor: pointer;
         }
 
         .t-card {
@@ -620,17 +604,16 @@
             border: 1px solid rgba(201,168,76,0.1);
             border-radius: 12px;
             padding: 24px;
-            width: 280px;
+            width: 270px;
+            min-width: 270px;
             flex-shrink: 0;
-            transition: border-color 0.3s;
             opacity: 1 !important;
-            transform: none !important;
+            transform: translateY(0) !important;
         }
         .t-card:hover { border-color: rgba(201,168,76,0.35); }
-
-        .t-stars { color: #ffc107; margin-bottom: 12px; font-size: 0.88rem; }
-        .t-text  { color: var(--cream-2); font-size: 0.88rem; line-height: 1.75; margin-bottom: 16px; }
-        .t-name  { color: var(--gold); font-size: 0.85rem; font-weight: 700; border-top: 1px solid rgba(201,168,76,0.1); padding-top: 12px; }
+        .t-stars { color: #ffc107; margin-bottom: 10px; font-size: 0.9rem; }
+        .t-text  { color: var(--cream-2); font-size: 0.88rem; line-height: 1.75; margin-bottom: 14px; }
+        .t-name  { color: var(--gold); font-size: 0.85rem; font-weight: 700; border-top: 1px solid rgba(201,168,76,0.1); padding-top: 12px; }168,76,0.1); padding-top: 14px; }
 
         /* ===== FAQ ===== */
         .faq-section { background: var(--dark-2); }
@@ -929,31 +912,23 @@
 </section>
 
 <!-- TESTIMONIALS -->
-<section class="testimonials-section" id="testimonials">
+<section class="testimonials-section">
     <p class="section-label" style="text-align:center;">ثقتكم فخرنا</p>
     <h2 class="section-title" style="margin-bottom:0;">قالوا عن بخورنا</h2>
-
-    <div class="t-slider" id="t-slider">
-        <div class="t-track animating" id="t-track">
+    <div class="t-viewport">
+        <div class="t-track" id="t-track">
             <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">وصل الطلب في نفس اليوم والرائحة تملأ البيت كله. شكراً بخورنا!</p><div class="t-name">عبدالرحمن العتيبي</div></div>
             <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">تعامل راقي ومنتجات فاخرة. أنصح الكل بالتعامل معهم وبشدة.</p><div class="t-name">دانا سليمان</div></div>
             <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">العود الكمبودي خيال، ما توقعت الجودة تكون بهذا المستوى بالسعر هذا.</p><div class="t-name">سلام الشراري</div></div>
             <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">الأسعار معقولة والتوصيل سريع. صار متجري المفضل للبخور.</p><div class="t-name">ريان الفايز</div></div>
             <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">المبخرة المتنقلة مثالية للسفر. التغليف كان أنيق جداً.</p><div class="t-name">نورة الزهراني</div></div>
             <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">ريحة العود الكمبودي ما تشبع منها، أنصح فيه كل أحد.</p><div class="t-name">مشعل القحطاني</div></div>
-            <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">خدمة ممتازة ورد سريع على الاستفسارات. تجربة رائعة من البداية للنهاية.</p><div class="t-name">هيفاء المطيري</div></div>
-            <!-- نسخة مكررة للحلقة اللانهائية -->
-            <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">وصل الطلب في نفس اليوم والرائحة تملأ البيت كله. شكراً بخورنا!</p><div class="t-name">عبدالرحمن العتيبي</div></div>
-            <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">تعامل راقي ومنتجات فاخرة. أنصح الكل بالتعامل معهم وبشدة.</p><div class="t-name">دانا سليمان</div></div>
-            <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">العود الكمبودي خيال، ما توقعت الجودة تكون بهذا المستوى بالسعر هذا.</p><div class="t-name">سلام الشراري</div></div>
-            <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">الأسعار معقولة والتوصيل سريع. صار متجري المفضل للبخور.</p><div class="t-name">ريان الفايز</div></div>
-            <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">المبخرة المتنقلة مثالية للسفر. التغليف كان أنيق جداً.</p><div class="t-name">نورة الزهراني</div></div>
-            <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">ريحة العود الكمبودي ما تشبع منها، أنصح فيه كل أحد.</p><div class="t-name">مشعل القحطاني</div></div>
-            <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">خدمة ممتازة ورد سريع على الاستفسارات. تجربة رائعة من البداية للنهاية.</p><div class="t-name">هيفاء المطيري</div></div>
+            <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">خدمة ممتازة ورد سريع. تجربة رائعة من البداية للنهاية.</p><div class="t-name">هيفاء المطيري</div></div>
+            
         </div>
     </div>
     <div class="t-controls">
-        <button class="t-pause-btn" id="t-pause-btn" onclick="toggleSlider()">⏸ إيقاف</button>
+        <button class="t-btn" id="t-btn">⏸ إيقاف</button>
     </div>
 </section>
 
@@ -1125,83 +1100,90 @@
   });
 })();
 </script>
+
 <script>
-// ===== Testimonials Slider Controls =====
-var tPaused = false;
-
-function toggleSlider() {
-    var track = document.getElementById('t-track');
-    var btn   = document.getElementById('t-pause-btn');
-    if (!track) return;
-    tPaused = !tPaused;
-    if (tPaused) {
-        track.classList.add('paused');
-        btn.textContent = '▶ تشغيل';
-    } else {
-        track.classList.remove('paused');
-        btn.textContent = '⏸ إيقاف';
-    }
-}
-
-// Touch/drag to scroll
+// ===== Testimonials Infinite Scroll =====
 (function() {
-    var slider = document.getElementById('t-slider');
-    var track  = document.getElementById('t-track');
-    if (!slider || !track) return;
+    var track = document.getElementById('t-track');
+    var btn   = document.getElementById('t-btn');
+    if (!track) return;
 
-    var startX = 0, currentX = 0, isDragging = false, animOffset = 0;
-
-    function getTranslateX(el) {
-        var style = window.getComputedStyle(el);
-        var matrix = new WebKitCSSMatrix(style.transform);
-        return matrix.m41;
-    }
-
-    function startDrag(x) {
-        isDragging = true;
-        slider.classList.add('is-dragging');
-        startX = x;
-        animOffset = getTranslateX(track);
-        track.style.animation = 'none';
-        track.style.transform = 'translateX(' + animOffset + 'px)';
-    }
-
-    function moveDrag(x) {
-        if (!isDragging) return;
-        var diff = x - startX;
-        track.style.transform = 'translateX(' + (animOffset + diff) + 'px)';
-    }
-
-    function endDrag() {
-        if (!isDragging) return;
-        isDragging = false;
-        slider.classList.remove('is-dragging');
-        // Resume animation only if not paused
-        if (!tPaused) {
-            var curr = getTranslateX(track);
-            var half = track.scrollWidth / 2;
-            var pct  = ((curr % (-half)) / (-half)) * 100;
-            track.style.animation = '';
-            track.classList.add('animating');
-        }
-    }
-
-    // Mouse events
-    slider.addEventListener('mousedown',  function(e) { startDrag(e.clientX); });
-    window.addEventListener('mousemove',  function(e) { moveDrag(e.clientX); });
-    window.addEventListener('mouseup',    endDrag);
-
-    // Touch events
-    slider.addEventListener('touchstart', function(e) { startDrag(e.touches[0].clientX); }, {passive:true});
-    slider.addEventListener('touchmove',  function(e) { moveDrag(e.touches[0].clientX); },  {passive:true});
-    slider.addEventListener('touchend',   endDrag);
-
-    // Pause on hover
-    slider.addEventListener('mouseenter', function() {
-        if (!tPaused) track.classList.add('paused');
+    // Clone all cards to make infinite loop
+    var cards = Array.from(track.children);
+    cards.forEach(function(card) {
+        track.appendChild(card.cloneNode(true));
     });
-    slider.addEventListener('mouseleave', function() {
-        if (!tPaused) track.classList.remove('paused');
+
+    var x = 0;
+    var speed = 0.5; // px per frame
+    var paused = false;
+    var dragging = false;
+    var dragStartX = 0;
+    var dragStartOffset = 0;
+    var cardWidth = 270 + 16; // width + gap
+    var totalWidth = cards.length * cardWidth;
+
+    function animate() {
+        if (!paused && !dragging) {
+            x -= speed;
+            if (Math.abs(x) >= totalWidth) {
+                x = 0;
+            }
+            track.style.transform = 'translateX(' + x + 'px)';
+        }
+        requestAnimationFrame(animate);
+    }
+    animate();
+
+    // Pause button
+    if (btn) {
+        btn.addEventListener('click', function() {
+            paused = !paused;
+            btn.textContent = paused ? '▶ تشغيل' : '⏸ إيقاف';
+        });
+    }
+
+    // Pause on hover (desktop)
+    track.parentElement.addEventListener('mouseenter', function() { paused = true; });
+    track.parentElement.addEventListener('mouseleave', function() { if (btn && btn.textContent.indexOf('إيقاف') > -1) paused = false; });
+
+    // Touch drag (mobile)
+    track.addEventListener('touchstart', function(e) {
+        dragging = true;
+        dragStartX = e.touches[0].clientX;
+        dragStartOffset = x;
+    }, {passive: true});
+
+    track.addEventListener('touchmove', function(e) {
+        if (!dragging) return;
+        var diff = e.touches[0].clientX - dragStartX;
+        x = dragStartOffset + diff;
+        // Keep in bounds
+        if (x > 0) x = 0;
+        if (x < -(totalWidth * 2)) x = -totalWidth;
+        track.style.transform = 'translateX(' + x + 'px)';
+    }, {passive: true});
+
+    track.addEventListener('touchend', function() {
+        dragging = false;
+    });
+
+    // Mouse drag (desktop)
+    track.addEventListener('mousedown', function(e) {
+        dragging = true;
+        dragStartX = e.clientX;
+        dragStartOffset = x;
+        track.style.cursor = 'grabbing';
+    });
+    window.addEventListener('mousemove', function(e) {
+        if (!dragging) return;
+        var diff = e.clientX - dragStartX;
+        x = dragStartOffset + diff;
+        track.style.transform = 'translateX(' + x + 'px)';
+    });
+    window.addEventListener('mouseup', function() {
+        dragging = false;
+        track.style.cursor = 'grab';
     });
 })();
 </script>
