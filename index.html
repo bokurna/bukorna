@@ -568,16 +568,47 @@
         .testimonials-section .section-label,
         .testimonials-section .section-title { padding: 0 24px; }
 
-        .t-track-wrap { overflow: hidden; margin-top: 36px; }
+        /* Slider container */
+        .t-slider {
+            position: relative;
+            margin-top: 36px;
+            overflow: hidden;
+            cursor: grab;
+            user-select: none;
+        }
+        .t-slider.is-dragging { cursor: grabbing; }
+
+        /* Pause button */
+        .t-controls {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .t-pause-btn {
+            background: rgba(201,168,76,0.12);
+            border: 1px solid rgba(201,168,76,0.3);
+            color: var(--gold);
+            border-radius: 20px;
+            padding: 7px 20px;
+            font-size: 0.82rem;
+            font-family: 'Cairo', sans-serif;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .t-pause-btn:hover { background: rgba(201,168,76,0.22); }
 
         .t-track {
             display: flex;
             gap: 16px;
             width: max-content;
-            animation: slide-rtl 40s linear infinite;
+            padding: 4px 24px 12px;
+            will-change: transform;
         }
-
-        .t-track-wrap:hover .t-track { animation-play-state: paused; }
+        .t-track.animating {
+            animation: slide-rtl 30s linear infinite;
+        }
+        .t-track.paused { animation-play-state: paused; }
 
         @keyframes slide-rtl {
             0%   { transform: translateX(0); }
@@ -588,17 +619,18 @@
             background: var(--dark-2);
             border: 1px solid rgba(201,168,76,0.1);
             border-radius: 12px;
-            padding: 26px;
-            width: 300px;
+            padding: 24px;
+            width: 280px;
             flex-shrink: 0;
             transition: border-color 0.3s;
+            opacity: 1 !important;
+            transform: none !important;
         }
-
         .t-card:hover { border-color: rgba(201,168,76,0.35); }
 
-        .t-stars { color: #ffc107; margin-bottom: 12px; font-size: 0.88rem; letter-spacing: 2px; }
-        .t-text  { color: var(--cream-2); font-size: 0.9rem; line-height: 1.75; margin-bottom: 16px; min-height: 52px; }
-        .t-name  { color: var(--gold); font-size: 0.88rem; font-weight: 700; border-top: 1px solid rgba(201,168,76,0.1); padding-top: 14px; }
+        .t-stars { color: #ffc107; margin-bottom: 12px; font-size: 0.88rem; }
+        .t-text  { color: var(--cream-2); font-size: 0.88rem; line-height: 1.75; margin-bottom: 16px; }
+        .t-name  { color: var(--gold); font-size: 0.85rem; font-weight: 700; border-top: 1px solid rgba(201,168,76,0.1); padding-top: 12px; }
 
         /* ===== FAQ ===== */
         .faq-section { background: var(--dark-2); }
@@ -897,23 +929,31 @@
 </section>
 
 <!-- TESTIMONIALS -->
-<section class="testimonials-section">
-    <p class="section-label">ثقتكم فخرنا</p>
+<section class="testimonials-section" id="testimonials">
+    <p class="section-label" style="text-align:center;">ثقتكم فخرنا</p>
     <h2 class="section-title" style="margin-bottom:0;">قالوا عن بخورنا</h2>
-    <div class="t-track-wrap">
-        <div class="t-track">
+
+    <div class="t-slider" id="t-slider">
+        <div class="t-track animating" id="t-track">
             <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">وصل الطلب في نفس اليوم والرائحة تملأ البيت كله. شكراً بخورنا!</p><div class="t-name">عبدالرحمن العتيبي</div></div>
             <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">تعامل راقي ومنتجات فاخرة. أنصح الكل بالتعامل معهم وبشدة.</p><div class="t-name">دانا سليمان</div></div>
             <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">العود الكمبودي خيال، ما توقعت الجودة تكون بهذا المستوى بالسعر هذا.</p><div class="t-name">سلام الشراري</div></div>
             <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">الأسعار معقولة والتوصيل سريع. صار متجري المفضل للبخور.</p><div class="t-name">ريان الفايز</div></div>
             <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">المبخرة المتنقلة مثالية للسفر. التغليف كان أنيق جداً.</p><div class="t-name">نورة الزهراني</div></div>
-            <!-- نسخ للحلقة المتواصلة -->
+            <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">ريحة العود الكمبودي ما تشبع منها، أنصح فيه كل أحد.</p><div class="t-name">مشعل القحطاني</div></div>
+            <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">خدمة ممتازة ورد سريع على الاستفسارات. تجربة رائعة من البداية للنهاية.</p><div class="t-name">هيفاء المطيري</div></div>
+            <!-- نسخة مكررة للحلقة اللانهائية -->
             <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">وصل الطلب في نفس اليوم والرائحة تملأ البيت كله. شكراً بخورنا!</p><div class="t-name">عبدالرحمن العتيبي</div></div>
             <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">تعامل راقي ومنتجات فاخرة. أنصح الكل بالتعامل معهم وبشدة.</p><div class="t-name">دانا سليمان</div></div>
             <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">العود الكمبودي خيال، ما توقعت الجودة تكون بهذا المستوى بالسعر هذا.</p><div class="t-name">سلام الشراري</div></div>
             <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">الأسعار معقولة والتوصيل سريع. صار متجري المفضل للبخور.</p><div class="t-name">ريان الفايز</div></div>
             <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">المبخرة المتنقلة مثالية للسفر. التغليف كان أنيق جداً.</p><div class="t-name">نورة الزهراني</div></div>
+            <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">ريحة العود الكمبودي ما تشبع منها، أنصح فيه كل أحد.</p><div class="t-name">مشعل القحطاني</div></div>
+            <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-text">خدمة ممتازة ورد سريع على الاستفسارات. تجربة رائعة من البداية للنهاية.</p><div class="t-name">هيفاء المطيري</div></div>
         </div>
+    </div>
+    <div class="t-controls">
+        <button class="t-pause-btn" id="t-pause-btn" onclick="toggleSlider()">⏸ إيقاف</button>
     </div>
 </section>
 
@@ -1028,7 +1068,7 @@
         });
     }, { threshold: 0.1 });
 
-    document.querySelectorAll('.feature-card, .preview-card, .step, .t-card').forEach(el => {
+    document.querySelectorAll('.feature-card, .preview-card, .step').forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(24px)';
         el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
@@ -1083,6 +1123,86 @@
     console.error('خطأ تحميل المنتجات:', e);
     grid.innerHTML = '<p style="color:rgba(245,234,214,0.4);text-align:center;grid-column:1/-1;padding:40px">تعذّر التحميل</p>';
   });
+})();
+</script>
+<script>
+// ===== Testimonials Slider Controls =====
+var tPaused = false;
+
+function toggleSlider() {
+    var track = document.getElementById('t-track');
+    var btn   = document.getElementById('t-pause-btn');
+    if (!track) return;
+    tPaused = !tPaused;
+    if (tPaused) {
+        track.classList.add('paused');
+        btn.textContent = '▶ تشغيل';
+    } else {
+        track.classList.remove('paused');
+        btn.textContent = '⏸ إيقاف';
+    }
+}
+
+// Touch/drag to scroll
+(function() {
+    var slider = document.getElementById('t-slider');
+    var track  = document.getElementById('t-track');
+    if (!slider || !track) return;
+
+    var startX = 0, currentX = 0, isDragging = false, animOffset = 0;
+
+    function getTranslateX(el) {
+        var style = window.getComputedStyle(el);
+        var matrix = new WebKitCSSMatrix(style.transform);
+        return matrix.m41;
+    }
+
+    function startDrag(x) {
+        isDragging = true;
+        slider.classList.add('is-dragging');
+        startX = x;
+        animOffset = getTranslateX(track);
+        track.style.animation = 'none';
+        track.style.transform = 'translateX(' + animOffset + 'px)';
+    }
+
+    function moveDrag(x) {
+        if (!isDragging) return;
+        var diff = x - startX;
+        track.style.transform = 'translateX(' + (animOffset + diff) + 'px)';
+    }
+
+    function endDrag() {
+        if (!isDragging) return;
+        isDragging = false;
+        slider.classList.remove('is-dragging');
+        // Resume animation only if not paused
+        if (!tPaused) {
+            var curr = getTranslateX(track);
+            var half = track.scrollWidth / 2;
+            var pct  = ((curr % (-half)) / (-half)) * 100;
+            track.style.animation = '';
+            track.classList.add('animating');
+        }
+    }
+
+    // Mouse events
+    slider.addEventListener('mousedown',  function(e) { startDrag(e.clientX); });
+    window.addEventListener('mousemove',  function(e) { moveDrag(e.clientX); });
+    window.addEventListener('mouseup',    endDrag);
+
+    // Touch events
+    slider.addEventListener('touchstart', function(e) { startDrag(e.touches[0].clientX); }, {passive:true});
+    slider.addEventListener('touchmove',  function(e) { moveDrag(e.touches[0].clientX); },  {passive:true});
+    slider.addEventListener('touchend',   endDrag);
+
+    // Pause on hover
+    slider.addEventListener('mouseenter', function() {
+        if (!tPaused) track.classList.add('paused');
+    });
+    slider.addEventListener('mouseleave', function() {
+        if (!tPaused) track.classList.remove('paused');
+    });
 })();
 </script>
 </body>
