@@ -576,8 +576,10 @@
 
         .t-track {
             display: flex;
+            flex-wrap: nowrap;
             gap: 16px;
             padding: 4px 0 12px;
+            width: max-content;
             will-change: transform;
             cursor: grab;
         }
@@ -1102,89 +1104,77 @@
 </script>
 
 <script>
-// ===== Testimonials Infinite Scroll =====
 (function() {
     var track = document.getElementById('t-track');
     var btn   = document.getElementById('t-btn');
     if (!track) return;
 
-    // Clone all cards to make infinite loop
-    var cards = Array.from(track.children);
-    cards.forEach(function(card) {
-        track.appendChild(card.cloneNode(true));
-    });
+    // Clone cards for infinite loop
+    var originals = Array.from(track.children);
+    originals.forEach(function(c) { track.appendChild(c.cloneNode(true)); });
 
-    var x = 0;
-    var speed = 0.5; // px per frame
+    var pos = 0;
     var paused = false;
     var dragging = false;
     var dragStartX = 0;
-    var dragStartOffset = 0;
-    var cardWidth = 270 + 16; // width + gap
-    var totalWidth = cards.length * cardWidth;
+    var dragStartPos = 0;
+    var SPEED = 0.6;
+    var CARD_W = 270 + 16;
+    var LOOP_W = originals.length * CARD_W;
 
-    function animate() {
+    function tick() {
         if (!paused && !dragging) {
-            x -= speed;
-            if (Math.abs(x) >= totalWidth) {
-                x = 0;
-            }
-            track.style.transform = 'translateX(' + x + 'px)';
+            pos -= SPEED;
+            if (pos <= -LOOP_W) pos += LOOP_W;
+            track.style.transform = 'translateX(' + pos + 'px)';
         }
-        requestAnimationFrame(animate);
+        requestAnimationFrame(tick);
     }
-    animate();
+    requestAnimationFrame(tick);
 
-    // Pause button
     if (btn) {
-        btn.addEventListener('click', function() {
+        btn.onclick = function() {
             paused = !paused;
             btn.textContent = paused ? '▶ تشغيل' : '⏸ إيقاف';
-        });
+        };
     }
 
-    // Pause on hover (desktop)
+    // Pause on hover
     track.parentElement.addEventListener('mouseenter', function() { paused = true; });
-    track.parentElement.addEventListener('mouseleave', function() { if (btn && btn.textContent.indexOf('إيقاف') > -1) paused = false; });
+    track.parentElement.addEventListener('mouseleave', function() {
+        if (!btn || btn.textContent.indexOf('إيقاف') > -1) paused = false;
+    });
 
-    // Touch drag (mobile)
+    // Touch
     track.addEventListener('touchstart', function(e) {
         dragging = true;
         dragStartX = e.touches[0].clientX;
-        dragStartOffset = x;
-    }, {passive: true});
+        dragStartPos = pos;
+    }, {passive:true});
 
     track.addEventListener('touchmove', function(e) {
         if (!dragging) return;
-        var diff = e.touches[0].clientX - dragStartX;
-        x = dragStartOffset + diff;
-        // Keep in bounds
-        if (x > 0) x = 0;
-        if (x < -(totalWidth * 2)) x = -totalWidth;
-        track.style.transform = 'translateX(' + x + 'px)';
-    }, {passive: true});
+        var d = e.touches[0].clientX - dragStartX;
+        pos = dragStartPos + d;
+        if (pos > 0) pos = 0;
+        if (pos < -LOOP_W * 2) pos = -LOOP_W;
+        track.style.transform = 'translateX(' + pos + 'px)';
+    }, {passive:true});
 
-    track.addEventListener('touchend', function() {
-        dragging = false;
-    });
+    track.addEventListener('touchend', function() { dragging = false; });
 
-    // Mouse drag (desktop)
+    // Mouse drag
     track.addEventListener('mousedown', function(e) {
         dragging = true;
         dragStartX = e.clientX;
-        dragStartOffset = x;
-        track.style.cursor = 'grabbing';
+        dragStartPos = pos;
     });
-    window.addEventListener('mousemove', function(e) {
+    document.addEventListener('mousemove', function(e) {
         if (!dragging) return;
-        var diff = e.clientX - dragStartX;
-        x = dragStartOffset + diff;
-        track.style.transform = 'translateX(' + x + 'px)';
+        pos = dragStartPos + (e.clientX - dragStartX);
+        track.style.transform = 'translateX(' + pos + 'px)';
     });
-    window.addEventListener('mouseup', function() {
-        dragging = false;
-        track.style.cursor = 'grab';
-    });
+    document.addEventListener('mouseup', function() { dragging = false; });
 })();
 </script>
 </body>
