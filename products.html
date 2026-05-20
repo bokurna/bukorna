@@ -73,6 +73,28 @@
         }
  
         .nav-back:hover { color: var(--gold); }
+
+        .nav-auth-btn {
+            color: rgba(245,234,214,0.7);
+            text-decoration: none;
+            font-size: 0.82rem;
+            display: flex; align-items: center; gap: 5px;
+            padding: 6px 12px;
+            border: 1px solid rgba(201,168,76,0.25);
+            border-radius: 20px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .nav-auth-btn:hover { border-color: var(--gold); color: var(--gold); }
+        .nav-track-btn {
+            color: rgba(245,234,214,0.7);
+            text-decoration: none;
+            font-size: 0.82rem;
+            display: flex; align-items: center; gap: 4px;
+            transition: color 0.2s;
+            white-space: nowrap;
+        }
+        .nav-track-btn:hover { color: var(--gold); }
  
         /* ===== زر السلة في الـ NAV ===== */
         #nav-cart-btn {
@@ -870,11 +892,22 @@
 <nav>
     <a href="index.html" class="nav-logo">بخورنا</a>
     <div class="nav-right">
-        <!-- زر السلة في الأعلى - يظهر بعد إضافة منتج -->
         <button id="nav-cart-btn" onclick="openCart()">
             <span>🛒 السلة</span>
             <span id="nav-cart-badge">0</span>
         </button>
+        <a href="track.html" class="nav-track-btn" title="تتبع طلبك">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+            </svg>
+            تتبع
+        </a>
+        <a href="auth.html" class="nav-auth-btn" id="nav-auth-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span id="nav-auth-text">دخول</span>
+        </a>
         <a href="index.html" class="nav-back">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                 <path d="M19 12H5M12 19l-7-7 7-7"/>
@@ -974,8 +1007,17 @@
             </div>
  
             <textarea id="order-notes" class="notes-input" placeholder="ملاحظات إضافية أو وصف الموقع..."></textarea>
-            <span class="phone-label">📱 رقم جوالك (لتتبع الطلب لاحقاً)</span>
-            <input id="customer-phone" class="phone-input" type="tel" placeholder="05xxxxxxxx" maxlength="10" inputmode="numeric">
+            <div class="cart-info-row">
+                <div class="cart-info-field">
+                    <label class="cart-field-label">رقم الجوال</label>
+                    <div class="cart-field-input-wrap">
+                        <span class="field-icon">📱</span>
+                        <input id="customer-phone" class="cart-field-input" type="tel"
+                            placeholder="05xxxxxxxx" maxlength="10" inputmode="numeric">
+                    </div>
+                    <span class="field-hint">لتتبع طلبك لاحقاً</span>
+                </div>
+            </div>
         </div>
  
         <div class="total-row">
@@ -1020,6 +1062,15 @@
        Supabase client
     ============================================================ */
     const _sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    // Update nav auth button based on session
+    _sb.auth.getSession().then(function({ data }) {
+        var btn = document.getElementById('nav-auth-btn');
+        var txt = document.getElementById('nav-auth-text');
+        if (data && data.session && data.session.user) {
+            if (txt) txt.textContent = 'حسابي';
+        }
+    });
  
     /* ============================================================
        تحميل المنتجات من Supabase
