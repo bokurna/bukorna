@@ -974,6 +974,8 @@
             </div>
  
             <textarea id="order-notes" class="notes-input" placeholder="ملاحظات إضافية أو وصف الموقع..."></textarea>
+            <span class="phone-label">📱 رقم جوالك (لتتبع الطلب لاحقاً)</span>
+            <input id="customer-phone" class="phone-input" type="tel" placeholder="05xxxxxxxx" maxlength="10" inputmode="numeric">
         </div>
  
         <div class="total-row">
@@ -1062,7 +1064,7 @@
     /* بناء HTML كارت المنتج */
     function buildCard(p) {
         const imgHtml = p.image_url
-            ? `<img src="${p.image_url}" alt="${p.name}" loading="lazy" onerror="this.style.display='none'">`
+            ? `<img src="${p.image_url}" alt="${p.name}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\'product-img-placeholder\'>${p.category === 'oud' ? '28g' : '×1'}</div>'">`
             : `<div class="product-img-placeholder">${p.category === 'oud' ? '28g' : '×1'}</div>`;
  
         const badgeHtml = p.badge
@@ -1265,6 +1267,7 @@
  
         const neighborhood = document.getElementById('neighborhood').value;
         const notes        = document.getElementById('order-notes').value.trim();
+        const phone        = document.getElementById('customer-phone') ? document.getElementById('customer-phone').value.trim() : '';
         const total        = [...cart.values()].reduce((s,i) => s + i.price * i.qty, 0);
         const orderNum     = Math.floor(1000 + Math.random() * 9000);
  
@@ -1287,6 +1290,7 @@
             `*الدفع: كاش أو بطاقة عند الاستلام*`,
             notes ? `` : null,
             notes ? `*ملاحظات:* ${notes}` : null,
+            phone ? `*جوال:* ${phone}` : null,
         ].filter(l => l !== null);
  
         const waUrl = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msgParts.join('\n'))}`;
@@ -1311,6 +1315,7 @@
                     neighborhood: neighborhood || null,
                     location_url: savedLocationUrl || null,
                     notes:        notes || null,
+                    phone:        phone || null,
                     total:        total,
                     status:       'new'
                 })
@@ -1337,6 +1342,7 @@
  
     function showConfirm(orderNum) {
         document.getElementById('confirm-order-num').textContent = `رقم الطلب: #${orderNum}`;
+        var tl = document.getElementById('confirm-track-link'); if(tl) tl.href='track.html?order='+orderNum;
         document.getElementById('confirm-overlay').classList.add('open');
         document.body.style.overflow = 'hidden';
     }
