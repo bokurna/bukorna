@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تتبع طلبك | بخورنا</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root {
+    --dark:   #1a1208;
+    --dark-2: #211a0c;
+    --gold:   #c9a84c;
+    --gold-2: #e8c96a;
+    --cream:  #f5ead6;
+    --cream-2:rgba(245,234,214,0.7);
+    --green:  #25D366;
+    --red:    #ff6b6b;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--dark);
+    color: var(--cream);
+    font-family: 'Cairo', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px 60px;
+  }
+
+  /* Header */
+  .top-bar {
+    width: 100%; max-width: 500px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 0 28px;
+  }
+  .logo { font-size: 1.5rem; font-weight: 900; color: var(--gold); text-decoration: none; }
+  .back-btn {
+    color: var(--cream-2); text-decoration: none; font-size: 0.85rem;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .back-btn:hover { color: var(--gold); }
+
+  /* Search box */
+  .search-card {
+    width: 100%; max-width: 500px;
+    background: var(--dark-2);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 18px;
+    padding: 28px 24px;
+    margin-bottom: 24px;
+  }
+  .search-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; }
+  .search-sub { font-size: 0.85rem; color: var(--cream-2); margin-bottom: 20px; }
+  .search-row { display: flex; gap: 10px; }
+  .search-input {
+    flex: 1;
+    background: var(--dark);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 10px;
+    color: var(--cream);
+    padding: 12px 16px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 1rem;
+    text-align: center;
+    letter-spacing: 2px;
+  }
+  .search-input:focus { outline: none; border-color: var(--gold); }
+  .search-btn {
+    background: var(--gold);
+    color: var(--dark);
+    border: none;
+    border-radius: 10px;
+    padding: 12px 22px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+  }
+  .search-btn:hover { background: var(--gold-2); }
+  .search-btn:disabled { background: #555; cursor: not-allowed; }
+
+  /* Result card */
+  .result-card {
+    width: 100%; max-width: 500px;
+    background: var(--dark-2);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 18px;
+    padding: 24px;
+    display: none;
+    animation: fadeUp 0.35s ease both;
+  }
+  .result-card.visible { display: block; }
+  @keyframes fadeUp {
+    from { opacity:0; transform: translateY(12px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  /* Order header */
+  .order-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px; padding-bottom: 16px;
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+  }
+  .order-num { font-size: 1.1rem; font-weight: 700; }
+  .order-num span { color: var(--gold); }
+  .order-date { font-size: 0.78rem; color: var(--cream-2); margin-top: 3px; }
+
+  /* Status badge */
+  .status-badge {
+    padding: 6px 14px; border-radius: 20px;
+    font-size: 0.82rem; font-weight: 700;
+  }
+  .status-new          { background: rgba(201,168,76,0.15); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
+  .status-confirmed    { background: rgba(59,130,246,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.3); }
+  .status-delivered    { background: rgba(37,211,102,0.15); color: var(--green); border: 1px solid rgba(37,211,102,0.3); }
+  .status-cancelled    { background: rgba(255,107,107,0.15); color: var(--red); border: 1px solid rgba(255,107,107,0.3); }
+
+  /* Timeline */
+  .timeline { margin-bottom: 20px; }
+  .timeline-step {
+    display: flex; gap: 14px; align-items: flex-start;
+    padding-bottom: 18px; position: relative;
+  }
+  .timeline-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 14px; top: 30px;
+    width: 2px; height: calc(100% - 12px);
+    background: rgba(201,168,76,0.15);
+  }
+  .timeline-step.done::after { background: rgba(201,168,76,0.4); }
+  .step-icon {
+    width: 30px; height: 30px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 0.85rem;
+    background: rgba(201,168,76,0.08);
+    border: 2px solid rgba(201,168,76,0.15);
+    color: var(--cream-2);
+  }
+  .timeline-step.done .step-icon {
+    background: rgba(201,168,76,0.18);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+  .timeline-step.active .step-icon {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--dark);
+    box-shadow: 0 0 0 4px rgba(201,168,76,0.2);
+  }
+  .step-info { padding-top: 4px; }
+  .step-name { font-size: 0.9rem; font-weight: 600; }
+  .step-desc { font-size: 0.78rem; color: var(--cream-2); margin-top: 2px; }
+  .timeline-step.done .step-name, .timeline-step.active .step-name { color: var(--cream); }
+  .timeline-step:not(.done):not(.active) .step-name { color: var(--cream-2); }
+
+  /* Items list */
+  .items-section { margin-bottom: 18px; }
+  .items-title { font-size: 0.82rem; color: var(--cream-2); margin-bottom: 10px; }
+  .item-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 0; border-bottom: 1px solid rgba(201,168,76,0.07);
+    font-size: 0.88rem;
+  }
+  .item-row:last-child { border-bottom: none; }
+  .item-qty { color: var(--cream-2); font-size: 0.8rem; margin-right: 6px; }
+
+  /* Total */
+  .total-row {
+    display: flex; justify-content: space-between;
+    padding: 14px 0 0; border-top: 1px solid rgba(201,168,76,0.15);
+    font-weight: 700; font-size: 1rem;
+  }
+  .total-amount { color: var(--gold); }
+
+  /* Error/empty */
+  .msg-box {
+    width: 100%; max-width: 500px;
+    text-align: center; padding: 40px 20px;
+    display: none;
+  }
+  .msg-box.visible { display: block; }
+  .msg-icon { font-size: 2.5rem; margin-bottom: 12px; }
+  .msg-text { color: var(--cream-2); font-size: 0.95rem; }
+
+  /* Auth section */
+  .auth-hint {
+    width: 100%; max-width: 500px;
+    background: rgba(201,168,76,0.06);
+    border: 1px dashed rgba(201,168,76,0.2);
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-top: 16px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--cream-2);
+  }
+  .auth-hint a { color: var(--gold); text-decoration: none; font-weight: 700; }
+  .auth-hint a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="index.html" class="logo">بخورنا</a>
+  <a href="products.html" class="back-btn">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+    المنتجات
+  </a>
+</div>
+
+<!-- Search -->
+<div class="search-card">
+  <div class="search-title">🔍 تتبع طلبك</div>
+  <div class="search-sub">أدخل رقم الطلب الذي وصلك بعد إتمام الشراء</div>
+  <div class="search-row">
+    <input class="search-input" id="order-input" type="text"
+      placeholder="مثال: 4332" maxlength="6" inputmode="numeric"
+      onkeydown="if(event.key==='Enter') searchOrder()">
+    <button class="search-btn" id="search-btn" onclick="searchOrder()">بحث</button>
+  </div>
+</div>
+
+<!-- Loading / Error -->
+<div class="msg-box" id="msg-not-found">
+  <div class="msg-icon">📦</div>
+  <div class="msg-text">لم يتم العثور على طلب بهذا الرقم.<br>تأكد من الرقم وحاول مجدداً.</div>
+</div>
+<div class="msg-box" id="msg-error">
+  <div class="msg-icon">⚠️</div>
+  <div class="msg-text">حدث خطأ أثناء البحث. حاول مجدداً.</div>
+</div>
+
+<!-- Result -->
+<div class="result-card" id="result-card">
+
+  <div class="order-header">
+    <div>
+      <div class="order-num">طلب <span id="r-num"></span></div>
+      <div class="order-date" id="r-date"></div>
+    </div>
+    <div class="status-badge" id="r-status-badge"></div>
+  </div>
+
+  <!-- Timeline -->
+  <div class="timeline" id="timeline">
+    <div class="timeline-step" id="step-new">
+      <div class="step-icon">📋</div>
+      <div class="step-info">
+        <div class="step-name">تم استلام الطلب</div>
+        <div class="step-desc">وصل طلبك وجارٍ المراجعة</div>
+      </div>
+    </div>
+    <div class="timeline-step" id="step-confirmed">
+      <div class="step-icon">✓</div>
+      <div class="step-info">
+        <div class="step-name">تم تأكيد الطلب</div>
+        <div class="step-desc">تم التواصل وتأكيد التفاصيل</div>
+      </div>
+    </div>
+    <div class="timeline-step" id="step-delivered">
+      <div class="step-icon">🚚</div>
+      <div class="step-info">
+        <div class="step-name">تم التسليم</div>
+        <div class="step-desc">وصل طلبك بنجاح</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Items -->
+  <div class="items-section">
+    <div class="items-title">المنتجات المطلوبة</div>
+    <div id="r-items"></div>
+  </div>
+
+  <!-- Total -->
+  <div class="total-row">
+    <span>الإجمالي</span>
+    <span class="total-amount" id="r-total"></span>
+  </div>
+</div>
+
+<!-- Auth hint -->
+<div class="auth-hint" id="auth-hint" style="display:none;">
+  💡 سجّل حسابك لتجد جميع طلباتك في مكان واحد
+  <br><a href="auth.html">إنشاء حساب مجاناً</a>
+</div>
+
+<script>
+var SUPABASE_URL  = 'https://ulaeuhltcsbvceaklobu.supabase.co';
+var SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVsYWV1aGx0Y3NidmNlYWtsb2J1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1MjU1NjEsImV4cCI6MjA5NDEwMTU2MX0.ixR5qANmq5GPE9E6tQZfekyIT5t9zZ3Yuy9euOKeyEY';
+var _sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+// Auto-fill from URL
+var urlParams = new URLSearchParams(window.location.search);
+var autoOrder = urlParams.get('order');
+if (autoOrder) {
+  document.getElementById('order-input').value = autoOrder;
+  setTimeout(searchOrder, 300);
+}
+
+var STATUS_MAP = {
+  'new':       { label: 'جديد',        cls: 'status-new',       step: 0 },
+  'confirmed': { label: 'تم التأكيد',  cls: 'status-confirmed', step: 1 },
+  'delivered': { label: 'تم التسليم',  cls: 'status-delivered', step: 2 },
+  'cancelled': { label: 'ملغي',        cls: 'status-cancelled', step: -1 }
+};
+
+function hide(id) { document.getElementById(id).classList.remove('visible'); document.getElementById(id).style.display='none'; }
+function show(id) { document.getElementById(id).style.display=''; setTimeout(function(){ document.getElementById(id).classList.add('visible'); }, 10); }
+
+async function searchOrder() {
+  var num = document.getElementById('order-input').value.trim();
+  if (!num) return;
+
+  // Reset
+  ['msg-not-found','msg-error','result-card'].forEach(hide);
+  document.getElementById('auth-hint').style.display = 'none';
+
+  var btn = document.getElementById('search-btn');
+  btn.textContent = '...'; btn.disabled = true;
+
+  try {
+    var { data: order, error } = await _sb
+      .from('orders')
+      .select('*')
+      .eq('order_number', num)
+      .single();
+
+    if (error || !order) { show('msg-not-found'); return; }
+
+    // Fetch items
+    var { data: items } = await _sb
+      .from('order_items')
+      .select('product_name, qty, price, subtotal')
+      .eq('order_id', order.id);
+
+    renderOrder(order, items || []);
+    show('result-card');
+    document.getElementById('auth-hint').style.display = 'block';
+
+  } catch(e) {
+    show('msg-error');
+  } finally {
+    btn.textContent = 'بحث'; btn.disabled = false;
+  }
+}
+
+function renderOrder(order, items) {
+  // Number & date
+  document.getElementById('r-num').textContent = '#' + order.order_number;
+  var d = new Date(order.created_at);
+  document.getElementById('r-date').textContent = d.toLocaleDateString('ar-SA', { year:'numeric', month:'long', day:'numeric', hour:'2-digit', minute:'2-digit' });
+
+  // Status badge
+  var st = STATUS_MAP[order.status] || { label: order.status, cls: 'status-new', step: 0 };
+  var badge = document.getElementById('r-status-badge');
+  badge.textContent = st.label;
+  badge.className = 'status-badge ' + st.cls;
+
+  // Timeline
+  var steps = ['step-new', 'step-confirmed', 'step-delivered'];
+  steps.forEach(function(id, i) {
+    var el = document.getElementById(id);
+    el.className = 'timeline-step';
+    if (order.status === 'cancelled') {
+      if (i === 0) el.classList.add('done');
+      return;
+    }
+    if (i < st.step) el.classList.add('done');
+    else if (i === st.step) el.classList.add('active');
+  });
+
+  // Items
+  var html = items.map(function(it) {
+    return '<div class="item-row"><span>' + it.product_name + '<span class="item-qty">× ' + it.qty + '</span></span><span>' + (it.subtotal || it.price * it.qty) + ' ر.س</span></div>';
+  }).join('');
+  document.getElementById('r-items').innerHTML = html || '<div style="color:var(--cream-2);font-size:0.85rem">لا توجد تفاصيل</div>';
+
+  // Total
+  document.getElementById('r-total').textContent = order.total + ' ر.س';
+}
+</script>
+</body>
+</html>
