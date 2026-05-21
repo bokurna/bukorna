@@ -684,6 +684,34 @@
         .send-btn:hover { background: #1ebe59; }
         .send-btn:active { transform: scale(0.98); }
         .send-btn:disabled { background: #3a3a3a; color: #777; cursor: not-allowed; transform: none; }
+
+        /* طريقة الدفع */
+        .pay-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 14px;
+        }
+        .pay-btn {
+            flex: 1;
+            height: 52px;
+            background: var(--dark);
+            border: 2px solid rgba(201,168,76,0.22);
+            border-radius: 12px;
+            color: rgba(245,234,214,0.5);
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        .pay-btn:active { transform: scale(0.97); }
+        .pay-btn.on {
+            border-color: var(--gold);
+            background: rgba(201,168,76,0.12);
+            color: var(--cream);
+        }
  
         /* ===== MOBILE ===== */
         @media (max-width: 600px) {
@@ -1007,20 +1035,9 @@
             </div>
  
             <textarea id="order-notes" class="notes-input" placeholder="ملاحظات إضافية أو وصف الموقع..."></textarea>
-
-            <div class="pay-section">
-                <div class="pay-title">💳 طريقة الدفع</div>
-                <div class="pay-opts">
-                    <button class="pay-opt active" id="po-cash" onclick="setPay('cash',this)">
-                        💵<br>كاش
-                    </button>
-                    <button class="pay-opt" id="po-card" onclick="setPay('card',this)">
-                        💳<br>بطاقة
-                    </button>
-                    <button class="pay-opt" id="po-transfer" onclick="setPay('transfer',this)">
-                        📲<br>تحويل
-                    </button>
-                </div>
+            <div class="pay-row">
+                <button type="button" class="pay-btn on" id="pb-cash" onclick="choosePay('cash')">💵 كاش</button>
+                <button type="button" class="pay-btn"    id="pb-card" onclick="choosePay('card')">💳 بطاقة</button>
             </div>
             <div class="cart-info-row">
                 <div class="cart-info-field">
@@ -1328,13 +1345,12 @@
     }
  
     /* ===== إرسال الطلب + حفظه في Supabase ===== */
-    var _payMethod = 'cash';
-    var _payLabel  = { cash: 'كاش عند الاستلام', card: 'بطاقة عند الاستلام', transfer: 'تحويل بنكي' };
+    var _pm = 'cash';
 
-    function setPay(m, el) {
-        _payMethod = m;
-        document.querySelectorAll('.pay-opt').forEach(function(b) { b.classList.remove('active'); });
-        el.classList.add('active');
+    function choosePay(m) {
+        _pm = m;
+        document.getElementById('pb-cash').className = 'pay-btn' + (m === 'cash' ? ' on' : '');
+        document.getElementById('pb-card').className = 'pay-btn' + (m === 'card' ? ' on' : '');
     }
 
     async function sendOrderWhatsApp() {
@@ -1362,7 +1378,7 @@
             ...lines.map((l, i) => `${i + 1}. ${l}`),
             `━━━━━━━━━━━━━━━━`,
             `*الإجمالي: ${total} ر.س*`,
-            `*الدفع: ${_payLabel[_payMethod]}*`,
+            `*الدفع: ${_pm === "cash" ? "كاش عند الاستلام" : "بطاقة عند الاستلام"}*`,
             notes ? `` : null,
             notes ? `*ملاحظات:* ${notes}` : null,
             phone ? `*جوال:* ${phone}` : null,
