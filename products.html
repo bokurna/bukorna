@@ -1007,6 +1007,19 @@
             </div>
  
             <textarea id="order-notes" class="notes-input" placeholder="ملاحظات إضافية أو وصف الموقع..."></textarea>
+
+            <!-- طريقة الدفع -->
+            <div class="pay-section">
+                <span class="pay-section-label">طريقة الدفع</span>
+                <div class="pay-options">
+                    <button class="pay-opt sel" onclick="setPay('cash',this)">
+                        <span class="p-icon">💵</span>كاش
+                    </button>
+                    <button class="pay-opt" onclick="setPay('card',this)">
+                        <span class="p-icon">💳</span>بطاقة
+                    </button>
+                </div>
+            </div>
             <div class="cart-info-row">
                 <div class="cart-info-field">
                     <label class="cart-field-label">رقم الجوال</label>
@@ -1313,6 +1326,15 @@
     }
  
     /* ===== إرسال الطلب + حفظه في Supabase ===== */
+    var _pay = 'cash';
+    var _payTxt = { cash:'وسيلة الدفع كاش', card:'وسيلة الدفع بطاقة', };
+
+    function setPay(m, el) {
+        _pay = m;
+        document.querySelectorAll('.pay-opt').forEach(function(b){ b.classList.remove('sel'); });
+        el.classList.add('sel');
+    }
+
     async function sendOrderWhatsApp() {
         if (cart.size === 0) return;
  
@@ -1338,7 +1360,7 @@
             ...lines.map((l, i) => `${i + 1}. ${l}`),
             `━━━━━━━━━━━━━━━━`,
             `*الإجمالي: ${total} ر.س*`,
-            `*الدفع: كاش أو بطاقة عند الاستلام*`,
+            `*الدفع: ${_payTxt[_pay]}*`,
             notes ? `` : null,
             notes ? `*ملاحظات:* ${notes}` : null,
             phone ? `*جوال:* ${phone}` : null,
