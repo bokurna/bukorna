@@ -1008,15 +1008,17 @@
  
             <textarea id="order-notes" class="notes-input" placeholder="ملاحظات إضافية أو وصف الموقع..."></textarea>
 
-            <!-- طريقة الدفع -->
             <div class="pay-section">
-                <span class="pay-section-label">طريقة الدفع</span>
-                <div class="pay-options">
-                    <button class="pay-opt sel" onclick="setPay('cash',this)">
-                        <span class="p-icon">💵</span>كاش
+                <div class="pay-title">💳 طريقة الدفع</div>
+                <div class="pay-opts">
+                    <button class="pay-opt active" id="po-cash" onclick="setPay('cash',this)">
+                        💵<br>كاش
                     </button>
-                    <button class="pay-opt" onclick="setPay('card',this)">
-                        <span class="p-icon">💳</span>بطاقة
+                    <button class="pay-opt" id="po-card" onclick="setPay('card',this)">
+                        💳<br>بطاقة
+                    </button>
+                    <button class="pay-opt" id="po-transfer" onclick="setPay('transfer',this)">
+                        📲<br>تحويل
                     </button>
                 </div>
             </div>
@@ -1326,13 +1328,13 @@
     }
  
     /* ===== إرسال الطلب + حفظه في Supabase ===== */
-    var _pay = 'cash';
-    var _payTxt = { cash:'وسيلة الدفع كاش', card:'وسيلة الدفع بطاقة', };
+    var _payMethod = 'cash';
+    var _payLabel  = { cash: 'كاش عند الاستلام', card: 'بطاقة عند الاستلام', transfer: 'تحويل بنكي' };
 
     function setPay(m, el) {
-        _pay = m;
-        document.querySelectorAll('.pay-opt').forEach(function(b){ b.classList.remove('sel'); });
-        el.classList.add('sel');
+        _payMethod = m;
+        document.querySelectorAll('.pay-opt').forEach(function(b) { b.classList.remove('active'); });
+        el.classList.add('active');
     }
 
     async function sendOrderWhatsApp() {
@@ -1360,7 +1362,7 @@
             ...lines.map((l, i) => `${i + 1}. ${l}`),
             `━━━━━━━━━━━━━━━━`,
             `*الإجمالي: ${total} ر.س*`,
-            `*الدفع: ${_payTxt[_pay]}*`,
+            `*الدفع: ${_payLabel[_payMethod]}*`,
             notes ? `` : null,
             notes ? `*ملاحظات:* ${notes}` : null,
             phone ? `*جوال:* ${phone}` : null,
