@@ -164,6 +164,50 @@ tbody tr:hover{background:rgba(201,168,76,0.03);}
 }
 .progress-txt { font-size: 0.75rem; color: rgba(245,234,214,0.45); text-align: center; }
 
+.offer-card {
+  background: var(--dark-2);
+  border: 1px solid rgba(201,168,76,0.15);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.offer-card.inactive { opacity: 0.45; }
+.offer-badge-prev {
+  min-width: 52px; height: 52px;
+  border-radius: 10px;
+  background: rgba(201,168,76,0.12);
+  border: 1px solid rgba(201,168,76,0.25);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem;
+}
+.offer-info { flex: 1; min-width: 0; }
+.offer-title { font-weight: 700; font-size: 0.95rem; color: var(--cream); margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.offer-meta  { font-size: 0.78rem; color: rgba(245,234,214,0.5); }
+.offer-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.toggle-btn {
+  background: rgba(37,211,102,0.1); border: 1px solid rgba(37,211,102,0.3);
+  color: #25D366; border-radius: 8px; padding: 5px 12px;
+  font-family: inherit; font-size: 0.78rem; cursor: pointer;
+}
+.toggle-btn.off { background: rgba(255,107,107,0.1); border-color: rgba(255,107,107,0.3); color: #ff6b6b; }
+.offer-form { background: var(--dark-2); border: 1px solid rgba(201,168,76,0.2); border-radius: 14px; padding: 20px; margin-bottom: 18px; display: none; }
+.offer-form.open { display: block; }
+.offer-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.offer-field { display: flex; flex-direction: column; gap: 5px; }
+.offer-field label { font-size: 0.78rem; color: rgba(245,234,214,0.55); }
+.offer-field input, .offer-field select, .offer-field textarea {
+  background: var(--dark); border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 8px; color: var(--cream); padding: 9px 12px;
+  font-family: inherit; font-size: 0.88rem; direction: rtl;
+}
+.offer-field textarea { min-height: 60px; resize: vertical; }
+.offer-field input:focus, .offer-field select:focus { outline: none; border-color: var(--gold); }
+.emoji-opts { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+.emoji-opt { background: var(--dark); border: 1px solid rgba(201,168,76,0.2); border-radius: 8px; width: 38px; height: 38px; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.emoji-opt.sel { border-color: var(--gold); background: rgba(201,168,76,0.12); }
 .img-tabs { display: flex; gap: 8px; margin-bottom: 10px; }
 .img-tab {
   flex: 1;
@@ -271,6 +315,7 @@ tbody tr:hover{background:rgba(201,168,76,0.03);}
     <button class="tab-btn active" data-tab="orders">الطلبات</button>
     <button class="tab-btn" data-tab="products">المنتجات</button>
     <button class="tab-btn" data-tab="stats">الإحصائيات</button>
+    <button class="tab-btn" data-tab="offers">🏷️ العروض</button>
   </div>
 
   <!-- ORDERS -->
@@ -323,6 +368,72 @@ tbody tr:hover{background:rgba(201,168,76,0.03);}
       </table>
     </div>
   </div>
+</div>
+
+<!-- OFFERS TAB -->
+<div id="tab-offers" class="content" style="display:none">
+  <div class="sec-head">
+    <div class="sec-title">العروض والخصومات</div>
+    <button class="btn" onclick="toggleOfferForm()">+ إضافة عرض</button>
+  </div>
+
+  <!-- Add/Edit Form -->
+  <div class="offer-form" id="offer-form">
+    <div class="offer-row">
+      <div class="offer-field">
+        <label>عنوان العرض *</label>
+        <input id="of-title" placeholder="مثال: عرض نهاية الأسبوع">
+      </div>
+      <div class="offer-field">
+        <label>نوع الخصم</label>
+        <select id="of-type">
+          <option value="percent">نسبة مئوية %</option>
+          <option value="fixed">مبلغ ثابت ر.س</option>
+          <option value="none">بدون خصم (إعلان فقط)</option>
+        </select>
+      </div>
+    </div>
+    <div class="offer-row">
+      <div class="offer-field">
+        <label>قيمة الخصم</label>
+        <input id="of-value" type="number" min="0" placeholder="مثال: 10">
+      </div>
+      <div class="offer-field">
+        <label>اللون</label>
+        <select id="of-color">
+          <option value="gold">ذهبي</option>
+          <option value="red">أحمر</option>
+          <option value="green">أخضر</option>
+          <option value="blue">أزرق</option>
+        </select>
+      </div>
+    </div>
+    <div class="offer-field" style="margin-bottom:10px">
+      <label>وصف العرض</label>
+      <textarea id="of-desc" placeholder="تفاصيل العرض للعملاء..."></textarea>
+    </div>
+    <div class="offer-field" style="margin-bottom:14px">
+      <label>الأيقونة</label>
+      <div class="emoji-opts" id="emoji-opts">
+        <button class="emoji-opt sel" onclick="pickEmoji(this,'🔥')">🔥</button>
+        <button class="emoji-opt" onclick="pickEmoji(this,'⭐')">⭐</button>
+        <button class="emoji-opt" onclick="pickEmoji(this,'🎁')">🎁</button>
+        <button class="emoji-opt" onclick="pickEmoji(this,'💥')">💥</button>
+        <button class="emoji-opt" onclick="pickEmoji(this,'✨')">✨</button>
+        <button class="emoji-opt" onclick="pickEmoji(this,'🏷️')">🏷️</button>
+        <button class="emoji-opt" onclick="pickEmoji(this,'🎉')">🎉</button>
+        <button class="emoji-opt" onclick="pickEmoji(this,'💎')">💎</button>
+      </div>
+      <input type="hidden" id="of-emoji" value="🔥">
+    </div>
+    <div style="display:flex;gap:10px">
+      <button class="btn" onclick="saveOffer()">حفظ العرض</button>
+      <button class="btn btn-ghost" onclick="toggleOfferForm()">إلغاء</button>
+    </div>
+  </div>
+
+  <!-- Offers List -->
+  <div id="offers-list"><div style="text-align:center;color:rgba(245,234,214,0.4);padding:30px">جارٍ التحميل...</div></div>
 </div>
 
 <!-- ORDER MODAL -->
@@ -434,6 +545,7 @@ function showScreen(name) {
     document.getElementById('app').style.display = 'block';
     loadOrders();
     loadProducts();
+    loadOffers();
   }
 }
 
@@ -479,6 +591,7 @@ document.getElementById('btn-logout').addEventListener('click', function() {
 //  TABS
 // ============================================================
 document.querySelectorAll('.tab-btn').forEach(function(btn) {
+    if (btn.dataset.tab === 'offers') btn.addEventListener('click', function() { setTimeout(loadOffers,100); });
   btn.addEventListener('click', function() {
     document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
     btn.classList.add('active');
@@ -562,6 +675,101 @@ document.getElementById('btn-close-order').addEventListener('click', function() 
 // ============================================================
 //  PRODUCTS
 // ============================================================
+// ===== OFFERS =====
+var _editOfferId = null;
+var _offerEmoji  = '🔥';
+
+function toggleOfferForm(data) {
+  var form = document.getElementById('offer-form');
+  var open = form.classList.toggle('open');
+  if (!open) { _editOfferId = null; clearOfferForm(); }
+  if (data) {
+    _editOfferId = data.id;
+    document.getElementById('of-title').value = data.title || '';
+    document.getElementById('of-desc').value  = data.description || '';
+    document.getElementById('of-type').value  = data.discount_type || 'none';
+    document.getElementById('of-value').value = data.discount_value || '';
+    document.getElementById('of-color').value = data.color || 'gold';
+    pickEmoji(null, data.emoji || '🔥');
+  }
+}
+
+function clearOfferForm() {
+  ['of-title','of-desc','of-value'].forEach(function(id){ document.getElementById(id).value = ''; });
+  document.getElementById('of-type').value  = 'percent';
+  document.getElementById('of-color').value = 'gold';
+  pickEmoji(null,'🔥');
+}
+
+function pickEmoji(el, val) {
+  _offerEmoji = val;
+  document.getElementById('of-emoji').value = val;
+  document.querySelectorAll('.emoji-opt').forEach(function(b){ b.classList.remove('sel'); });
+  if (el) el.classList.add('sel');
+  else document.querySelectorAll('.emoji-opt').forEach(function(b){ if(b.textContent===val) b.classList.add('sel'); });
+}
+
+function saveOffer() {
+  var title = document.getElementById('of-title').value.trim();
+  if (!title) { alert('أدخل عنوان العرض'); return; }
+  var data = {
+    title:          title,
+    description:    document.getElementById('of-desc').value.trim() || null,
+    discount_type:  document.getElementById('of-type').value,
+    discount_value: parseFloat(document.getElementById('of-value').value) || 0,
+    color:          document.getElementById('of-color').value,
+    emoji:          _offerEmoji,
+    active:         true
+  };
+  var q = _editOfferId
+    ? _sb.from('offers').update(data).eq('id', _editOfferId)
+    : _sb.from('offers').insert(data);
+  q.then(function(r) {
+    if (r.error) { alert('خطأ: ' + r.error.message); return; }
+    toggleOfferForm();
+    loadOffers();
+  });
+}
+
+function toggleOfferActive(id, current) {
+  _sb.from('offers').update({ active: !current }).eq('id', id).then(loadOffers);
+}
+
+function deleteOffer(id, title) {
+  if (!confirm('حذف عرض "' + title + '"؟')) return;
+  _sb.from('offers').delete().eq('id', id).then(loadOffers);
+}
+
+var COLOR_MAP = { gold: '#c9a84c', red: '#ff6b6b', green: '#25D366', blue: '#60a5fa' };
+
+function loadOffers() {
+  var list = document.getElementById('offers-list');
+  if (!list || !_sb) return;
+  _sb.from('offers').select('*').order('created_at', { ascending: false }).then(function(r) {
+    if (r.error || !r.data || r.data.length === 0) {
+      list.innerHTML = '<div style="text-align:center;color:rgba(245,234,214,0.4);padding:30px">لا توجد عروض بعد. أضف أول عرض!</div>';
+      return;
+    }
+    list.innerHTML = r.data.map(function(o) {
+      var color = COLOR_MAP[o.color] || COLOR_MAP.gold;
+      var disc  = o.discount_type === 'percent' ? o.discount_value + '%'
+                : o.discount_type === 'fixed'   ? o.discount_value + ' ر.س'
+                : 'إعلان';
+      return '<div class="offer-card' + (o.active ? '' : ' inactive') + '">'
+        + '<div class="offer-badge-prev" style="border-color:' + color + ';color:' + color + '">' + (o.emoji||'🔥') + '</div>'
+        + '<div class="offer-info">'
+        + '<div class="offer-title">' + o.title + '</div>'
+        + '<div class="offer-meta">' + disc + (o.description ? ' · ' + o.description.substring(0,40) : '') + '</div>'
+        + '</div>'
+        + '<div class="offer-actions">'
+        + '<button class="toggle-btn' + (o.active ? '' : ' off') + '" onclick="toggleOfferActive('' + o.id + '',' + o.active + ')">' + (o.active ? 'مفعّل' : 'موقوف') + '</button>'
+        + '<button class="btn btn-sm" onclick='toggleOfferForm(' + JSON.stringify(o) + ')'>تعديل</button>'
+        + '<button class="btn btn-danger btn-sm" onclick="deleteOffer('' + o.id + '','' + o.title.replace(/'/g,"\'") + '')">حذف</button>'
+        + '</div></div>';
+    }).join('');
+  });
+}
+
 function loadProducts() {
   var tbody = document.getElementById('products-body');
   tbody.innerHTML = '<tr class="load-row"><td colspan="6">جارٍ التحميل...</td></tr>';
