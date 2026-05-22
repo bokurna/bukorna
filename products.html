@@ -314,14 +314,45 @@
             align-items: center;
         }
  
-        .product-price {
-            color: var(--gold);
-            font-size: 1.2rem;
-            font-weight: 700;
-            line-height: 1;
-        }
- 
+     .product-price {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    line-height: 1;
+}
+
+.old-price {
+    color: rgba(245, 234, 214, 0.45);
+    text-decoration: line-through;
+    font-size: 0.85rem;
+    font-weight: 400;
+}
+
+.current-price {
+    color: var(--gold);
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.discount-badge {
+    background: rgba(255, 107, 107, 0.15);
+    color: #ff6b6b;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.product-price small {
+    font-size: 0.68rem;
+    font-weight: 400;
+    opacity: 0.7;
+}
         .product-price small { font-size: 0.68rem; font-weight: 400; opacity: 0.7; }
+
+        
  
         /* ===== CART MODAL (Bottom Sheet) ===== */
         .cart-overlay {
@@ -1013,6 +1044,9 @@
     <button class="filter-btn" onclick="filterProducts('oud', this)">البخور والعود</button>
     <button class="filter-btn" onclick="filterProducts('acc', this)">الملحقات</button>
 </div>
+
+    <!-- شريط العروض النشطة -->
+<div id="offers-bar" class="offers-bar"></div>
  
 <!-- PRODUCTS -->
 <div class="products-wrap" id="products-wrap">
@@ -1151,27 +1185,41 @@
     ============================================================ */
     const _sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
-    // ===== تحميل العروض =====
-    (function loadOffers() {
-        _sb.from('offers').select('*').eq('active', true).order('created_at', {ascending:false}).then(function(r) {
-            if (r.error || !r.data || r.data.length === 0) return;
-            var bar = document.getElementById('offers-bar');
-            if (!bar) return;
+// ===== تحميل العروض =====
+function loadOffers() {
+    const bar = document.getElementById('offers-bar');
+    if (!bar) return;
+    
+    _sb.from('offers')
+        .select('*')
+        .eq('active', true)
+        .order('created_at', { ascending: false })
+        .then(function(r) {
+            if (r.error || !r.data || r.data.length === 0) {
+                bar.classList.remove('has-offers');
+                bar.innerHTML = '';
+                return;
+            }
             bar.classList.add('has-offers');
-            var chipCls = { gold:'chip-gold', red:'chip-red', green:'chip-green', blue:'chip-blue' };
+            const chipCls = { gold:'chip-gold', red:'chip-red', green:'chip-green', blue:'chip-blue' };
             bar.innerHTML = r.data.map(function(o) {
-                var cls  = chipCls[o.color] || 'chip-gold';
-                var disc = o.discount_type === 'percent' ? 'خصم ' + o.discount_value + '%'
-                         : o.discount_type === 'fixed'   ? 'خصم ' + o.discount_value + ' ر.س'
-                         : '';
-                return '<div class="offer-chip ' + cls + '">'
-                    + '<span class="offer-chip-emoji">' + (o.emoji||'🔥') + '</span>'
-                    + '<span class="offer-chip-text">' + o.title + '</span>'
-                    + (disc ? '<span class="offer-chip-disc">· ' + disc + '</span>' : '')
-                    + '</div>';
+                const cls = chipCls[o.color] || 'chip-gold';
+                let disc = '';
+                if (o.discount_type === 'percent') disc = `خصم ${o.discount_value}%`;
+                else if (o.discount_type === 'fixed') disc = `خصم ${o.discount_value} ر.س`;
+                return `
+                    <div class="offer-chip ${cls}">
+                        <span class="offer-chip-emoji">${o.emoji || '🔥'}</span>
+                        <span class="offer-chip-text">${o.title}</span>
+                        ${disc ? `<span class="offer-chip-disc">· ${disc}</span>` : ''}
+                    </div>
+                `;
             }).join('');
         });
-    })();
+}
+
+// استدعاء بعد تحميل الصفحة
+document.addEventListener('DOMContentLoaded', loadOffers);
 
     // Update nav auth button based on session
     _sb.auth.getSession().then(function({ data }) {
@@ -1223,20 +1271,41 @@
     }
  
     /* بناء HTML كارت المنتج */
-    function buildCard(p) {
-        const imgHtml = p.image_url
-            ? `<img src="${p.image_url}" alt="${p.name} - بخور وعود بخورنا بريدة" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\'product-img-placeholder\'>${p.category === 'oud' ? '28g' : '×1'}</div>'">`
-            : `<div class="product-img-placeholder">${p.category === 'oud' ? '28g' : '×1'}</div>`;
- 
-        const badgeHtml = p.badge
-            ? `<span class="product-badge">${p.badge}</span>`
-            : '';
- 
-        const safeName = (p.name || '').replace(/'/g, "\'").replace(/"/g, '&quot;');
-        const price    = parseFloat(p.price) || 0;
-        const uid      = p.id.slice(0, 8);
- 
-        return `
+   function buildCard(p) {
+    const imgHtml = p.image_url
+        ? `<img src="${p.image_url}" alt="${p.name}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\'product-img-placeholder\'>${p.category === 'oud' ? '28g' : '×1'}</div>'">`
+        : `<div class="product-img-placeholder">${p.category === 'oud' ? '28g' : '×1'}</div>`;
+
+    const badgeHtml = p.badge ? `<span class="product-badge">${p.badge}</span>` : '';
+    const safeName = (p.name || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    const price = parseFloat(p.price) || 0;
+    const oldPrice = p.old_price ? parseFloat(p.old_price) : null;
+    const hasDiscount = oldPrice && oldPrice > price;
+
+    // حساب نسبة الخصم
+    let discountPercent = '';
+    if (hasDiscount) {
+        const percent = Math.round(((oldPrice - price) / oldPrice) * 100);
+        discountPercent = `<span class="discount-badge">-${percent}%</span>`;
+    }
+
+    // بناء هيكل السعر
+    let priceHtml = '';
+    if (hasDiscount) {
+        priceHtml = `
+            <div class="product-price">
+                <span class="old-price">${oldPrice} <small>ر.س</small></span>
+                <span class="current-price">${price} <small>ر.س</small></span>
+                ${discountPercent}
+            </div>
+        `;
+    } else {
+        priceHtml = `<div class="product-price">${price} <small>ر.س</small></div>`;
+    }
+
+    const uid = p.id.slice(0, 8);
+
+    return `
         <div class="product-card">
             <div class="product-img">
                 ${imgHtml}
@@ -1247,7 +1316,7 @@
                 <h3 class="product-name">${p.name}</h3>
                 <p class="product-note">${p.note || ''}</p>
                 <div class="product-footer">
-                    <div class="product-price">${price} <small>ر.س</small></div>
+                    ${priceHtml}
                     <div class="add-btn-wrap">
                         <div class="qty-indicator" id="qi-${uid}">
                             <button class="qi-btn" onclick="cardQtyChange('${safeName}', -1, this)">−</button>
@@ -1258,8 +1327,9 @@
                     </div>
                 </div>
             </div>
-        </div>`;
-    }
+        </div>
+    `;
+}
  
     // تشغيل التحميل عند فتح الصفحة
     loadProducts();
