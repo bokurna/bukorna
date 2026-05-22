@@ -591,15 +591,17 @@ document.getElementById('btn-logout').addEventListener('click', function() {
 //  TABS
 // ============================================================
 document.querySelectorAll('.tab-btn').forEach(function(btn) {
-    if (btn.dataset.tab === 'offers') btn.addEventListener('click', function() { setTimeout(loadOffers,100); });
   btn.addEventListener('click', function() {
     document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
     btn.classList.add('active');
     var tab = btn.getAttribute('data-tab');
-    ['orders','products','stats'].forEach(function(t){
-      document.getElementById('tab-' + t).style.display = t === tab ? 'block' : 'none';
+    ['orders','products','stats','offers'].forEach(function(t){
+      var el = document.getElementById('tab-' + t);
+      if (el) el.style.display = t === tab ? 'block' : 'none';
     });
-    if (tab === 'stats') loadStats();
+    if (tab === 'stats')  loadStats();
+    if (tab === 'offers') loadOffers();
+    if (tab === 'products') loadProducts();
   });
 });
 
