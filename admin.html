@@ -769,7 +769,7 @@ function loadOffers() {
         + '</div>'
         + '<div class="offer-actions">'
         + '<button class="toggle-btn' + (o.active ? '' : ' off') + '" onclick="toggleOfferActive(\'' + o.id + '\',' + o.active + ')">' + (o.active ? 'مفعّل' : 'موقوف') + '</button>'
-        + '<button class="btn btn-sm" onclick="toggleOfferForm(\'' + o.id + '\')">تعديل</button>'
+        + '<button class="btn btn-sm" onclick='toggleOfferForm(' + JSON.stringify(o) + ')'>تعديل</button>'
         + '<button class="btn btn-danger btn-sm" onclick="deleteOffer(\'' + o.id + '\',\'' + o.title.replace(/'/g,"\\'").replace(/"/g,'&quot;') + '\')">حذف</button>'
         + '</div></div>';
     }).join('');
