@@ -905,6 +905,34 @@
             font-weight: 700;
             cursor: pointer;
         }
+        /* ===== بانر العروض ===== */
+        .offers-bar {
+            display: none;
+            gap: 10px;
+            padding: 0 16px 14px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .offers-bar::-webkit-scrollbar { display: none; }
+        .offers-bar.has-offers { display: flex; }
+        .offer-chip {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 16px;
+            border-radius: 22px;
+            border: 1.5px solid;
+            white-space: nowrap;
+            flex-shrink: 0;
+            animation: fadeUp 0.4s ease both;
+        }
+        .offer-chip-emoji { font-size: 1.1rem; }
+        .offer-chip-text  { font-size: 0.85rem; font-weight: 700; }
+        .offer-chip-disc  { font-size: 0.75rem; opacity: 0.85; }
+        .chip-gold  { border-color: rgba(201,168,76,0.5); background: rgba(201,168,76,0.08); color: #c9a84c; }
+        .chip-red   { border-color: rgba(255,107,107,0.5); background: rgba(255,107,107,0.08); color: #ff6b6b; }
+        .chip-green { border-color: rgba(37,211,102,0.5);  background: rgba(37,211,102,0.08);  color: #25D366; }
+        .chip-blue  { border-color: rgba(96,165,250,0.5);  background: rgba(96,165,250,0.08);  color: #60a5fa; }
     </style>
 </head>
 <body>
@@ -1094,6 +1122,28 @@
        Supabase client
     ============================================================ */
     const _sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    // ===== تحميل العروض =====
+    (function loadOffers() {
+        _sb.from('offers').select('*').eq('active', true).order('created_at', {ascending:false}).then(function(r) {
+            if (r.error || !r.data || r.data.length === 0) return;
+            var bar = document.getElementById('offers-bar');
+            if (!bar) return;
+            bar.classList.add('has-offers');
+            var chipCls = { gold:'chip-gold', red:'chip-red', green:'chip-green', blue:'chip-blue' };
+            bar.innerHTML = r.data.map(function(o) {
+                var cls  = chipCls[o.color] || 'chip-gold';
+                var disc = o.discount_type === 'percent' ? 'خصم ' + o.discount_value + '%'
+                         : o.discount_type === 'fixed'   ? 'خصم ' + o.discount_value + ' ر.س'
+                         : '';
+                return '<div class="offer-chip ' + cls + '">'
+                    + '<span class="offer-chip-emoji">' + (o.emoji||'🔥') + '</span>'
+                    + '<span class="offer-chip-text">' + o.title + '</span>'
+                    + (disc ? '<span class="offer-chip-disc">· ' + disc + '</span>' : '')
+                    + '</div>';
+            }).join('');
+        });
+    })();
 
     // Update nav auth button based on session
     _sb.auth.getSession().then(function({ data }) {
