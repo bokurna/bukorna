@@ -533,6 +533,45 @@
         .preview-price  { color: var(--gold); font-size: 1.15rem; font-weight: 700; }
         .preview-price small { font-size: 0.7rem; opacity: 0.7; font-weight: 400; }
 
+        /* الخصم في الصفحة الرئيسية */
+        .preview-price-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1px;
+        }
+        .preview-disc-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255,70,70,0.15);
+            border: 1px solid rgba(255,70,70,0.28);
+            color: #ff5555;
+            font-size: 0.58rem;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 100px;
+        }
+        .preview-price-old {
+            font-size: 0.72rem;
+            color: rgba(245,234,214,0.3);
+            text-decoration: line-through;
+            font-weight: 400;
+            line-height: 1;
+        }
+        .preview-disc-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #e03030;
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 900;
+            padding: 3px 8px;
+            border-radius: 100px;
+            z-index: 2;
+            box-shadow: 0 2px 6px rgba(224,48,48,0.4);
+        }
+
         .preview-arrow {
             width: 32px; height: 32px;
             border-radius: 50%;
@@ -1183,19 +1222,34 @@
       return;
     }
     grid.innerHTML = data.map(function(p) {
-      var cat = p.category === 'oud' ? 'عود وبخور' : 'ملحقات';
-      var ph  = p.category === 'oud' ? '28g' : '×1';
-      var img = p.image_url
+      var cat      = p.category === 'oud' ? 'عود وبخور' : 'ملحقات';
+      var ph       = p.category === 'oud' ? '28g' : '×1';
+      var price    = parseFloat(p.price)     || 0;
+      var oldPrice = parseFloat(p.old_price) || 0;
+      var hasDisc  = oldPrice > price && oldPrice > 0;
+      var discPct  = hasDisc ? Math.round((oldPrice - price) / oldPrice * 100) : 0;
+
+      var img   = p.image_url
         ? '<img src="' + p.image_url + '" alt="' + p.name + '" style="width:100%;height:100%;object-fit:cover;border-radius:inherit">'
         : '';
-      var badge = p.badge ? '<span class="preview-badge">' + p.badge + '</span>' : '';
+      var badge    = p.badge   ? '<span class="preview-badge">'    + p.badge + '</span>' : '';
+      var discTag  = hasDisc   ? '<span class="preview-disc-tag">-' + discPct + '%</span>' : '';
+
+      var priceHtml = hasDisc
+        ? '<div class="preview-price-wrap">'
+            + '<span class="preview-disc-badge">خصم ' + discPct + '%</span>'
+            + '<span class="preview-price-old">' + oldPrice + ' ر.س</span>'
+            + '<div class="preview-price">' + price + ' <small>ر.س</small></div>'
+          + '</div>'
+        : '<div class="preview-price">' + price + ' <small>ر.س</small></div>';
+
       return '<a href="products.html" class="preview-card">'
-        + '<div class="preview-img">' + img + '<div class="preview-placeholder">' + ph + '</div>' + badge + '</div>'
+        + '<div class="preview-img">' + img + '<div class="preview-placeholder">' + ph + '</div>' + badge + discTag + '</div>'
         + '<div class="preview-body">'
         + '<p class="preview-cat">' + cat + '</p>'
         + '<h3 class="preview-name">' + p.name + '</h3>'
         + '<div class="preview-footer">'
-        + '<div class="preview-price">' + p.price + ' <small>ر.س</small></div>'
+        + priceHtml
         + '<div class="preview-arrow">' + ARROW + '</div>'
         + '</div></div></a>';
     }).join('');
