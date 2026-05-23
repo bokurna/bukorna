@@ -2,6 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪔</text></svg>">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>بخورنا | لوحة التحكم</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
@@ -684,6 +685,7 @@ document.getElementById('btn-close-order').addEventListener('click', function() 
 // ===== OFFERS =====
 var _editOfferId = null;
 var _offerEmoji  = '🔥';
+var _offersMap   = {};
 
 function toggleOfferForm(data) {
   var form = document.getElementById('offer-form');
@@ -741,8 +743,23 @@ function toggleOfferActive(id, current) {
   _sb.from('offers').update({ active: !current }).eq('id', id).then(loadOffers);
 }
 
-function deleteOffer(id, title) {
-  if (!confirm('حذف عرض "' + title + '"؟')) return;
+function editOffer(id) {
+  var o = _offersMap[id];
+  if (!o) return;
+  document.getElementById('offer-form').classList.add('open');
+  _editOfferId = o.id;
+  document.getElementById('of-title').value = o.title || '';
+  document.getElementById('of-desc').value  = o.description || '';
+  document.getElementById('of-type').value  = o.discount_type || 'none';
+  document.getElementById('of-value').value = o.discount_value || '';
+  document.getElementById('of-color').value = o.color || 'gold';
+  pickEmoji(null, o.emoji || '🔥');
+}
+
+function deleteOffer(id) {
+  var o = _offersMap[id];
+  if (!o) return;
+  if (!confirm('حذف عرض "' + o.title + '"؟')) return;
   _sb.from('offers').delete().eq('id', id).then(loadOffers);
 }
 
@@ -769,7 +786,7 @@ function loadOffers() {
         + '</div>'
         + '<div class="offer-actions">'
         + '<button class="toggle-btn' + (o.active ? '' : ' off') + '" onclick="toggleOfferActive(\'' + o.id + '\',' + o.active + ')">' + (o.active ? 'مفعّل' : 'موقوف') + '</button>'
-        + '<button class="btn btn-sm" onclick='toggleOfferForm(' + JSON.stringify(o) + ')'>تعديل</button>'
+        + '<button class="btn btn-sm" onclick="editOffer(\'' + o.id + '\')">تعديل</button>'
         + '<button class="btn btn-danger btn-sm" onclick="deleteOffer(\'' + o.id + '\',\'' + o.title.replace(/'/g,"\\'").replace(/"/g,'&quot;') + '\')">حذف</button>'
         + '</div></div>';
     }).join('');
