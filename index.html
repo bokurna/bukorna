@@ -2,6 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪔</text></svg>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta name="theme-color" content="#0d0a07">
 
@@ -794,6 +795,23 @@
             .preview-name { font-size: 0.88rem; }
             .features-grid { grid-template-columns: 1fr; gap: 14px; }
         }
+        /* ===== بانر العروض في الرئيسية ===== */
+        .home-offers-bar {
+            display: none; gap: 10px;
+            padding: 0 24px 20px;
+            overflow-x: auto; scrollbar-width: none;
+            justify-content: center; flex-wrap: wrap;
+        }
+        .home-offers-bar.visible { display: flex; }
+        .home-offer-chip {
+            display: inline-flex; align-items: center; gap: 7px;
+            padding: 8px 18px; border-radius: 22px; border: 1.5px solid;
+            white-space: nowrap; font-size: 0.85rem; font-weight: 700;
+        }
+        .hchip-gold  { border-color:rgba(201,168,76,0.5); background:rgba(201,168,76,0.08); color:#c9a84c; }
+        .hchip-red   { border-color:rgba(255,107,107,0.5); background:rgba(255,107,107,0.08); color:#ff6b6b; }
+        .hchip-green { border-color:rgba(37,211,102,0.5); background:rgba(37,211,102,0.08); color:#25D366; }
+        .hchip-blue  { border-color:rgba(96,165,250,0.5); background:rgba(96,165,250,0.08); color:#60a5fa; }
     </style>
 </head>
 <body>
@@ -926,6 +944,8 @@
     <p class="section-label">تشكيلتنا</p>
     <h2 class="section-title">أبرز منتجاتنا</h2>
     <p class="section-desc">من العود الكمبودي النادر إلى البخور المروكي الأصيل</p>
+
+    <div class="home-offers-bar" id="home-offers-bar"></div>
 
     <div class="preview-grid" id="preview-grid"></div>
 
@@ -1130,6 +1150,22 @@
 
   var KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVsYWV1aGx0Y3NidmNlYWtsb2J1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1MjU1NjEsImV4cCI6MjA5NDEwMTU2MX0.ixR5qANmq5GPE9E6tQZfekyIT5t9zZ3Yuy9euOKeyEY';
 
+  // Load offers for home page
+  fetch('https://ulaeuhltcsbvceaklobu.supabase.co/rest/v1/offers?active=eq.true&order=created_at.desc',
+    {headers:{'apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVsYWV1aGx0Y3NidmNlYWtsb2J1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1MjU1NjEsImV4cCI6MjA5NDEwMTU2MX0.ixR5qANmq5GPE9E6tQZfekyIT5t9zZ3Yuy9euOKeyEY','Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVsYWV1aGx0Y3NidmNlYWtsb2J1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1MjU1NjEsImV4cCI6MjA5NDEwMTU2MX0.ixR5qANmq5GPE9E6tQZfekyIT5t9zZ3Yuy9euOKeyEY'}}
+  ).then(function(r){return r.json();}).then(function(data){
+    if(!Array.isArray(data)||!data.length) return;
+    var bar=document.getElementById('home-offers-bar');
+    if(!bar) return;
+    bar.classList.add('visible');
+    var chipCls={gold:'hchip-gold',red:'hchip-red',green:'hchip-green',blue:'hchip-blue'};
+    bar.innerHTML=data.map(function(o){
+      var cls=chipCls[o.color]||'hchip-gold';
+      var disc=o.discount_type==='percent'?' · خصم '+o.discount_value+'%':o.discount_type==='fixed'?' · خصم '+o.discount_value+' ر.س':'';
+      return '<div class="home-offer-chip '+cls+'">'+(o.emoji||'🔥')+' '+o.title+disc+'</div>';
+    }).join('');
+  });
+
   fetch(
     'https://ulaeuhltcsbvceaklobu.supabase.co/rest/v1/products?select=id,name,category,price,badge,image_url,in_stock&order=sort_order.asc&limit=4',
     { headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY } }
@@ -1250,6 +1286,20 @@
 window.addEventListener('load', function() {
     try {
         var _sb = window.supabase.createClient('https://ulaeuhltcsbvceaklobu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVsYWV1aGx0Y3NidmNlYWtsb2J1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1MjU1NjEsImV4cCI6MjA5NDEwMTU2MX0.ixR5qANmq5GPE9E6tQZfekyIT5t9zZ3Yuy9euOKeyEY');
+  
+  // Load offers
+  var chipCls = {gold:'hchip-gold',red:'hchip-red',green:'hchip-green',blue:'hchip-blue'};
+  _sb.from('offers').select('*').eq('active',true).order('created_at',{ascending:false}).then(function(r) {
+    if (!r.error && r.data && r.data.length > 0) {
+      var bar = document.getElementById('home-offers-bar');
+      bar.classList.add('visible');
+      bar.innerHTML = r.data.map(function(o) {
+        var cls  = chipCls[o.color] || 'hchip-gold';
+        var disc = o.discount_type==='percent' ? ' · خصم '+o.discount_value+'%' : o.discount_type==='fixed' ? ' · خصم '+o.discount_value+' ر.س' : '';
+        return '<div class="home-offer-chip '+cls+'">'+(o.emoji||'🔥')+' '+o.title+disc+'</div>';
+      }).join('');
+    }
+  });
         _sb.auth.getSession().then(function(r) {
             if (!r.data || !r.data.session) return;
             var user = r.data.session.user;
