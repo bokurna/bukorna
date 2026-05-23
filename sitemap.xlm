@@ -4,33 +4,33 @@
  
   <!-- الصفحة الرئيسية — الأعلى أولوية -->
   <url>
-    <loc>https://bokurna.github.io/bukorna/</loc>
-    <lastmod>2026-05-22</lastmod>
+    <loc>https://bukorna.online/</loc>
+    <lastmod>2026-05-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://bokurna.github.io/bukorna/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://bukorna.online/"/>
   </url>
  
   <!-- صفحة المنتجات -->
   <url>
-    <loc>https://bokurna.github.io/bukorna/products.html</loc>
-    <lastmod>2026-05-22</lastmod>
+    <loc>https://bukorna.online/products.html</loc>
+    <lastmod>2026-05-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
  
   <!-- صفحة تتبع الطلب -->
   <url>
-    <loc>https://bokurna.github.io/bukorna/track.html</loc>
-    <lastmod>2026-05-22</lastmod>
+    <loc>https://bukorna.online/track.html</loc>
+    <lastmod>2026-05-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
  
   <!-- صفحة التسجيل -->
   <url>
-    <loc>https://bokurna.github.io/bukorna/auth.html</loc>
-    <lastmod>2026-05-22</lastmod>
+    <loc>https://bukorna.online/auth.html</loc>
+    <lastmod>2026-05-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
