@@ -1206,9 +1206,9 @@
   });
 
   fetch(
-    'https://ulaeuhltcsbvceaklobu.supabase.co/rest/v1/products?select=id,name,category,price,badge,image_url,in_stock&order=sort_order.asc&limit=4',
+    'https://ulaeuhltcsbvceaklobu.supabase.co/rest/v1/products?select=id,name,category,price,old_price,badge,image_url,in_stock&order=sort_order.asc&limit=4',
     { headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY } }
-  )
+)
   .then(function(r) { return r.json(); })
   .then(function(data) {
     console.log('Supabase products:', data);
