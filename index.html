@@ -661,44 +661,44 @@
         .delivery-tags { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 32px; position: relative; }
         .delivery-tag  { background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.25); color: var(--gold); padding: 7px 18px; border-radius: 100px; font-size: 0.85rem; }
 
-        /* ===== TESTIMONIALS (auto-scroll) ===== */
-        .testimonials-section { padding: 80px 0; overflow: hidden; background: var(--dark); }
+/* ===== TESTIMONIALS (smooth swipe) ===== */
+        .testimonials-section { padding: 80px 0; background: var(--dark); }
         .testimonials-section .section-label,
         .testimonials-section .section-title { padding: 0 24px; }
 
+        /* حاوية قابلة للتمرير الأفقي الطبيعي */
         .t-viewport {
-            overflow: hidden;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
             margin-top: 36px;
-            position: relative;
+            padding-bottom: 12px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--gold) rgba(201,168,76,0.2);
+        }
+        .t-viewport::-webkit-scrollbar {
+            height: 4px;
+        }
+        .t-viewport::-webkit-scrollbar-track {
+            background: rgba(201,168,76,0.1);
+            border-radius: 10px;
+        }
+        .t-viewport::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 10px;
         }
 
+        /* المسار الداخلي - flex عادي */
         .t-track {
             display: flex;
             flex-wrap: nowrap;
             gap: 16px;
             padding: 4px 0 12px;
             width: max-content;
-            will-change: transform;
-            cursor: grab;
-        }
-        .t-track:active { cursor: grabbing; }
-
-        /* pause/play button */
-        .t-controls {
-            text-align: center;
-            margin-top: 18px;
-        }
-        .t-btn {
-            background: rgba(201,168,76,0.1);
-            border: 1px solid rgba(201,168,76,0.3);
-            color: var(--gold);
-            border-radius: 20px;
-            padding: 8px 24px;
-            font-size: 0.85rem;
-            font-family: inherit;
-            cursor: pointer;
         }
 
+        /* بطاقة التقييم مع snap alignment */
         .t-card {
             background: var(--dark-2);
             border: 1px solid rgba(201,168,76,0.1);
@@ -707,13 +707,16 @@
             width: 270px;
             min-width: 270px;
             flex-shrink: 0;
-            opacity: 1 !important;
-            transform: translateY(0) !important;
+            scroll-snap-align: start;
+            transition: border 0.2s, transform 0.2s;
         }
-        .t-card:hover { border-color: rgba(201,168,76,0.35); }
+        .t-card:hover {
+            border-color: rgba(201,168,76,0.35);
+            transform: translateY(-3px);
+        }
         .t-stars { color: #ffc107; margin-bottom: 10px; font-size: 0.9rem; }
         .t-text  { color: var(--cream-2); font-size: 0.88rem; line-height: 1.75; margin-bottom: 14px; }
-        .t-name  { color: var(--gold); font-size: 0.85rem; font-weight: 700; border-top: 1px solid rgba(201,168,76,0.1); padding-top: 12px; }168,76,0.1); padding-top: 14px; }
+        .t-name  { color: var(--gold); font-size: 0.85rem; font-weight: 700; border-top: 1px solid rgba(201,168,76,0.1); padding-top: 14px; }
 
         /* ===== FAQ ===== */
         .faq-section { background: var(--dark-2); }
@@ -1262,78 +1265,21 @@
 </script>
 
 <script>
-(function() {
-    var track = document.getElementById('t-track');
-    var btn   = document.getElementById('t-btn');
-    if (!track) return;
-
-    // Clone cards for infinite loop
-    var originals = Array.from(track.children);
-    originals.forEach(function(c) { track.appendChild(c.cloneNode(true)); });
-
-    var pos = 0;
-    var paused = false;
-    var dragging = false;
-    var dragStartX = 0;
-    var dragStartPos = 0;
-    var SPEED = 0.6;
-    var CARD_W = 270 + 16;
-    var LOOP_W = originals.length * CARD_W;
-
-    function tick() {
-        if (!paused && !dragging) {
-            pos -= SPEED;
-            if (pos <= -LOOP_W) pos += LOOP_W;
-            track.style.transform = 'translateX(' + pos + 'px)';
+    // جعل التمرير الأفقي للتقييمات يدوياً وسلساً
+    (function() {
+        const viewport = document.querySelector('.t-viewport');
+        if (viewport) {
+            viewport.style.overflowX = 'auto';
+            viewport.style.scrollSnapType = 'x mandatory';
         }
-        requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
+        const track = document.getElementById('t-track');
+        if (track) {
+            track.style.cursor = 'default';
+            track.style.willChange = 'auto';
+        }
+    })();
+</script>
 
-    if (btn) {
-        btn.onclick = function() {
-            paused = !paused;
-            btn.textContent = paused ? '▶ تشغيل' : '⏸ إيقاف';
-        };
-    }
-
-    // Pause on hover
-    track.parentElement.addEventListener('mouseenter', function() { paused = true; });
-    track.parentElement.addEventListener('mouseleave', function() {
-        if (!btn || btn.textContent.indexOf('إيقاف') > -1) paused = false;
-    });
-
-    // Touch
-    track.addEventListener('touchstart', function(e) {
-        dragging = true;
-        dragStartX = e.touches[0].clientX;
-        dragStartPos = pos;
-    }, {passive:true});
-
-    track.addEventListener('touchmove', function(e) {
-        if (!dragging) return;
-        var d = e.touches[0].clientX - dragStartX;
-        pos = dragStartPos + d;
-        if (pos > 0) pos = 0;
-        if (pos < -LOOP_W * 2) pos = -LOOP_W;
-        track.style.transform = 'translateX(' + pos + 'px)';
-    }, {passive:true});
-
-    track.addEventListener('touchend', function() { dragging = false; });
-
-    // Mouse drag
-    track.addEventListener('mousedown', function(e) {
-        dragging = true;
-        dragStartX = e.clientX;
-        dragStartPos = pos;
-    });
-    document.addEventListener('mousemove', function(e) {
-        if (!dragging) return;
-        pos = dragStartPos + (e.clientX - dragStartX);
-        track.style.transform = 'translateX(' + pos + 'px)';
-    });
-    document.addEventListener('mouseup', function() { dragging = false; });
-})();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
