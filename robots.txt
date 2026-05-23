@@ -1,10 +1,10 @@
 User-agent: *
-Allow: /bukorna/
-Allow: /bukorna/index.html
-Allow: /bukorna/products.html
+Allow: /
+Allow: /index.html
+Allow: /products.html
 
-Disallow: /bukorna/admin.html
-Disallow: /bukorna/auth.html
-Disallow: /bukorna/track.html
+Disallow: /admin.html
+Disallow: /auth.html
+Disallow: /track.html
 
-Sitemap: https://bokurna.github.io/bukorna/sitemap.xml
+Sitemap: https://bukorna.online/sitemap.xml
