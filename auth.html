@@ -50,20 +50,21 @@
     to   { opacity:1; transform:translateY(0); }
   }
 
- .logo {
-    text-align: center;         
-    display: block;
-    margin-bottom: 6px;
+.logo {
+    display: flex;
+    align-items: center;
     text-decoration: none;
+    height: 48px;
+    justify-content: center;   /* ★ توسيط الشعار داخل البطاقة */
 }
 
 .logo-img {
-    height: 48px;              
+    height: 100%;
     width: auto;
+    max-height: 48px;
     object-fit: contain;
-    display: inline-block;
+    display: block;
 }
-
   /* Tabs */
   .tabs {
     display: flex;
