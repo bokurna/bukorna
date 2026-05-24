@@ -129,13 +129,24 @@
             transition: background 0.3s;
         }
 
-        .nav-logo {
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: var(--gold);
-            text-decoration: none;
-            letter-spacing: 0;
-        }
+         .nav-logo {
+          display: flex;
+          align-items: center;
+          text-decoration: none;
+          font-size: 1.5rem;
+          font-weight: 900;
+          color: var(--gold);
+          letter-spacing: 0;
+          height: 48px;
+       }
+
+         .nav-logo-img {
+         height: 100%;
+         width: auto;
+         max-height: 48px;
+        object-fit: contain;
+        display: block;
+      }
 
         .nav-links {
             display: flex;
@@ -894,7 +905,12 @@
 
 <!-- NAV -->
 <nav>
-    <a href="index.html" class="nav-logo">بخورنا</a>
+    <a href="index.html" class="nav-logo">
+    <img src="https://raw.githubusercontent.com/bokurna/bukorna/main/bukorna.png" 
+         alt="بخورنا" 
+         class="nav-logo-img"
+         onerror="this.style.display='none';this.parentElement.textContent='بخورنا';">
+    </a>
     <ul class="nav-links">
         <li><a href="#products">المنتجات</a></li>
         <li><a href="#how">كيف تطلب؟</a></li>
