@@ -53,17 +53,25 @@
 .logo {
     display: flex;
     align-items: center;
+    justify-content: center;
     text-decoration: none;
-    height: 48px;
-    justify-content: center;   /* ★ توسيط الشعار داخل البطاقة */
+    height: 48px;                 /* ارتفاع ثابت */
+    margin-bottom: 12px;
+    overflow: hidden;             /* يمنع أي تجاوز */
 }
 
 .logo-img {
     height: 100%;
-    width: auto;
     max-height: 48px;
+    max-width: 100%;              /* لن يتجاوز عرض البطاقة */
+    width: auto;
     object-fit: contain;
     display: block;
+}
+
+/* يمكن إضافة هامش سفلي إضافي للشعار داخل profile-view */
+.logo-sm {
+    margin-bottom: 16px;
 }
   /* Tabs */
   .tabs {
@@ -289,7 +297,15 @@
   </div>
 
   <!-- Profile (shown when logged in) -->
-  <div class="profile-view" id="profile-view">
+    <div class="profile-view" id="profile-view">
+    <!-- شعار صغير بعد تسجيل الدخول -->
+    <a href="index.html" class="logo logo-sm">
+      <img src="https://raw.githubusercontent.com/bokurna/bukorna/main/bukorna.png" 
+           alt="بخورنا" 
+           class="logo-img"
+           onerror="this.parentElement.innerHTML='بخورنا';">
+    </a>
+
     <div class="profile-email">
       <div class="p-label">مرحباً بك</div>
       <div class="p-value" id="p-email"></div>
