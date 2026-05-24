@@ -50,21 +50,20 @@
     to   { opacity:1; transform:translateY(0); }
   }
 
-  .logo {
-    text-align: center;
-    font-size: 1.8rem;
-    font-weight: 900;
-    color: var(--gold);
-    margin-bottom: 6px;
+ .nav-logo {
+    display: flex;
+    align-items: center;
     text-decoration: none;
+    height: 48px;
+}
+
+.nav-logo-img {
+    height: 100%;
+    width: auto;
+    max-height: 48px;
+    object-fit: contain;
     display: block;
-  }
-  .logo-sub {
-    text-align: center;
-    font-size: 0.82rem;
-    color: var(--cream-2);
-    margin-bottom: 28px;
-  }
+}
 
   /* Tabs */
   .tabs {
@@ -235,9 +234,13 @@
 <body>
 
 <div class="auth-card">
-  <a href="index.html" class="logo">بخورنا</a>
+  <a href="index.html" class="logo">
+    <img src="https://raw.githubusercontent.com/bokurna/bukorna/main/bukorna.png" 
+         alt="بخورنا" 
+         class="logo-img"
+         onerror="this.parentElement.innerHTML='بخورنا';">
+  </a>
   <div class="logo-sub">حسابك في بخورنا</div>
-
   <!-- Auth Forms -->
   <div class="auth-form" id="auth-form">
     <div class="tabs">
