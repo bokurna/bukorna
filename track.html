@@ -41,7 +41,20 @@
     display: flex; align-items: center; justify-content: space-between;
     padding: 12px 0 28px;
   }
-  .logo { font-size: 1.5rem; font-weight: 900; color: var(--gold); text-decoration: none; }
+  .logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    height: 48px;                /* ارتفاع موحد للشعار */
+}
+
+.logo-img {
+    height: 100%;
+    width: auto;
+    max-height: 48px;
+    object-fit: contain;
+    display: block;
+}
   .back-btn {
     color: var(--cream-2); text-decoration: none; font-size: 0.85rem;
     display: flex; align-items: center; gap: 6px;
@@ -212,7 +225,12 @@
 <body>
 
 <div class="top-bar">
-  <a href="index.html" class="logo">بخورنا</a>
+  <a href="index.html" class="logo">
+    <img src="https://raw.githubusercontent.com/bokurna/bukorna/main/bukorna.png" 
+         alt="بخورنا" 
+         class="logo-img"
+         onerror="this.parentElement.innerHTML='بخورنا';">
+</a>
   <a href="products.html" class="back-btn">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
       <path d="M19 12H5M12 19l-7-7 7-7"/>
