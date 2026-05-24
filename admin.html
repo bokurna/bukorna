@@ -809,11 +809,12 @@ function loadProducts() {
         : '<span class="prod-no-img">لا صورة</span>';
       var chk = p.in_stock ? 'checked' : '';
       var stockColor = p.in_stock ? 'var(--green)' : 'var(--red)';
+      var catName = { oud: 'عود وبخور', natural: 'بخور طبيعي', acc: 'ملحقات' };
       return '<tr>' +
         '<td>' + thumb + '</td>' +
         '<td><strong>' + p.name + '</strong>' + badge + '</td>' +
-      var catName = { oud: 'عود وبخور', natural: 'بخور طبيعي', acc: 'ملحقات' };                                                                                                                              
-      '<td>' + (p.old_price && p.old_price > p.price
+        '<td>' + (catName[p.category] || p.category) + '</td>' +
+        '<td>' + (p.old_price && p.old_price > p.price
             ? '<span style="font-size:0.72rem;color:rgba(245,234,214,0.35);text-decoration:line-through;display:block">' + parseFloat(p.old_price).toFixed(0) + ' ر.س</span>'
               + '<span style="color:var(--gold);font-weight:700">' + parseFloat(p.price).toFixed(0) + ' ر.س</span>'
               + '<span style="background:rgba(255,80,80,0.15);color:#ff6b6b;font-size:0.65rem;font-weight:700;padding:1px 6px;border-radius:100px;margin-right:5px">-' + Math.round((p.old_price-p.price)/p.old_price*100) + '%</span>'
