@@ -1042,7 +1042,7 @@
 <div class="filter-wrap">
     <button class="filter-btn active" onclick="filterProducts('all', this)">الكل</button>
     <button class="filter-btn" onclick="filterProducts('oud', this)">البخور والعود</button>
-    <button class="filter-btn" onclick="filterProducts('oud', this)">بخور طبيعي</button>
+    <button class="filter-btn" onclick="filterProducts('natural', this)">بخور طبيعي</button>
     <button class="filter-btn" onclick="filterProducts('acc', this)">الملحقات</button>
 </div>
 
@@ -1067,16 +1067,19 @@
         <button class="retry-btn" onclick="loadProducts()">إعادة المحاولة</button>
     </div>
  
-    <div id="products-content" style="display:none;">
-        <h2 class="cat-header" id="title-oud" style="display:none;">البخور والعود</h2>
-        <h2 class="cat-header" id="title-oud" style="display:none;">بخور طبيعي</h2>
-        <div class="products-grid" id="grid-oud">
-        </div>
-        <h2 class="cat-header" id="title-acc" style="display:none;">الملحقات</h2>
-        <div class="products-grid" id="grid-acc"></div>
-    </div>
+<div id="products-content" style="display:none;">
+
+    <h2 class="cat-header" id="title-oud" style="display:none;">البخور والعود</h2>
+    <div class="products-grid" id="grid-oud"></div>
+
+    <h2 class="cat-header" id="title-natural" style="display:none;">بخور طبيعي</h2>
+    <div class="products-grid" id="grid-natural"></div>
+
+    <h2 class="cat-header" id="title-acc" style="display:none;">الملحقات</h2>
+    <div class="products-grid" id="grid-acc"></div>
+
 </div>
- 
+    
 <!-- CART OVERLAY (خلفية شفافة) -->
 <div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
  
