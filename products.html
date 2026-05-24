@@ -76,12 +76,23 @@
             z-index: 200;
         }
  
-        .nav-logo {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--gold);
-            text-decoration: none;
-        }
+       nav-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--gold);
+    height: 48px;           /* ارتفاع موحد للشعار */
+}
+
+.nav-logo-img {
+    height: 100%;
+    width: auto;
+    max-height: 48px;
+    object-fit: contain;
+    display: block;
+}
  
         .nav-right {
             display: flex;
@@ -1018,7 +1029,12 @@
  
 <!-- NAV -->
 <nav>
-    <a href="index.html" class="nav-logo">بخورنا</a>
+    <a href="index.html" class="nav-logo">
+    <img src="https://raw.githubusercontent.com/bokurna/bukorna/main/bukorna.png" 
+         alt="بخورنا" 
+         class="nav-logo-img"
+         onerror="this.style.display='none'; this.parentElement.textContent='بخورنا';">
+    </a>
     <div class="nav-right">
         <button id="nav-cart-btn" onclick="openCart()">
             <span>🛒 السلة</span>
