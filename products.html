@@ -302,20 +302,10 @@
             line-height: 1.3;
         }
  
-        .product-note-overlay {
-            position: absolute;
-            bottom: 8px;
-            right: 8px;
-            background: rgba(13,10,7,0.72);
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-            color: var(--cream);
-            font-size: 0.7rem;
-            font-weight: 600;
-            padding: 3px 9px;
-            border-radius: 20px;
-            border: 1px solid rgba(201,168,76,0.25);
-            pointer-events: none;
+        .product-note {
+            font-size: 0.75rem;
+            color: rgba(245,234,214,0.42);
+            margin-bottom: 14px;
         }
  
         .product-footer {
@@ -1002,6 +992,19 @@
         .chip-red   { border-color: rgba(255,107,107,0.5); background: rgba(255,107,107,0.08); color: #ff6b6b; }
         .chip-green { border-color: rgba(37,211,102,0.5);  background: rgba(37,211,102,0.08);  color: #25D366; }
         .chip-blue  { border-color: rgba(96,165,250,0.5);  background: rgba(96,165,250,0.08);  color: #60a5fa; }
+        /* ===== FOOTER ===== */
+        footer { text-align: center; padding: 48px 24px 32px; border-top: 1px solid rgba(201,168,76,0.1); background: var(--dark-2); }
+        .footer-logo { font-size: 1.6rem; font-weight: 900; color: var(--gold); margin-bottom: 6px; }
+        .footer-tagline { font-size: 0.82rem; color: rgba(245,234,214,0.4); margin-bottom: 20px; }
+        .social-links { display: flex; justify-content: center; gap: 12px; margin-bottom: 28px; }
+        .social-link { width: 40px; height: 40px; border-radius: 50%; background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.2); display: flex; align-items: center; justify-content: center; color: rgba(245,234,214,0.6); text-decoration: none; transition: all 0.2s; }
+        .social-link:hover { background: rgba(201,168,76,0.18); color: var(--gold); border-color: var(--gold); }
+        .footer-payment { margin: 0 auto 24px; max-width: 400px; }
+        .footer-payment-label { font-size: 0.75rem; color: rgba(245,234,214,0.35); margin-bottom: 12px; letter-spacing: 0.04em; }
+        .footer-payment-icons { display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .footer-payment-icons img { height: 30px; width: auto; max-width: 56px; object-fit: contain; border-radius: 6px; background: rgba(255,255,255,0.06); padding: 4px 8px; filter: brightness(0.9) saturate(0.85); transition: filter 0.2s, transform 0.2s; }
+        .footer-payment-icons img:hover { filter: brightness(1.1) saturate(1); transform: translateY(-2px); }
+        .footer-bottom { font-size: 0.72rem; color: rgba(245,234,214,0.22); margin-top: 8px; }
     </style>
 </head>
 <body>
@@ -1330,11 +1333,11 @@ document.addEventListener('DOMContentLoaded', loadOffers);
             <div class="product-img">
                 ${imgHtml}
                 ${badgeHtml}
-                ${p.note ? `<span class="product-note-overlay">${p.note}</span>` : ''}
             </div>
             <div class="product-body">
                 <p class="product-cat">${p.category === 'oud' ? 'بخور وعود' : p.category === 'natural' ? 'بخور طبيعي' : 'ملحقات'}</p>
                 <h3 class="product-name">${p.name}</h3>
+                ${p.note ? '<p class="product-note">' + p.note + '</p>' : ''}
                 <div class="product-footer">
                     ${priceHtml}
                     <div class="add-btn-wrap">
@@ -1619,7 +1622,7 @@ document.addEventListener('DOMContentLoaded', loadOffers);
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         const showOud     = cat === 'all' || cat === 'oud';
-        const shownatural = cat === 'all' || cat === 'natural';
+        const showNatural = cat === 'all' || cat === 'natural';
         const showAcc     = cat === 'all' || cat === 'acc';
         document.getElementById('title-oud').style.display     = showOud     ? 'block' : 'none';
         document.getElementById('grid-oud').style.display      = showOud     ? 'grid'  : 'none';
@@ -1635,6 +1638,7 @@ document.addEventListener('DOMContentLoaded', loadOffers);
     sheet.addEventListener('touchend',   e => {
         if (e.changedTouches[0].clientY - touchStartY > 80) closeCart();
     }, { passive: true });
+</script>
 
     <!-- FOOTER -->
 <footer>
