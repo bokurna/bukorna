@@ -453,14 +453,14 @@ tbody tr:hover{background:rgba(201,168,76,0.03);}
     <input type="hidden" id="pm-id">
 
     <div class="fg"><label>الاسم *</label><input class="fi" id="pm-name" type="text" placeholder="عود تايقر كمبودي"></div>
-    <div class="fg">
-      <label>الفئة *</label>
-      <select class="fs" id="pm-cat">
-        <option value="oud">عود وبخور</option>
-         <option value="oud">بخور طبيعي</option>
-        <option value="acc">ملحقات</option>
-      </select>
-    </div>
+   <div class="fg">
+  <label>الفئة *</label>
+  <select class="fs" id="pm-cat">
+    <option value="oud">عود وبخور</option>
+    <option value="natural">بخور طبيعي</option>
+    <option value="acc">ملحقات</option>
+  </select>
+</div>
     <div class="fg"><label>السعر الحالي (ر.س) *</label><input class="fi" id="pm-price" type="number" min="0" step="0.01" placeholder="49"></div>
     <div class="fg">
       <label>السعر القديم (ر.س) <span style="color:rgba(245,234,214,0.35);font-weight:400;">— اتركه فارغاً إن لم يكن هناك خصم</span></label>
@@ -812,8 +812,8 @@ function loadProducts() {
       return '<tr>' +
         '<td>' + thumb + '</td>' +
         '<td><strong>' + p.name + '</strong>' + badge + '</td>' +
-        '<td>' + (p.category === 'oud' ? 'عود وبخور' : 'ملحقات' : 'بخور طبيعي') + '</td>' +
-        '<td>' + (p.old_price && p.old_price > p.price
+      var catName = { oud: 'عود وبخور', natural: 'بخور طبيعي', acc: 'ملحقات' };                                                                                                                              
+      '<td>' + (p.old_price && p.old_price > p.price
             ? '<span style="font-size:0.72rem;color:rgba(245,234,214,0.35);text-decoration:line-through;display:block">' + parseFloat(p.old_price).toFixed(0) + ' ر.س</span>'
               + '<span style="color:var(--gold);font-weight:700">' + parseFloat(p.price).toFixed(0) + ' ر.س</span>'
               + '<span style="background:rgba(255,80,80,0.15);color:#ff6b6b;font-size:0.65rem;font-weight:700;padding:1px 6px;border-radius:100px;margin-right:5px">-' + Math.round((p.old_price-p.price)/p.old_price*100) + '%</span>'
