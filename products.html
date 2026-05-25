@@ -405,8 +405,6 @@
             transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
             max-width: 520px;
             margin: 0 auto;
-            /* دعم safe area على iOS */
-            padding-bottom: calc(16px + env(safe-area-inset-bottom));
         }
  
         .cart-sheet.open {
@@ -624,12 +622,18 @@
         }
         .add-btn.pop-anim { animation: pop 0.22s ease; }
  
-        /* القسم السفلي الثابت */
-        .cart-footer {
-            padding: 16px 20px;
+        /* القسم السفلي الثابت — زر الإرسال فقط */
+        .cart-send-bar {
+            padding: 12px 20px;
+            padding-bottom: calc(12px + env(safe-area-inset-bottom));
             border-top: 1px solid rgba(201,168,76,0.12);
             flex-shrink: 0;
             background: var(--dark-2);
+        }
+
+        /* تفاصيل الطلب — داخل التمرير */
+        .cart-footer {
+            padding: 0 20px 16px;
         }
  
         /* التوصيل */
@@ -1193,73 +1197,77 @@
         <button class="cart-close" onclick="closeCart()" aria-label="إغلاق">✕</button>
     </div>
  
-    <!-- منطقة القائمة (تتمرر) -->
-     <div class="cart-body" id="cart-body">
+    <!-- منطقة التمرير الكاملة -->
+    <div class="cart-body" id="cart-body">
+
         <!-- حاوية المنتجات المضافة -->
         <div id="cart-items-container">
             <div class="cart-empty-msg">أضف منتجات للسلة أولاً</div>
         </div>
-        <!-- الاقتراحات داخل نفس التمرير -->
+
+        <!-- الاقتراحات -->
         <div class="cart-suggestions" id="cart-suggestions" style="display:none;">
-            <div class="cart-suggestions-title"> قد يعجبك أيضاً</div>
+            <div class="cart-suggestions-title">قد يعجبك أيضاً</div>
             <div id="suggestions-list"></div>
         </div>
-    </div>
-    <!-- القسم الثابت أسفل السلة -->
-    <div class="cart-footer" id="cart-footer" style="display:none;">
- 
-        <div class="delivery-section-cart">
-            <p class="delivery-label">تفاصيل التوصيل — داخل بريدة</p>
-            <select id="neighborhood" class="neighborhood-select">
-                <option value="">اختر الحي...</option>
-                <option>حي الريان</option>
-                <option>حي النهضة</option>
-                <option>حي الإسكان</option>
-                <option>حي الفايزية</option>
-                <option>حي الروضة</option>
-                <option>حي الأفق</option>
-                <option>حي سلطانة</option>
-                <option>حي آخر</option>
-            </select>
- 
-            <!-- زر إرسال الموقع -->
-            <button class="location-btn" id="location-btn" onclick="getLocation()">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
-                    <circle cx="12" cy="9" r="2.5"/>
-                </svg>
-                <span id="location-btn-text">أرسل موقعي من الخريطة</span>
-            </button>
- 
-            <!-- معاينة الرابط بعد الحصول على الموقع -->
-            <div class="location-preview" id="location-preview">
-                <span>📍 تم تحديد موقعك — </span>
-                <a id="location-link" href="#" target="_blank">عرض على خرائط جوجل</a>
-            </div>
- 
-            <textarea id="order-notes" class="notes-input" placeholder="ملاحظات إضافية أو وصف الموقع..."></textarea>
-            <div class="pay-row">
-                <button type="button" class="pay-btn on" id="pb-cash" onclick="choosePay('cash')">💵 كاش</button>
-                <button type="button" class="pay-btn"    id="pb-card" onclick="choosePay('card')">💳 بطاقة</button>
-            </div>
-            <div class="cart-info-row">
-                <div class="cart-info-field">
-                    <label class="cart-field-label">رقم الجوال</label>
-                    <div class="cart-field-input-wrap">
-                        <span class="field-icon">📱</span>
-                        <input id="customer-phone" class="cart-field-input" type="tel"
-                            placeholder="05xxxxxxxx" maxlength="10" inputmode="numeric">
+
+        <!-- تفاصيل الطلب — داخل التمرير -->
+        <div class="cart-footer" id="cart-footer" style="display:none;">
+            <div class="delivery-section-cart">
+                <p class="delivery-label">تفاصيل التوصيل — داخل بريدة</p>
+                <select id="neighborhood" class="neighborhood-select">
+                    <option value="">اختر الحي...</option>
+                    <option>حي الريان</option>
+                    <option>حي النهضة</option>
+                    <option>حي الإسكان</option>
+                    <option>حي الفايزية</option>
+                    <option>حي الروضة</option>
+                    <option>حي الأفق</option>
+                    <option>حي سلطانة</option>
+                    <option>حي آخر</option>
+                </select>
+
+                <button class="location-btn" id="location-btn" onclick="getLocation()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                        <circle cx="12" cy="9" r="2.5"/>
+                    </svg>
+                    <span id="location-btn-text">أرسل موقعي من الخريطة</span>
+                </button>
+
+                <div class="location-preview" id="location-preview">
+                    <span>📍 تم تحديد موقعك — </span>
+                    <a id="location-link" href="#" target="_blank">عرض على خرائط جوجل</a>
+                </div>
+
+                <textarea id="order-notes" class="notes-input" placeholder="ملاحظات إضافية أو وصف الموقع..."></textarea>
+                <div class="pay-row">
+                    <button type="button" class="pay-btn on" id="pb-cash" onclick="choosePay('cash')">💵 كاش</button>
+                    <button type="button" class="pay-btn"    id="pb-card" onclick="choosePay('card')">💳 بطاقة</button>
+                </div>
+                <div class="cart-info-row">
+                    <div class="cart-info-field">
+                        <label class="cart-field-label">رقم الجوال</label>
+                        <div class="cart-field-input-wrap">
+                            <span class="field-icon">📱</span>
+                            <input id="customer-phone" class="cart-field-input" type="tel"
+                                placeholder="05xxxxxxxx" maxlength="10" inputmode="numeric">
+                        </div>
+                        <span class="field-hint">لتتبع طلبك لاحقاً</span>
                     </div>
-                    <span class="field-hint">لتتبع طلبك لاحقاً</span>
                 </div>
             </div>
+
+            <div class="total-row">
+                <span class="total-label">الإجمالي:</span>
+                <span class="total-amount" id="cart-total-display">0 <small>ر.س</small></span>
+            </div>
         </div>
- 
-        <div class="total-row">
-            <span class="total-label">الإجمالي:</span>
-            <span class="total-amount" id="cart-total-display">0 <small>ر.س</small></span>
-        </div>
- 
+
+    </div>
+
+    <!-- زر الإرسال ثابت في الأسفل فقط -->
+    <div class="cart-send-bar" id="cart-send-bar" style="display:none;">
         <button class="send-btn" id="send-btn" onclick="sendOrderWhatsApp()">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.63 1.438h.004c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
@@ -1551,12 +1559,14 @@ document.addEventListener('DOMContentLoaded', loadOffers);
  
        function renderCartBody() {
         const itemsContainer = document.getElementById('cart-items-container');
-        const footer  = document.getElementById('cart-footer');
-        const totalEl = document.getElementById('cart-total-display');
+        const footer   = document.getElementById('cart-footer');
+        const sendBar  = document.getElementById('cart-send-bar');
+        const totalEl  = document.getElementById('cart-total-display');
         if (!itemsContainer) return;
         if (cart.size === 0) {
             itemsContainer.innerHTML = '<div class="cart-empty-msg">السلة فارغة</div>';
-            footer.style.display = 'none';
+            footer.style.display  = 'none';
+            sendBar.style.display = 'none';
             document.getElementById('cart-suggestions').style.display = 'none';
             return;
         }
@@ -1573,7 +1583,8 @@ document.addEventListener('DOMContentLoaded', loadOffers);
                 <span class="cart-item-price">${item.price * item.qty} ر.س</span>
             </div>
         `).join('');
-        footer.style.display = 'block';
+        footer.style.display  = 'block';
+        sendBar.style.display = 'block';
     }
  
    function openCart() {
