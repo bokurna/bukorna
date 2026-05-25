@@ -1019,7 +1019,7 @@
 .cart-suggestions {
     padding: 12px 20px 16px;
     border-top: 1px solid rgba(201,168,76,0.08);
-    margin-top: 4px;
+    margin-top: 8px;                   
 }
 .cart-suggestions-title {
     font-size: 0.8rem;
@@ -1172,12 +1172,14 @@
     <!-- منطقة القائمة (تتمرر) -->
     <div class="cart-body" id="cart-body">
         <div class="cart-empty-msg">أضف منتجات للسلة أولاً</div>
+        <!-- الاقتراحات أصبحت داخل نفس منطقة التمرير -->
+        <div class="cart-suggestions" id="cart-suggestions" style="display:none;">
+            <div class="cart-suggestions-title">✨ قد يعجبك أيضاً</div>
+            <div id="suggestions-list"></div>
+        </div>
     </div>
-  <!-- منطقة اقتراح منتجات للسلة -->
-    <div class="cart-suggestions" id="cart-suggestions" style="display:none;">
-    <div class="cart-suggestions-title"> قد يعجبك أيضاً</div>
-    <div id="suggestions-list"></div>
-    </div>
+    <!-- القسم الثابت أسفل السلة -->
+    <div class="cart-footer" id="cart-footer" style="display:none;">
     <!-- القسم الثابت أسفل السلة -->
     <div class="cart-footer" id="cart-footer" style="display:none;">
  
@@ -1574,7 +1576,7 @@ document.addEventListener('DOMContentLoaded', loadOffers);
         if (available.length === 0) { container.style.display = 'none'; return; }
 
         var shuffled = available.sort(function() { return 0.5 - Math.random(); });
-        var selected = shuffled.slice(0, 3);
+        var selected = shuffled.slice(0, 2);
 
         list.innerHTML = selected.map(function(p) {
             var img = p.image_url
