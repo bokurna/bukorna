@@ -1212,10 +1212,10 @@
         observer.observe(el);
     });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-// تحميل المنتجات من Supabase باستخدام fetch مباشرة
-// ===== تحميل منتجات الصفحة الرئيسية (مطابق لـ products.html) =====
-(function() {
+// ===== تحميل منتجات الصفحة الرئيسية =====
+document.addEventListener('DOMContentLoaded', function() {
   const grid = document.getElementById('preview-grid');
   if (!grid) return;
 
@@ -1308,7 +1308,7 @@
       }).join('');
     }
   });
-})();
+}); // end DOMContentLoaded
 </script>
 
 <script>
@@ -1328,7 +1328,6 @@
 </script>
 
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 window.addEventListener('load', function() {
     try {
