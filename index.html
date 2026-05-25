@@ -517,16 +517,21 @@
 /* ===== PRODUCTS GRID (تعديل التوسيط والـ auto-fit هنا) ===== */
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* تحويل إلى auto-fit لإلغاء الفراغات الجانبية */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 14px;
     max-width: 1100px;
-    margin: 0 auto 32px;
-    justify-content: center; /* توسيط شبكة المنتجات بالكامل في الشاشات الكبيرة */
+    margin-inline: auto;   /* توسيط في الاتجاهين يدعم RTL */
+    margin-bottom: 32px;
+    justify-content: center;
+    padding: 0 16px;        /* مسافة داخلية متناسقة */
+    box-sizing: content-box;
 }
 
 /* تنسيق حاوية الزر لتوسيطه تماماً في الصفحة */
 .view-all-wrap {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    width: 100%;
     margin-top: 24px;
 }
 
