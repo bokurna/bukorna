@@ -514,126 +514,98 @@
         /* ===== PRODUCTS PREVIEW ===== */
         .products-bg { background: var(--dark-2); }
 
-        .preview-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
-            gap: 16px;
-            max-width: 1060px;
-            margin: 0 auto 44px;
-        }
+/* ===== PRODUCTS GRID (نفس تصميم products.html) ===== */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+    max-width: 1100px;
+    margin: 0 auto 32px;
+}
 
-        .preview-card {
-            background: var(--dark-3);
-            border: 1px solid rgba(201,168,76,0.1);
-            border-radius: 12px;
-            overflow: hidden;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: block;
-        }
+.product-card {
+    background: var(--dark-2);
+    border: 1px solid rgba(201,168,76,0.12);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    text-decoration: none;
+    display: block;
+    color: inherit;
+}
+.product-card:hover {
+    border-color: rgba(201,168,76,0.4);
+    transform: translateY(-4px);
+    box-shadow: 0 14px 28px rgba(0,0,0,0.35);
+}
 
-        .preview-card:hover {
-            border-color: rgba(201,168,76,0.42);
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.35);
-        }
+.product-img {
+    height: 150px;
+    background: linear-gradient(135deg, #1c1508, #2a2015);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; position: relative;
+}
+.product-img img { width: 100%; height: 100%; object-fit: cover; }
 
-        .preview-img {
-            height: 155px;
-            background: linear-gradient(135deg, #1c1508, #2a2015);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
-        }
+.product-img-placeholder {
+    font-size: 0.75rem; font-weight: 700;
+    color: rgba(201,168,76,0.22); letter-spacing: 3px;
+}
+.product-badge {
+    position: absolute; top: 10px; left: 10px;
+    background: var(--gold); color: var(--dark);
+    font-size: 0.65rem; font-weight: 700;
+    padding: 4px 10px; border-radius: 100px;
+}
+.product-body { padding: 14px; }
+.product-cat {
+    font-size: 0.65rem; letter-spacing: 2px;
+    color: var(--gold-dark); text-transform: uppercase;
+    margin-bottom: 6px;
+}
+.product-name {
+    font-size: 1rem; font-weight: 700;
+    color: var(--cream); margin-bottom: 4px; line-height: 1.3;
+}
+.product-note {
+    font-size: 0.75rem; color: rgba(245,234,214,0.42);
+    margin-bottom: 14px;
+}
+.product-footer {
+    display: flex; justify-content: space-between; align-items: center;
+}
 
-        .preview-img img { width: 100%; height: 100%; object-fit: cover; }
+/* أسعار وخصومات */
+.product-price {
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap; line-height: 1;
+}
+.old-price {
+    color: rgba(245,234,214,0.45); text-decoration: line-through;
+    font-size: 0.85rem; font-weight: 400;
+}
+.current-price {
+    color: var(--gold); font-size: 1.2rem; font-weight: 700;
+}
+.discount-badge {
+    background: rgba(255,107,107,0.15); color: #ff6b6b;
+    font-size: 0.7rem; font-weight: 700;
+    padding: 2px 8px; border-radius: 20px; white-space: nowrap;
+}
+.product-price small { font-size: 0.68rem; font-weight: 400; opacity: 0.7; }
 
-        .preview-placeholder {
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: rgba(201,168,76,0.2);
-            letter-spacing: 0;
-        }
+/* سهم (اختياري) */
+.product-arrow {
+    width: 32px; height: 32px;
+    border-radius: 50%; border: 1px solid rgba(201,168,76,0.3);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold); transition: all 0.25s;
+}
+.product-card:hover .product-arrow { background: var(--gold); color: var(--dark); }
 
-        /* شارة على المنتج */
-        .preview-badge {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: var(--gold);
-            color: var(--dark);
-            font-size: 0.65rem;
-            font-weight: 700;
-            padding: 3px 10px;
-            border-radius: 100px;
-        }
-
-        .preview-body { padding: 16px; }
-        .preview-cat  { font-size: 0.67rem; color: var(--gold-dark); margin-bottom: 6px; }
-        .preview-name { font-size: 0.97rem; font-weight: 700; color: var(--cream); margin-bottom: 12px; line-height: 1.3; }
-
-        .preview-footer { display: flex; justify-content: space-between; align-items: center; }
-        .preview-price  { color: var(--gold); font-size: 1.15rem; font-weight: 700; }
-        .preview-price small { font-size: 0.7rem; opacity: 0.7; font-weight: 400; }
-
-        /* الخصم في الصفحة الرئيسية */
-        .preview-price-wrap {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 1px;
-        }
-        .preview-disc-badge {
-            display: inline-flex;
-            align-items: center;
-            background: rgba(255,70,70,0.15);
-            border: 1px solid rgba(255,70,70,0.28);
-            color: #ff5555;
-            font-size: 0.58rem;
-            font-weight: 700;
-            padding: 1px 6px;
-            border-radius: 100px;
-        }
-        .preview-price-old {
-            font-size: 0.72rem;
-            color: rgba(245,234,214,0.3);
-            text-decoration: line-through;
-            font-weight: 400;
-            line-height: 1;
-        }
-        .preview-disc-tag {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #e03030;
-            color: white;
-            font-size: 0.65rem;
-            font-weight: 900;
-            padding: 3px 8px;
-            border-radius: 100px;
-            z-index: 2;
-            box-shadow: 0 2px 6px rgba(224,48,48,0.4);
-        }
-
-        .preview-arrow {
-            width: 32px; height: 32px;
-            border-radius: 50%;
-            border: 1px solid rgba(201,168,76,0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gold);
-            transition: all 0.25s;
-        }
-
-        .preview-card:hover .preview-arrow {
-            background: var(--gold);
-            color: var(--dark);
-        }
-
-        .view-all-wrap { text-align: center; }
+@media (max-width: 600px) {
+    .products-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .product-name { font-size: 0.88rem; }
+}
 
         /* ===== STEPS ===== */
         .steps-grid {
@@ -878,8 +850,8 @@
             .stat-num { font-size: 1.5rem; }
             .steps-grid::before { display: none; }
             .delivery-box { padding: 36px 20px; }
-            .preview-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-            .preview-name { font-size: 0.88rem; }
+            .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .product-name { font-size: 0.88rem; }
             .features-grid { grid-template-columns: 1fr; gap: 14px; }
         }
         /* ===== بانر العروض في الرئيسية ===== */
@@ -1039,8 +1011,8 @@
 
     <div class="home-offers-bar" id="home-offers-bar"></div>
 
-    <div class="preview-grid" id="preview-grid"></div>
-
+    <div class="products-grid" id="preview-grid"></div>
+    
     <div class="view-all-wrap">
         <a href="products.html" class="btn-primary">عرض جميع المنتجات ←</a>
     </div>
@@ -1233,7 +1205,7 @@
         });
     }, { threshold: 0.1 });
 
-    document.querySelectorAll('.feature-card, .preview-card, .step').forEach(el => {
+    document.querySelectorAll('.feature-card, .product-card, .step').forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(24px)';
         el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
@@ -1242,82 +1214,99 @@
 </script>
 <script>
 // تحميل المنتجات من Supabase باستخدام fetch مباشرة
+// ===== تحميل منتجات الصفحة الرئيسية (مطابق لـ products.html) =====
 (function() {
-  var grid = document.getElementById('preview-grid');
+  const grid = document.getElementById('preview-grid');
   if (!grid) return;
 
-  var ARROW = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+  const sb = window.supabase.createClient(
+    'https://ulaeuhltcsbvceaklobu.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVsYWV1aGx0Y3NidmNlYWtsb2J1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1MjU1NjEsImV4cCI6MjA5NDEwMTU2MX0.ixR5qANmq5GPE9E6tQZfekyIT5t9zZ3Yuy9euOKeyEY'
+  );
 
-  var KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVsYWV1aGx0Y3NidmNlYWtsb2J1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1MjU1NjEsImV4cCI6MjA5NDEwMTU2MX0.ixR5qANmq5GPE9E6tQZfekyIT5t9zZ3Yuy9euOKeyEY';
+  sb.from('products')
+    .select('*')
+    .eq('in_stock', true)
+    .order('sort_order', { ascending: true })
+    .limit(4)
+    .then(function(res) {
+      const data = res.data;
+      if (!Array.isArray(data) || data.length === 0) {
+        grid.innerHTML = '<p style="color:rgba(245,234,214,0.4);text-align:center;grid-column:1/-1;padding:40px">لا توجد منتجات</p>';
+        return;
+      }
+      grid.innerHTML = data.map(function(p) { return buildCard(p); }).join('');
+    })
+    .catch(function(e) {
+      grid.innerHTML = '<p style="color:rgba(245,234,214,0.4);text-align:center;grid-column:1/-1;padding:40px">تعذّر التحميل</p>';
+      console.error(e);
+    });
 
-  // Load offers for home page
-  fetch('https://ulaeuhltcsbvceaklobu.supabase.co/rest/v1/offers?active=eq.true&order=created_at.desc',
-    {headers:{'apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVsYWV1aGx0Y3NidmNlYWtsb2J1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1MjU1NjEsImV4cCI6MjA5NDEwMTU2MX0.ixR5qANmq5GPE9E6tQZfekyIT5t9zZ3Yuy9euOKeyEY','Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVsYWV1aGx0Y3NidmNlYWtsb2J1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1MjU1NjEsImV4cCI6MjA5NDEwMTU2MX0.ixR5qANmq5GPE9E6tQZfekyIT5t9zZ3Yuy9euOKeyEY'}}
-  ).then(function(r){return r.json();}).then(function(data){
-    if(!Array.isArray(data)||!data.length) return;
-    var bar=document.getElementById('home-offers-bar');
-    if(!bar) return;
-    bar.classList.add('visible');
-    var chipCls={gold:'hchip-gold',red:'hchip-red',green:'hchip-green',blue:'hchip-blue'};
-    bar.innerHTML=data.map(function(o){
-      var cls=chipCls[o.color]||'hchip-gold';
-      var disc=o.discount_type==='percent'?' · خصم '+o.discount_value+'%':o.discount_type==='fixed'?' · خصم '+o.discount_value+' ر.س':'';
-      return '<div class="home-offer-chip '+cls+'">'+(o.emoji||'🔥')+' '+o.title+disc+'</div>';
-    }).join('');
-  });
+  /* نسخة مطابقة لدالة buildCard من products.html */
+  function buildCard(p) {
+    const imgHtml = p.image_url
+      ? `<img src="${p.image_url}" alt="${p.name}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\"product-img-placeholder\">${p.category === 'oud' ? '28g' : '×1'}</div>'">`
+      : `<div class="product-img-placeholder">${p.category === 'oud' ? '28g' : '×1'}</div>`;
 
-  fetch(
-    'https://ulaeuhltcsbvceaklobu.supabase.co/rest/v1/products?select=id,name,category,price,old_price,badge,image_url,in_stock&order=sort_order.asc&limit=4',
-    { headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY } }
-)
-  .then(function(r) { return r.json(); })
-  .then(function(data) {
-    console.log('Supabase products:', data);
-    if (!Array.isArray(data) || data.length === 0) {
-      grid.innerHTML = '<p style="color:rgba(245,234,214,0.4);text-align:center;grid-column:1/-1;padding:40px">لا توجد منتجات</p>';
-      return;
+    const badgeHtml = p.badge ? `<span class="product-badge">${p.badge}</span>` : '';
+    const price = parseFloat(p.price) || 0;
+    const oldPrice = p.old_price ? parseFloat(p.old_price) : null;
+    const hasDiscount = oldPrice && oldPrice > price;
+
+    let discountPercent = '';
+    if (hasDiscount) {
+      const percent = Math.round(((oldPrice - price) / oldPrice) * 100);
+      discountPercent = `<span class="discount-badge">-${percent}%</span>`;
     }
-    data = data.filter(function(p) { return p.in_stock !== false; });
-    if (data.length === 0) {
-      grid.innerHTML = '<p style="color:rgba(245,234,214,0.4);text-align:center;grid-column:1/-1;padding:40px">لا توجد منتجات</p>';
-      return;
+
+    let priceHtml = '';
+    if (hasDiscount) {
+      priceHtml = `
+        <div class="product-price">
+          <span class="old-price">${oldPrice} <small>ر.س</small></span>
+          <span class="current-price">${price} <small>ر.س</small></span>
+          ${discountPercent}
+        </div>`;
+    } else {
+      priceHtml = `<div class="product-price">${price} <small>ر.س</small></div>`;
     }
-    grid.innerHTML = data.map(function(p) {
-      var cat      = p.category === 'oud' ? 'عود وبخور' : 'ملحقات';
-      var ph       = p.category === 'oud' ? '28g' : '×1';
-      var price    = parseFloat(p.price)     || 0;
-      var oldPrice = parseFloat(p.old_price) || 0;
-      var hasDisc  = oldPrice > price && oldPrice > 0;
-      var discPct  = hasDisc ? Math.round((oldPrice - price) / oldPrice * 100) : 0;
 
-      var img   = p.image_url
-        ? '<img src="' + p.image_url + '" alt="' + p.name + '" style="width:100%;height:100%;object-fit:cover;border-radius:inherit">'
-        : '';
-      var badge    = p.badge   ? '<span class="preview-badge">'    + p.badge + '</span>' : '';
-      var discTag  = hasDisc   ? '<span class="preview-disc-tag">-' + discPct + '%</span>' : '';
+    const arrow = `<div class="product-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>`;
 
-      var priceHtml = hasDisc
-        ? '<div class="preview-price-wrap">'
-            + '<span class="preview-disc-badge">خصم ' + discPct + '%</span>'
-            + '<span class="preview-price-old">' + oldPrice + ' ر.س</span>'
-            + '<div class="preview-price">' + price + ' <small>ر.س</small></div>'
-          + '</div>'
-        : '<div class="preview-price">' + price + ' <small>ر.س</small></div>';
+    const catName = p.category === 'oud' ? 'عود وبخور' : p.category === 'natural' ? 'بخور طبيعي' : 'ملحقات';
 
-      return '<a href="products.html" class="preview-card">'
-        + '<div class="preview-img">' + img + '<div class="preview-placeholder">' + ph + '</div>' + badge + discTag + '</div>'
-        + '<div class="preview-body">'
-        + '<p class="preview-cat">' + cat + '</p>'
-        + '<h3 class="preview-name">' + p.name + '</h3>'
-        + '<div class="preview-footer">'
-        + priceHtml
-        + '<div class="preview-arrow">' + ARROW + '</div>'
-        + '</div></div></a>';
-    }).join('');
-  })
-  .catch(function(e) {
-    console.error('خطأ تحميل المنتجات:', e);
-    grid.innerHTML = '<p style="color:rgba(245,234,214,0.4);text-align:center;grid-column:1/-1;padding:40px">تعذّر التحميل</p>';
+    return `
+      <a href="products.html" class="product-card">
+        <div class="product-img">
+          ${imgHtml}
+          ${badgeHtml}
+        </div>
+        <div class="product-body">
+          <p class="product-cat">${catName}</p>
+          <h3 class="product-name">${p.name}</h3>
+          ${p.note ? `<p class="product-note">${p.note}</p>` : ''}
+          <div class="product-footer">
+            ${priceHtml}
+            ${arrow}
+          </div>
+        </div>
+      </a>`;
+  }
+
+  /* --- العروض النشطة (اختياري) --- */
+  sb.from('offers').select('*').eq('active', true).order('created_at', { ascending: false }).then(function(r) {
+    if (r.data && r.data.length > 0) {
+      const bar = document.getElementById('home-offers-bar');
+      if (!bar) return;
+      bar.classList.add('visible');
+      const chipCls = { gold: 'hchip-gold', red: 'hchip-red', green: 'hchip-green', blue: 'hchip-blue' };
+      bar.innerHTML = r.data.map(function(o) {
+        const cls = chipCls[o.color] || 'hchip-gold';
+        const disc = o.discount_type === 'percent' ? ` · خصم ${o.discount_value}%`
+                    : o.discount_type === 'fixed' ? ` · خصم ${o.discount_value} ر.س` : '';
+        return `<div class="home-offer-chip ${cls}">${o.emoji || '🔥'} ${o.title}${disc}</div>`;
+      }).join('');
+    }
   });
 })();
 </script>
@@ -1338,26 +1327,13 @@
     })();
 </script>
 
-</script>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 window.addEventListener('load', function() {
     try {
         var _sb = window.supabase.createClient('https://ulaeuhltcsbvceaklobu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVsYWV1aGx0Y3NidmNlYWtsb2J1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1MjU1NjEsImV4cCI6MjA5NDEwMTU2MX0.ixR5qANmq5GPE9E6tQZfekyIT5t9zZ3Yuy9euOKeyEY');
   
-  // Load offers
-  var chipCls = {gold:'hchip-gold',red:'hchip-red',green:'hchip-green',blue:'hchip-blue'};
-  _sb.from('offers').select('*').eq('active',true).order('created_at',{ascending:false}).then(function(r) {
-    if (!r.error && r.data && r.data.length > 0) {
-      var bar = document.getElementById('home-offers-bar');
-      bar.classList.add('visible');
-      bar.innerHTML = r.data.map(function(o) {
-        var cls  = chipCls[o.color] || 'hchip-gold';
-        var disc = o.discount_type==='percent' ? ' · خصم '+o.discount_value+'%' : o.discount_type==='fixed' ? ' · خصم '+o.discount_value+' ر.س' : '';
-        return '<div class="home-offer-chip '+cls+'">'+(o.emoji||'🔥')+' '+o.title+disc+'</div>';
-      }).join('');
-    }
-  });
         _sb.auth.getSession().then(function(r) {
             if (!r.data || !r.data.session) return;
             var user = r.data.session.user;
