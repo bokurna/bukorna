@@ -49,13 +49,16 @@
         }
  
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+ 
         html { scroll-behavior: smooth; }
+ 
         body {
             font-family: 'Cairo', Arial, sans-serif;
             background-color: var(--dark);
             color: var(--cream);
             min-height: 100vh;
             -webkit-text-size-adjust: 100%;
+            /* مساحة سفلية لزر السلة على الجوال */
             padding-bottom: env(safe-area-inset-bottom);
         }
  
@@ -73,23 +76,23 @@
             z-index: 200;
         }
  
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--gold);
-            height: 48px;
-        }
+       .nav-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--gold);
+    height: 48px;           /* ارتفاع موحد للشعار */
+}
 
-        .nav-logo-img {
-            height: 100%;
-            width: auto;
-            max-height: 48px;
-            object-fit: contain;
-            display: block;
-        }
+.nav-logo-img {
+    height: 100%;
+    width: auto;
+    max-height: 48px;
+    object-fit: contain;
+    display: block;
+}
  
         .nav-right {
             display: flex;
@@ -107,6 +110,7 @@
             transition: color 0.3s;
             -webkit-tap-highlight-color: transparent;
         }
+ 
         .nav-back:hover { color: var(--gold); }
 
         .nav-auth-btn {
@@ -131,8 +135,9 @@
         }
         .nav-track-btn:hover { color: var(--gold); }
  
+        /* ===== زر السلة في الـ NAV ===== */
         #nav-cart-btn {
-            display: none;
+            display: none; /* يظهر فقط عند إضافة منتج */
             align-items: center;
             gap: 8px;
             background: var(--gold);
@@ -148,11 +153,16 @@
             -webkit-tap-highlight-color: transparent;
             white-space: nowrap;
         }
-        #nav-cart-btn:hover, #nav-cart-btn:active { background: var(--gold-light); }
+ 
+        #nav-cart-btn:hover, #nav-cart-btn:active {
+            background: var(--gold-light);
+        }
+ 
         #nav-cart-badge {
             background: var(--dark);
             color: var(--gold);
-            width: 22px; height: 22px;
+            width: 22px;
+            height: 22px;
             border-radius: 50%;
             font-size: 0.75rem;
             font-weight: 900;
@@ -167,13 +177,18 @@
             padding: 40px 24px 28px;
             background: linear-gradient(to bottom, var(--dark-2), var(--dark));
         }
+ 
         .page-header h1 {
             font-size: clamp(1.6rem, 5vw, 2.4rem);
             font-weight: 700;
             color: var(--cream);
             margin-bottom: 6px;
         }
-        .page-header p { color: rgba(245,234,214,0.5); font-size: 0.9rem; }
+ 
+        .page-header p {
+            color: rgba(245,234,214,0.5);
+            font-size: 0.9rem;
+        }
  
         /* ===== FILTER ===== */
         .filter-wrap {
@@ -185,6 +200,7 @@
             max-width: 700px;
             margin: 0 auto;
         }
+ 
         .filter-btn {
             padding: 9px 20px;
             border-radius: 100px;
@@ -198,6 +214,7 @@
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
         }
+ 
         .filter-btn:hover, .filter-btn.active {
             background: var(--gold);
             color: var(--dark);
@@ -211,6 +228,7 @@
             margin: 0 auto;
             padding: 0 16px 32px;
         }
+ 
         .cat-header {
             font-size: 1.2rem;
             font-weight: 700;
@@ -219,11 +237,13 @@
             padding-right: 14px;
             border-right: 3px solid var(--gold);
         }
+ 
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 14px;
         }
+ 
         .product-card {
             background: var(--dark-2);
             border: 1px solid rgba(201,168,76,0.12);
@@ -231,6 +251,7 @@
             overflow: hidden;
             transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
         }
+ 
         @media (hover: hover) {
             .product-card:hover {
                 border-color: rgba(201,168,76,0.4);
@@ -238,6 +259,7 @@
                 box-shadow: 0 14px 28px rgba(0,0,0,0.35);
             }
         }
+ 
         .product-img {
             height: 150px;
             background: linear-gradient(135deg, #1c1508, #2a2015);
@@ -247,16 +269,24 @@
             overflow: hidden;
             position: relative;
         }
-        .product-img img { width: 100%; height: 100%; object-fit: cover; }
+ 
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+ 
         .product-img-placeholder {
             font-size: 0.75rem;
             font-weight: 700;
             color: rgba(201,168,76,0.22);
             letter-spacing: 3px;
         }
+ 
         .product-badge {
             position: absolute;
-            top: 10px; left: 10px;
+            top: 10px;
+            left: 10px;
             background: var(--gold);
             color: var(--dark);
             font-size: 0.65rem;
@@ -264,7 +294,9 @@
             padding: 4px 10px;
             border-radius: 100px;
         }
+ 
         .product-body { padding: 14px; }
+ 
         .product-cat {
             font-size: 0.65rem;
             letter-spacing: 2px;
@@ -272,6 +304,7 @@
             text-transform: uppercase;
             margin-bottom: 6px;
         }
+ 
         .product-name {
             font-size: 1rem;
             font-weight: 700;
@@ -279,44 +312,58 @@
             margin-bottom: 4px;
             line-height: 1.3;
         }
+ 
         .product-note {
             font-size: 0.75rem;
             color: rgba(245,234,214,0.42);
             margin-bottom: 14px;
         }
+ 
         .product-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .product-price {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-            line-height: 1;
-        }
-        .old-price {
-            color: rgba(245,234,214,0.45);
-            text-decoration: line-through;
-            font-size: 0.85rem;
-            font-weight: 400;
-        }
-        .current-price {
-            color: var(--gold);
-            font-size: 1.2rem;
-            font-weight: 700;
-        }
-        .discount-badge {
-            background: rgba(255,107,107,0.15);
-            color: #ff6b6b;
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 2px 8px;
-            border-radius: 20px;
-            white-space: nowrap;
-        }
-        .product-price small { font-size: 0.68rem; font-weight: 400; opacity: 0.7; }
+ 
+     .product-price {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    line-height: 1;
+}
+
+.old-price {
+    color: rgba(245, 234, 214, 0.45);
+    text-decoration: line-through;
+    font-size: 0.85rem;
+    font-weight: 400;
+}
+
+.current-price {
+    color: var(--gold);
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.discount-badge {
+    background: rgba(255, 107, 107, 0.15);
+    color: #ff6b6b;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.product-price small {
+    font-size: 0.68rem;
+    font-weight: 400;
+    opacity: 0.7;
+}
+       
+
+        
  
         /* ===== CART MODAL (Bottom Sheet) ===== */
         .cart-overlay {
@@ -325,13 +372,17 @@
             inset: 0;
             background: rgba(0,0,0,0.7);
             z-index: 900;
+            /* مهم: يضمن عمل onclick على iOS */
             cursor: pointer;
         }
+ 
         .cart-overlay.open { display: block; }
  
         .cart-sheet {
             position: fixed;
-            bottom: 0; left: 0; right: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
             background: var(--dark-2);
             border: 1px solid rgba(201,168,76,0.18);
             border-radius: 20px 20px 0 0;
@@ -344,17 +395,23 @@
             transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
             max-width: 520px;
             margin: 0 auto;
+            /* دعم safe area على iOS */
             padding-bottom: calc(16px + env(safe-area-inset-bottom));
         }
-        .cart-sheet.open { transform: translateY(0); }
+ 
+        .cart-sheet.open {
+            transform: translateY(0);
+        }
  
         .cart-handle {
-            width: 40px; height: 4px;
+            width: 40px;
+            height: 4px;
             background: rgba(201,168,76,0.25);
             border-radius: 2px;
             margin: 14px auto 0;
             flex-shrink: 0;
         }
+ 
         .cart-head {
             display: flex;
             justify-content: space-between;
@@ -363,16 +420,19 @@
             border-bottom: 1px solid rgba(201,168,76,0.1);
             flex-shrink: 0;
         }
+ 
         .cart-head-title {
             font-size: 1.2rem;
             font-weight: 700;
             color: var(--gold);
         }
+ 
         .cart-close {
             background: rgba(201,168,76,0.1);
             border: none;
             color: var(--cream);
-            width: 34px; height: 34px;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
             cursor: pointer;
             font-size: 1rem;
@@ -383,6 +443,7 @@
             touch-action: manipulation;
             transition: background 0.2s;
         }
+ 
         .cart-close:hover, .cart-close:active { background: rgba(201,168,76,0.2); }
  
         /* منطقة التمرير */
@@ -392,6 +453,7 @@
             padding: 4px 0;
             -webkit-overflow-scrolling: touch;
         }
+ 
         .cart-empty-msg {
             text-align: center;
             padding: 40px 24px;
@@ -408,6 +470,7 @@
             border-bottom: 1px solid rgba(245,234,214,0.05);
             gap: 8px;
         }
+ 
         .cart-item-name {
             font-size: 0.88rem;
             font-weight: 600;
@@ -415,6 +478,7 @@
             flex: 1;
             line-height: 1.3;
         }
+ 
         .qty-controls {
             display: flex;
             align-items: center;
@@ -425,11 +489,13 @@
             overflow: hidden;
             flex-shrink: 0;
         }
+ 
         .qty-btn {
             background: none;
             border: none;
             color: var(--gold);
-            width: 32px; height: 32px;
+            width: 32px;
+            height: 32px;
             font-size: 1.1rem;
             font-weight: 700;
             cursor: pointer;
@@ -441,9 +507,11 @@
             touch-action: manipulation;
             font-family: 'Cairo', Arial, sans-serif;
         }
+ 
         .qty-btn:hover, .qty-btn:active { background: rgba(201,168,76,0.15); }
         .qty-btn.minus { color: rgba(245,234,214,0.5); }
         .qty-btn.minus:hover { color: #ff6b6b; background: rgba(255,107,107,0.1); }
+ 
         .qty-num {
             min-width: 28px;
             text-align: center;
@@ -454,6 +522,7 @@
             border-left: 1px solid rgba(201,168,76,0.15);
             line-height: 32px;
         }
+ 
         .cart-item-price {
             color: var(--gold);
             font-weight: 700;
@@ -463,8 +532,13 @@
             text-align: left;
         }
 
-        /* زر + على الكارد */
-        .add-btn-wrap { display: flex; align-items: center; gap: 0; }
+        /* زر + على الكارد - يتحول لمؤشر الكمية بعد الإضافة */
+        .add-btn-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+ 
         .qty-indicator {
             display: none;
             align-items: center;
@@ -474,12 +548,15 @@
             overflow: hidden;
             height: 36px;
         }
+ 
         .qty-indicator.show { display: flex; }
+ 
         .qi-btn {
             background: none;
             border: none;
             color: var(--dark);
-            width: 30px; height: 36px;
+            width: 30px;
+            height: 36px;
             font-size: 1rem;
             font-weight: 900;
             cursor: pointer;
@@ -491,7 +568,9 @@
             transition: background 0.15s;
             font-family: 'Cairo', Arial, sans-serif;
         }
+ 
         .qi-btn:active { background: rgba(0,0,0,0.1); }
+ 
         .qi-num {
             min-width: 24px;
             text-align: center;
@@ -499,11 +578,13 @@
             font-weight: 900;
             color: var(--dark);
         }
+ 
         .add-btn {
             background: var(--gold);
             color: var(--dark);
             border: none;
-            width: 36px; height: 36px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             font-size: 1.4rem;
             font-weight: 700;
@@ -519,8 +600,10 @@
             user-select: none;
             -webkit-user-select: none;
         }
+ 
         .add-btn:hover { background: var(--gold-light); }
         .add-btn:active { transform: scale(0.88); }
+ 
         @keyframes pop {
             0% { transform: scale(1); }
             40% { transform: scale(1.25); }
@@ -535,6 +618,8 @@
             flex-shrink: 0;
             background: var(--dark-2);
         }
+ 
+        /* التوصيل */
         .delivery-section-cart {
             background: rgba(201,168,76,0.05);
             border: 1px solid rgba(201,168,76,0.14);
@@ -542,12 +627,14 @@
             padding: 14px;
             margin-bottom: 12px;
         }
+ 
         .delivery-label {
             font-size: 0.82rem;
             font-weight: 700;
             color: rgba(245,234,214,0.65);
             margin-bottom: 10px;
         }
+ 
         .neighborhood-select {
             width: 100%;
             background: rgba(245,234,214,0.06);
@@ -562,8 +649,10 @@
             -webkit-appearance: none;
             appearance: none;
         }
+ 
         .neighborhood-select option { background: var(--dark-2); color: var(--cream); }
         .neighborhood-select:focus { border-color: var(--gold); }
+ 
         .notes-input {
             width: 100%;
             background: rgba(245,234,214,0.06);
@@ -579,8 +668,11 @@
             transition: border 0.2s;
             display: block;
         }
+ 
         .notes-input:focus { border-color: var(--gold); }
         .notes-input::placeholder { color: rgba(245,234,214,0.3); }
+ 
+        /* زر الموقع */
         .location-btn {
             width: 100%;
             display: flex;
@@ -605,6 +697,8 @@
         .location-btn.loading { color: rgba(201,168,76,0.5); border-color: rgba(201,168,76,0.2); pointer-events: none; }
         .location-btn.got { background: rgba(37,211,102,0.08); border-color: rgba(37,211,102,0.4); color: #25D366; }
         .location-btn.err { background: rgba(255,100,100,0.08); border-color: rgba(255,100,100,0.3); color: #ff6b6b; }
+ 
+        /* معاينة رابط الموقع */
         .location-preview {
             display: none;
             background: rgba(37,211,102,0.06);
@@ -617,19 +711,26 @@
             line-height: 1.6;
         }
         .location-preview a { color: #25D366; text-decoration: none; font-weight: 700; word-break: break-all; }
+ 
+        /* الإجمالي */
         .total-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 10px 0 14px;
         }
+ 
         .total-label { color: rgba(245,234,214,0.65); font-size: 0.92rem; }
+ 
         .total-amount {
             color: var(--gold);
             font-size: 1.4rem;
             font-weight: 900;
         }
+ 
         .total-amount small { font-size: 0.75rem; font-weight: 400; }
+ 
+        /* زر إرسال الطلب */
         .send-btn {
             width: 100%;
             background: var(--green);
@@ -649,9 +750,12 @@
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
         }
+ 
         .send-btn:hover { background: #1ebe59; }
         .send-btn:active { transform: scale(0.98); }
         .send-btn:disabled { background: #3a3a3a; color: #777; cursor: not-allowed; transform: none; }
+
+        /* طريقة الدفع */
         .pay-row {
             display: flex;
             gap: 10px;
@@ -696,7 +800,9 @@
                 width: 100%;
                 max-width: 520px;
             }
-            .cart-sheet.open { transform: translateX(-50%) translateY(0); }
+            .cart-sheet.open {
+                transform: translateX(-50%) translateY(0);
+            }
         }
  
         /* ===== مؤشر أوقات العمل ===== */
@@ -711,17 +817,29 @@
             font-size: 0.82rem;
             color: rgba(245,234,214,0.7);
         }
-        .status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+ 
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+ 
         .status-dot.open-now {
             background: #25D366;
             box-shadow: 0 0 0 3px rgba(37,211,102,0.2);
             animation: pulse-dot 2s infinite;
         }
-        .status-dot.closed-now { background: #ff6b6b; }
+ 
+        .status-dot.closed-now {
+            background: #ff6b6b;
+        }
+ 
         @keyframes pulse-dot {
             0%, 100% { box-shadow: 0 0 0 3px rgba(37,211,102,0.2); }
             50% { box-shadow: 0 0 0 6px rgba(37,211,102,0.08); }
         }
+ 
         .status-text { font-weight: 600; }
         .status-text.open-now  { color: #25D366; }
         .status-text.closed-now { color: #ff6b6b; }
@@ -737,7 +855,9 @@
             justify-content: center;
             padding: 24px;
         }
+ 
         .confirm-overlay.open { display: flex; }
+ 
         .confirm-box {
             background: var(--dark-2);
             border: 1px solid rgba(201,168,76,0.25);
@@ -748,12 +868,15 @@
             width: 100%;
             animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both;
         }
+ 
         @keyframes popIn {
             from { transform: scale(0.7); opacity: 0; }
             to   { transform: scale(1);   opacity: 1; }
         }
+ 
         .confirm-icon {
-            width: 72px; height: 72px;
+            width: 72px;
+            height: 72px;
             background: rgba(37,211,102,0.12);
             border: 2px solid rgba(37,211,102,0.3);
             border-radius: 50%;
@@ -762,9 +885,23 @@
             justify-content: center;
             margin: 0 auto 20px;
         }
+ 
         .confirm-icon svg { width: 36px; height: 36px; stroke: #25D366; fill: none; stroke-width: 2.5; }
-        .confirm-title { font-size: 1.3rem; font-weight: 700; color: var(--cream); margin-bottom: 10px; }
-        .confirm-msg { font-size: 0.9rem; color: rgba(245,234,214,0.6); line-height: 1.7; margin-bottom: 28px; }
+ 
+        .confirm-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--cream);
+            margin-bottom: 10px;
+        }
+ 
+        .confirm-msg {
+            font-size: 0.9rem;
+            color: rgba(245,234,214,0.6);
+            line-height: 1.7;
+            margin-bottom: 28px;
+        }
+ 
         .confirm-order-num {
             font-size: 0.78rem;
             color: var(--gold);
@@ -776,6 +913,7 @@
             margin-bottom: 24px;
             letter-spacing: 1px;
         }
+ 
         .confirm-btn {
             width: 100%;
             background: var(--gold);
@@ -790,6 +928,7 @@
             transition: background 0.2s;
             -webkit-tap-highlight-color: transparent;
         }
+ 
         .confirm-btn:hover { background: var(--gold-light); }
  
         /* ===== Skeleton loader ===== */
@@ -809,7 +948,13 @@
             0%,100% { opacity: 1; }
             50% { opacity: 0.5; }
         }
-        .product-img img { width: 100%; height: 100%; object-fit: cover; }
+ 
+        /* صورة المنتج الحقيقية */
+        .product-img img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+ 
+        /* حالة خطأ التحميل */
         .load-error {
             text-align: center;
             padding: 60px 24px;
@@ -830,7 +975,6 @@
             font-weight: 700;
             cursor: pointer;
         }
- 
         /* ===== بانر العروض ===== */
         .offers-bar {
             display: none;
@@ -859,7 +1003,6 @@
         .chip-red   { border-color: rgba(255,107,107,0.5); background: rgba(255,107,107,0.08); color: #ff6b6b; }
         .chip-green { border-color: rgba(37,211,102,0.5);  background: rgba(37,211,102,0.08);  color: #25D366; }
         .chip-blue  { border-color: rgba(96,165,250,0.5);  background: rgba(96,165,250,0.08);  color: #60a5fa; }
- 
         /* ===== FOOTER ===== */
         footer { text-align: center; padding: 48px 24px 32px; border-top: 1px solid rgba(201,168,76,0.1); background: var(--dark-2); }
         .footer-logo { font-size: 1.6rem; font-weight: 900; color: var(--gold); margin-bottom: 6px; }
@@ -872,56 +1015,55 @@
         .footer-payment-icons { display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; }
         .footer-payment-icons img { height: 30px; width: auto; max-width: 56px; object-fit: contain; border-radius: 6px; background: rgba(255,255,255,0.06); padding: 4px 8px; filter: brightness(0.9) saturate(0.85); transition: filter 0.2s, transform 0.2s; }
         .footer-payment-icons img:hover { filter: brightness(1.1) saturate(1); transform: translateY(-2px); }
-        .footer-bottom { font-size: 0.72rem; color: rgba(245,234,214,0.22); margin-top: 8px; }
- 
         /* ===== اقتراحات السلة ===== */
-        .cart-suggestions {
-            padding: 12px 20px 16px;
-            border-top: 1px solid rgba(201,168,76,0.08);
-            margin-top: 8px;
-        }
-        .cart-suggestions-title {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--gold);
-            margin-bottom: 10px;
-        }
-        .sugg-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 10px;
-            background: var(--dark);
-            border: 1px solid rgba(201,168,76,0.1);
-            border-radius: 10px;
-            margin-bottom: 6px;
-        }
-        .sugg-img {
-            width: 40px; height: 40px;
-            border-radius: 6px;
-            object-fit: cover;
-            background: var(--dark-3);
-            flex-shrink: 0;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.7rem;
-            color: rgba(245,234,214,0.25);
-        }
-        .sugg-info { flex: 1; min-width: 0; }
-        .sugg-name {
-            font-size: 0.8rem; font-weight: 600; color: var(--cream);
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-            margin-bottom: 1px;
-        }
-        .sugg-price { font-size: 0.75rem; color: var(--gold); font-weight: 700; }
-        .sugg-add {
-            background: var(--gold); color: var(--dark); border: none;
-            width: 28px; height: 28px; border-radius: 50%;
-            font-size: 1.1rem; font-weight: 700; cursor: pointer;
-            flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-            -webkit-tap-highlight-color: transparent;
-            transition: transform 0.15s;
-        }
-        .sugg-add:active { transform: scale(0.85); }
+.cart-suggestions {
+    padding: 12px 20px 16px;
+    border-top: 1px solid rgba(201,168,76,0.08);
+    margin-top: 4px;
+}
+.cart-suggestions-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 10px;
+}
+.sugg-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    background: var(--dark);
+    border: 1px solid rgba(201,168,76,0.1);
+    border-radius: 10px;
+    margin-bottom: 6px;
+}
+.sugg-img {
+    width: 40px; height: 40px;
+    border-radius: 6px;
+    object-fit: cover;
+    background: var(--dark-3);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem;
+    color: rgba(245,234,214,0.25);
+}
+.sugg-info { flex: 1; min-width: 0; }
+.sugg-name {
+    font-size: 0.8rem; font-weight: 600; color: var(--cream);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    margin-bottom: 1px;
+}
+.sugg-price { font-size: 0.75rem; color: var(--gold); font-weight: 700; }
+.sugg-add {
+    background: var(--gold); color: var(--dark); border: none;
+    width: 28px; height: 28px; border-radius: 50%;
+    font-size: 1.1rem; font-weight: 700; cursor: pointer;
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.15s;
+}
+.sugg-add:active { transform: scale(0.85); } 
+        .footer-bottom { font-size: 0.72rem; color: rgba(245,234,214,0.22); margin-top: 8px; }
     </style>
 </head>
 <body>
@@ -986,7 +1128,9 @@
  
 <!-- PRODUCTS -->
 <div class="products-wrap" id="products-wrap">
+    <!-- يُملأ ديناميكياً من Supabase -->
     <div id="products-loading" class="products-grid" style="margin-top:24px;">
+        <!-- skeleton placeholders -->
         <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line w60"></div><div class="skeleton-line w40"></div></div></div>
         <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line w60"></div><div class="skeleton-line w40"></div></div></div>
         <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line w60"></div><div class="skeleton-line w40"></div></div></div>
@@ -1001,18 +1145,22 @@
     </div>
  
 <div id="products-content" style="display:none;">
+
     <h2 class="cat-header" id="title-oud" style="display:none;">البخور والعود</h2>
     <div class="products-grid" id="grid-oud"></div>
+
     <h2 class="cat-header" id="title-natural" style="display:none;">بخور طبيعي</h2>
     <div class="products-grid" id="grid-natural"></div>
+
     <h2 class="cat-header" id="title-acc" style="display:none;">الملحقات</h2>
     <div class="products-grid" id="grid-acc"></div>
+
 </div>
     
-<!-- CART OVERLAY -->
+<!-- CART OVERLAY (خلفية شفافة) -->
 <div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
  
-<!-- CART SHEET -->
+<!-- CART SHEET (السلة من الأسفل) -->
 <div class="cart-sheet" id="cart-sheet">
     <div class="cart-handle"></div>
  
@@ -1023,19 +1171,16 @@
  
     <!-- منطقة القائمة (تتمرر) -->
     <div class="cart-body" id="cart-body">
-        <!-- حاوية المنتجات المضافة -->
-        <div id="cart-items-container">
-            <div class="cart-empty-msg">أضف منتجات للسلة أولاً</div>
-        </div>
-        <!-- الاقتراحات داخل نفس التمرير -->
-        <div class="cart-suggestions" id="cart-suggestions" style="display:none;">
-            <div class="cart-suggestions-title">✨ قد يعجبك أيضاً</div>
-            <div id="suggestions-list"></div>
-        </div>
+        <div class="cart-empty-msg">أضف منتجات للسلة أولاً</div>
     </div>
- 
+  <!-- منطقة اقتراح منتجات للسلة -->
+    <div class="cart-suggestions" id="cart-suggestions" style="display:none;">
+    <div class="cart-suggestions-title"> قد يعجبك أيضاً</div>
+    <div id="suggestions-list"></div>
+    </div>
     <!-- القسم الثابت أسفل السلة -->
     <div class="cart-footer" id="cart-footer" style="display:none;">
+ 
         <div class="delivery-section-cart">
             <p class="delivery-label">تفاصيل التوصيل — داخل بريدة</p>
             <select id="neighborhood" class="neighborhood-select">
@@ -1049,6 +1194,8 @@
                 <option>حي سلطانة</option>
                 <option>حي آخر</option>
             </select>
+ 
+            <!-- زر إرسال الموقع -->
             <button class="location-btn" id="location-btn" onclick="getLocation()">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
@@ -1056,10 +1203,13 @@
                 </svg>
                 <span id="location-btn-text">أرسل موقعي من الخريطة</span>
             </button>
+ 
+            <!-- معاينة الرابط بعد الحصول على الموقع -->
             <div class="location-preview" id="location-preview">
                 <span>📍 تم تحديد موقعك — </span>
                 <a id="location-link" href="#" target="_blank">عرض على خرائط جوجل</a>
             </div>
+ 
             <textarea id="order-notes" class="notes-input" placeholder="ملاحظات إضافية أو وصف الموقع..."></textarea>
             <div class="pay-row">
                 <button type="button" class="pay-btn on" id="pb-cash" onclick="choosePay('cash')">💵 كاش</button>
@@ -1070,16 +1220,19 @@
                     <label class="cart-field-label">رقم الجوال</label>
                     <div class="cart-field-input-wrap">
                         <span class="field-icon">📱</span>
-                        <input id="customer-phone" class="cart-field-input" type="tel" placeholder="05xxxxxxxx" maxlength="10" inputmode="numeric">
+                        <input id="customer-phone" class="cart-field-input" type="tel"
+                            placeholder="05xxxxxxxx" maxlength="10" inputmode="numeric">
                     </div>
                     <span class="field-hint">لتتبع طلبك لاحقاً</span>
                 </div>
             </div>
         </div>
+ 
         <div class="total-row">
             <span class="total-label">الإجمالي:</span>
             <span class="total-amount" id="cart-total-display">0 <small>ر.س</small></span>
         </div>
+ 
         <button class="send-btn" id="send-btn" onclick="sendOrderWhatsApp()">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.63 1.438h.004c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
@@ -1106,16 +1259,27 @@
 </div>
  
 <script>
-    const SUPABASE_URL  = 'https://ulaeuhltcsbvceaklobu.supabase.co';
-    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVsYWV1aGx0Y3NidmNlYWtsb2J1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1MjU1NjEsImV4cCI6MjA5NDEwMTU2MX0.ixR5qANmq5GPE9E6tQZfekyIT5t9zZ3Yuy9euOKeyEY';
-    const WHATSAPP      = '966503550319';
+    /* ============================================================
+       ⚙️  الإعدادات — عدّل هذين السطرين فقط
+    ============================================================ */
+    const SUPABASE_URL  = 'https://ulaeuhltcsbvceaklobu.supabase.co';   // ← Project URL
+    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVsYWV1aGx0Y3NidmNlYWtsb2J1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1MjU1NjEsImV4cCI6MjA5NDEwMTU2MX0.ixR5qANmq5GPE9E6tQZfekyIT5t9zZ3Yuy9euOKeyEY';                      // ← anon/public key
+    const WHATSAPP      = '966503550319';                       // ← رقم الواتساب
+ 
+    /* ============================================================
+       Supabase client
+    ============================================================ */
     const _sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
-    // تحميل العروض
-    function loadOffers() {
-        const bar = document.getElementById('offers-bar');
-        if (!bar) return;
-        _sb.from('offers').select('*').eq('active', true).order('created_at', { ascending: false })
+// ===== تحميل العروض =====
+function loadOffers() {
+    const bar = document.getElementById('offers-bar');
+    if (!bar) return;
+    
+    _sb.from('offers')
+        .select('*')
+        .eq('active', true)
+        .order('created_at', { ascending: false })
         .then(function(r) {
             if (r.error || !r.data || r.data.length === 0) {
                 bar.classList.remove('has-offers');
@@ -1126,79 +1290,123 @@
             const chipCls = { gold:'chip-gold', red:'chip-red', green:'chip-green', blue:'chip-blue' };
             bar.innerHTML = r.data.map(function(o) {
                 const cls = chipCls[o.color] || 'chip-gold';
-                let disc = o.discount_type === 'percent' ? `خصم ${o.discount_value}%`
-                         : o.discount_type === 'fixed' ? `خصم ${o.discount_value} ر.س` : '';
-                return `<div class="offer-chip ${cls}">
-                    <span class="offer-chip-emoji">${o.emoji||'🔥'}</span>
-                    <span class="offer-chip-text">${o.title}</span>
-                    ${disc ? `<span class="offer-chip-disc">· ${disc}</span>` : ''}
-                </div>`;
+                let disc = '';
+                if (o.discount_type === 'percent') disc = `خصم ${o.discount_value}%`;
+                else if (o.discount_type === 'fixed') disc = `خصم ${o.discount_value} ر.س`;
+                return `
+                    <div class="offer-chip ${cls}">
+                        <span class="offer-chip-emoji">${o.emoji || '🔥'}</span>
+                        <span class="offer-chip-text">${o.title}</span>
+                        ${disc ? `<span class="offer-chip-disc">· ${disc}</span>` : ''}
+                    </div>
+                `;
             }).join('');
         });
-    }
-    document.addEventListener('DOMContentLoaded', loadOffers);
+}
 
+// استدعاء بعد تحميل الصفحة
+document.addEventListener('DOMContentLoaded', loadOffers);
+
+    // Update nav auth button based on session
     _sb.auth.getSession().then(function({ data }) {
+        var btn = document.getElementById('nav-auth-btn');
+        var txt = document.getElementById('nav-auth-text');
         if (data && data.session && data.session.user) {
-            var txt = document.getElementById('nav-auth-text');
             if (txt) txt.textContent = 'حسابي';
         }
     });
-
-    // ===== تحميل المنتجات =====
+ 
+    /* ============================================================
+       تحميل المنتجات من Supabase
+    ============================================================ */
     async function loadProducts() {
         document.getElementById('products-loading').style.display = 'grid';
         document.getElementById('products-error').style.display   = 'none';
         document.getElementById('products-content').style.display = 'none';
-
-        const { data, error } = await _sb.from('products').select('*').eq('in_stock', true).order('sort_order', { ascending: true });
+ 
+        const { data, error } = await _sb
+            .from('products')
+            .select('*')
+            .eq('in_stock', true)
+            .order('sort_order', { ascending: true });
+ 
         document.getElementById('products-loading').style.display = 'none';
+ 
         if (error || !data) {
             document.getElementById('products-error').style.display = 'block';
+            console.error('Supabase error:', error);
             return;
         }
+ 
+        // تقسيم المنتجات حسب الفئة
         const oudList     = data.filter(p => p.category === 'oud');
         const naturalList = data.filter(p => p.category === 'natural');
         const accList     = data.filter(p => p.category === 'acc');
-
-        document.getElementById('title-oud').style.display     = oudList.length ? 'block' : 'none';
-        document.getElementById('title-natural').style.display = naturalList.length ? 'block' : 'none';
-        document.getElementById('title-acc').style.display     = accList.length ? 'block' : 'none';
-
-        document.getElementById('grid-oud').innerHTML     = oudList.map(p => buildCard(p)).join('');
-        document.getElementById('grid-natural').innerHTML = naturalList.map(p => buildCard(p)).join('');
-        document.getElementById('grid-acc').innerHTML     = accList.map(p => buildCard(p)).join('');
+ 
+        const oudTitle     = document.getElementById('title-oud');
+        const naturalTitle = document.getElementById('title-natural');
+        const accTitle     = document.getElementById('title-acc');
+        const oudGrid      = document.getElementById('grid-oud');
+        const naturalGrid  = document.getElementById('grid-natural');
+        const accGrid      = document.getElementById('grid-acc');
+ 
+        oudTitle.style.display     = oudList.length     ? 'block' : 'none';
+        naturalTitle.style.display = naturalList.length ? 'block' : 'none';
+        accTitle.style.display     = accList.length     ? 'block' : 'none';
+ 
+        oudGrid.innerHTML     = oudList.map(p => buildCard(p)).join('');
+        naturalGrid.innerHTML = naturalList.map(p => buildCard(p)).join('');
+        accGrid.innerHTML     = accList.map(p => buildCard(p)).join('');
+ 
         document.getElementById('products-content').style.display = 'block';
     }
+ 
+    /* بناء HTML كارت المنتج */
+   function buildCard(p) {
+    const placeholder = p.category === 'oud' ? '28g' : '×1';
+    const imgHtml = p.image_url
+        ? `<img src="${p.image_url}" alt="${p.name}" loading="lazy" onerror="this.style.display='none'">`
+        : `<div class="product-img-placeholder">${placeholder}</div>`;
 
-    function buildCard(p) {
-        const imgHtml = p.image_url
-            ? `<img src="${p.image_url}" alt="${p.name}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\"product-img-placeholder\">${p.category==='oud'?'28g':'×1'}</div>'">`
-            : `<div class="product-img-placeholder">${p.category==='oud'?'28g':'×1'}</div>`;
-        const badgeHtml = p.badge ? `<span class="product-badge">${p.badge}</span>` : '';
-        const safeName = (p.name||'').replace(/'/g,"\\'").replace(/"/g,'&quot;');
-        const price = parseFloat(p.price)||0;
-        const oldPrice = p.old_price ? parseFloat(p.old_price) : null;
-        const hasDiscount = oldPrice && oldPrice > price;
-        let discountPercent = '';
-        if (hasDiscount) {
-            const percent = Math.round(((oldPrice - price) / oldPrice) * 100);
-            discountPercent = `<span class="discount-badge">-${percent}%</span>`;
-        }
-        let priceHtml = hasDiscount ?
-            `<div class="product-price">
+    const badgeHtml = p.badge ? `<span class="product-badge">${p.badge}</span>` : '';
+    const safeName = (p.name || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    const price = parseFloat(p.price) || 0;
+    const oldPrice = p.old_price ? parseFloat(p.old_price) : null;
+    const hasDiscount = oldPrice && oldPrice > price;
+
+    // حساب نسبة الخصم
+    let discountPercent = '';
+    if (hasDiscount) {
+        const percent = Math.round(((oldPrice - price) / oldPrice) * 100);
+        discountPercent = `<span class="discount-badge">-${percent}%</span>`;
+    }
+
+    // بناء هيكل السعر
+    let priceHtml = '';
+    if (hasDiscount) {
+        priceHtml = `
+            <div class="product-price">
                 <span class="old-price">${oldPrice} <small>ر.س</small></span>
                 <span class="current-price">${price} <small>ر.س</small></span>
                 ${discountPercent}
-            </div>` : `<div class="product-price">${price} <small>ر.س</small></div>`;
+            </div>
+        `;
+    } else {
+        priceHtml = `<div class="product-price">${price} <small>ر.س</small></div>`;
+    }
 
-        const uid = p.id.slice(0,8);
-        return `<div class="product-card">
-            <div class="product-img">${imgHtml}${badgeHtml}</div>
+    const uid = p.id.slice(0, 8);
+
+    return `
+        <div class="product-card">
+            <div class="product-img">
+                ${imgHtml}
+                ${badgeHtml}
+            </div>
             <div class="product-body">
-                <p class="product-cat">${p.category==='oud'?'عود وبخور':p.category==='natural'?'بخور طبيعي':'ملحقات'}</p>
+                <p class="product-cat">${p.category === 'oud' ? 'بخور وعود' : p.category === 'natural' ? 'بخور طبيعي' : 'ملحقات'}</p>
                 <h3 class="product-name">${p.name}</h3>
-                ${p.note ? `<p class="product-note">${p.note}</p>` : ''}
+                ${p.note ? '<p class="product-note">' + p.note + '</p>' : ''}
                 <div class="product-footer">
                     ${priceHtml}
                     <div class="add-btn-wrap">
@@ -1207,21 +1415,28 @@
                             <span class="qi-num">1</span>
                             <button class="qi-btn" onclick="addToCart('${safeName}', ${price}, this.closest('.add-btn-wrap').querySelector('.add-btn'))">+</button>
                         </div>
-                        <button class="add-btn" onclick="addToCart('${safeName}', ${price}, this)">+</button>
+                        <button class="add-btn" onclick="addToCart('${safeName}', ${price}, this)" aria-label="أضف للسلة">+</button>
                     </div>
                 </div>
             </div>
-        </div>`;
-    }
+        </div>
+    `;
+}
+ 
+    // تشغيل التحميل عند فتح الصفحة
     loadProducts();
-
-    // ===== Cart =====
+ 
+    /* ============================================================
+       البيانات — cart كـ Map: key=name, value={price, qty}
+    ============================================================ */
     let cart = new Map();
     let savedLocationUrl = '';
-
+ 
+    /* ===== مؤشر أوقات العمل ===== */
     function updateStatusBar() {
         const saHour = (new Date().getUTCHours() + 3) % 24;
-        const isOpen = saHour >= 9 && saHour < 23;
+        const OPEN = 9, CLOSE = 23;
+        const isOpen = saHour >= OPEN && saHour < CLOSE;
         const dot  = document.getElementById('status-dot');
         const text = document.getElementById('status-text');
         const hrs  = document.getElementById('status-hours');
@@ -1229,17 +1444,18 @@
             dot.className  = 'status-dot open-now';
             text.className = 'status-text open-now';
             text.textContent = 'متاح للتوصيل الآن';
-            hrs.textContent  = '— يغلق الساعة 23:00';
+            hrs.textContent  = `— يغلق الساعة ${CLOSE}:00`;
         } else {
             dot.className  = 'status-dot closed-now';
             text.className = 'status-text closed-now';
             text.textContent = 'مغلق حالياً';
-            hrs.textContent  = '— يفتح الساعة 9:00 صباحاً';
+            hrs.textContent  = `— يفتح الساعة ${OPEN}:00 صباحاً`;
         }
     }
     updateStatusBar();
     setInterval(updateStatusBar, 60000);
-
+ 
+    /* ===== إضافة للسلة ===== */
     function addToCart(name, price, addBtn) {
         const wrap = addBtn.closest('.add-btn-wrap');
         const indicator = wrap ? wrap.querySelector('.qty-indicator') : null;
@@ -1258,7 +1474,7 @@
         }
         updateNavBtn();
     }
-
+ 
     function cardQtyChange(name, delta, qiBtn) {
         const wrap = qiBtn.closest('.add-btn-wrap');
         const indicator = wrap.querySelector('.qty-indicator');
@@ -1276,7 +1492,7 @@
         }
         updateNavBtn();
     }
-
+ 
     function cartQtyChange(name, delta) {
         if (!cart.has(name)) return;
         cart.get(name).qty += delta;
@@ -1285,7 +1501,7 @@
         renderCartBody();
         if (cart.size === 0) closeCart();
     }
-
+ 
     function updateNavBtn() {
         const btn   = document.getElementById('nav-cart-btn');
         const badge = document.getElementById('nav-cart-badge');
@@ -1296,50 +1512,48 @@
             btn.style.display = 'none';
         }
     }
-
+ 
     function renderCartBody() {
-        const itemsContainer = document.getElementById('cart-items-container');
+        const body    = document.getElementById('cart-body');
         const footer  = document.getElementById('cart-footer');
         const totalEl = document.getElementById('cart-total-display');
-        if (!itemsContainer) return;
         if (cart.size === 0) {
-            itemsContainer.innerHTML = '<div class="cart-empty-msg">السلة فارغة</div>';
+            body.innerHTML = '<div class="cart-empty-msg">السلة فارغة</div>';
             footer.style.display = 'none';
-            document.getElementById('cart-suggestions').style.display = 'none';
             return;
         }
         const total = [...cart.values()].reduce((s,i) => s + i.price * i.qty, 0);
         totalEl.innerHTML = `${total} <small>ر.س</small>`;
-        itemsContainer.innerHTML = [...cart.entries()].map(([name, item]) => `
+        body.innerHTML = [...cart.entries()].map(([name, item]) => `
             <div class="cart-item">
                 <span class="cart-item-name">${name}</span>
                 <div class="qty-controls">
-                    <button class="qty-btn minus" onclick="cartQtyChange('${name.replace(/'/g,"\\'")}', -1)">−</button>
+                    <button class="qty-btn minus" onclick="cartQtyChange('${name.replace(/'/g,"\'")}', -1)">−</button>
                     <span class="qty-num">${item.qty}</span>
-                    <button class="qty-btn" onclick="cartQtyChange('${name.replace(/'/g,"\\'")}', +1)">+</button>
+                    <button class="qty-btn" onclick="cartQtyChange('${name.replace(/'/g,"\'")}', +1)">+</button>
                 </div>
                 <span class="cart-item-price">${item.price * item.qty} ر.س</span>
             </div>
         `).join('');
         footer.style.display = 'block';
     }
-
-    function openCart() {
-        renderCartBody();
-        loadSuggestionsCache().then(() => renderSuggestions());
-        document.getElementById('cart-overlay').classList.add('open');
-        requestAnimationFrame(() => document.getElementById('cart-sheet').classList.add('open'));
-        document.body.style.overflow = 'hidden';
-    }
-
+ 
+   function openCart() {
+    renderCartBody();
+    loadSuggestionsCache().then(function() { renderSuggestions(); });
+    document.getElementById('cart-overlay').classList.add('open');
+    requestAnimationFrame(() => document.getElementById('cart-sheet').classList.add('open'));
+    document.body.style.overflow = 'hidden';
+}
+ 
     function closeCart() {
         document.getElementById('cart-sheet').classList.remove('open');
         document.getElementById('cart-overlay').classList.remove('open');
         document.body.style.overflow = '';
     }
-
-    // ===== اقتراحات السلة =====
+ // ===== اقتراحات السلة =====
     var _allProducts = [];
+
     async function loadSuggestionsCache() {
         if (_allProducts.length > 0) return;
         var { data } = await _sb.from('products').select('id,name,price,image_url,category').eq('in_stock', true);
@@ -1353,12 +1567,16 @@
             if (container) container.style.display = 'none';
             return;
         }
+
         var inCartNames = new Set();
         cart.forEach(function(_, name) { inCartNames.add(name); });
+
         var available = _allProducts.filter(function(p) { return p.name && !inCartNames.has(p.name); });
         if (available.length === 0) { container.style.display = 'none'; return; }
+
         var shuffled = available.sort(function() { return 0.5 - Math.random(); });
-        var selected = shuffled.slice(0, 2);   // عرض 2 فقط
+        var selected = shuffled.slice(0, 2);
+
         list.innerHTML = selected.map(function(p) {
             var img = p.image_url
                 ? '<img src="' + p.image_url + '" alt="" class="sugg-img" onerror="this.style.display=\'none\'">'
@@ -1370,6 +1588,7 @@
                 '<button class="sugg-add" onclick="addSuggToCart(\'' + safe + '\', ' + p.price + ')">+</button>' +
             '</div>';
         }).join('');
+
         container.style.display = 'block';
     }
 
@@ -1383,7 +1602,6 @@
         renderCartBody();
         renderSuggestions();
     }
-
     function getLocation() {
         const btn     = document.getElementById('location-btn');
         const btnText = document.getElementById('location-btn-text');
@@ -1416,8 +1634,10 @@
             { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
         );
     }
-
+ 
+    /* ===== إرسال الطلب + حفظه في Supabase ===== */
     var _pm = 'cash';
+
     function choosePay(m) {
         _pm = m;
         document.getElementById('pb-cash').className = 'pay-btn' + (m === 'cash' ? ' on' : '');
@@ -1426,14 +1646,19 @@
 
     async function sendOrderWhatsApp() {
         if (cart.size === 0) return;
+ 
         const neighborhood = document.getElementById('neighborhood').value;
         const notes        = document.getElementById('order-notes').value.trim();
-        const phone        = document.getElementById('customer-phone')?.value.trim() || '';
+        const phone        = document.getElementById('customer-phone') ? document.getElementById('customer-phone').value.trim() : '';
         const total        = [...cart.values()].reduce((s,i) => s + i.price * i.qty, 0);
         const orderNum     = Math.floor(1000 + Math.random() * 9000);
-
+ 
+        /* --- 1) بناء رسالة الواتساب أولاً --- */
         let lines = [];
-        cart.forEach((item, name) => lines.push(`${name} × ${item.qty} — ${item.price * item.qty} ر.س`));
+        cart.forEach((item, name) => {
+            lines.push(`${name} × ${item.qty} — ${item.price * item.qty} ر.س`);
+        });
+ 
         const msgParts = [
             `*طلب جديد #${orderNum} - بخورنا*`,
             `━━━━━━━━━━━━━━━━`,
@@ -1441,35 +1666,46 @@
             savedLocationUrl ? `*الموقع:* ${savedLocationUrl}` : null,
             ``,
             `*المنتجات:*`,
-            ...lines.map((l,i) => `${i+1}. ${l}`),
+            ...lines.map((l, i) => `${i + 1}. ${l}`),
             `━━━━━━━━━━━━━━━━`,
             `*الإجمالي: ${total} ر.س*`,
             `*الدفع: ${_pm === "cash" ? "كاش عند الاستلام" : "بطاقة عند الاستلام"}*`,
+            notes ? `` : null,
             notes ? `*ملاحظات:* ${notes}` : null,
             phone ? `*جوال:* ${phone}` : null,
         ].filter(l => l !== null);
+ 
         const waUrl = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msgParts.join('\n'))}`;
+ 
+        /* --- 2) فتح الواتساب فوراً (قبل أي async) --- */
         window.open(waUrl, '_blank');
         closeCart();
         setTimeout(() => showConfirm(orderNum), 400);
-
+ 
+        /* --- 3) حفظ الطلب في Supabase في الخلفية --- */
         const items = [...cart.entries()].map(([name, item]) => ({
             product_name: name,
             qty:   item.qty,
             price: item.price
         }));
+ 
         try {
-            const { data: orderData, error: orderError } = await _sb.from('orders').insert({
-                order_number: String(orderNum),
-                neighborhood: neighborhood || null,
-                location_url: savedLocationUrl || null,
-                notes:        notes || null,
-                phone:        phone || null,
-                total:        total,
-                status:       'new'
-            }).select('id').single();
+            const { data: orderData, error: orderError } = await _sb
+                .from('orders')
+                .insert({
+                    order_number: String(orderNum),
+                    neighborhood: neighborhood || null,
+                    location_url: savedLocationUrl || null,
+                    notes:        notes || null,
+                    phone:        phone || null,
+                    total:        total,
+                    status:       'new'
+                })
+                .select('id')
+                .single();
+ 
             if (orderError) {
-                console.error('❌ خطأ حفظ الطلب:', orderError.message);
+                console.error('❌ خطأ حفظ الطلب:', orderError.message, orderError.details);
             } else if (orderData) {
                 const orderItems = items.map(item => ({
                     order_id:     orderData.id,
@@ -1479,17 +1715,20 @@
                 }));
                 const { error: itemsError } = await _sb.from('order_items').insert(orderItems);
                 if (itemsError) console.error('❌ خطأ حفظ المنتجات:', itemsError.message);
-                else console.log('✅ تم حفظ الطلب #' + orderNum);
+                else console.log('✅ تم حفظ الطلب #' + orderNum + ' في Supabase');
             }
-        } catch(e) { console.warn('Order save exception:', e); }
+        } catch(e) {
+            console.warn('Order save exception:', e);
+        }
     }
-
+ 
     function showConfirm(orderNum) {
         document.getElementById('confirm-order-num').textContent = `رقم الطلب: #${orderNum}`;
+        var tl = document.getElementById('confirm-track-link'); if(tl) tl.href='track.html?order='+orderNum;
         document.getElementById('confirm-overlay').classList.add('open');
         document.body.style.overflow = 'hidden';
     }
-
+ 
     function closeConfirm() {
         document.getElementById('confirm-overlay').classList.remove('open');
         document.body.style.overflow = '';
@@ -1498,18 +1737,21 @@
         document.querySelectorAll('.qty-indicator').forEach(el => el.classList.remove('show'));
         document.querySelectorAll('.add-btn').forEach(el => el.style.display = 'flex');
     }
-
+ 
     function filterProducts(cat, btn) {
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        document.getElementById('title-oud').style.display     = (cat==='all'||cat==='oud') ? 'block' : 'none';
-        document.getElementById('grid-oud').style.display      = (cat==='all'||cat==='oud') ? 'grid' : 'none';
-        document.getElementById('title-natural').style.display = (cat==='all'||cat==='natural') ? 'block' : 'none';
-        document.getElementById('grid-natural').style.display  = (cat==='all'||cat==='natural') ? 'grid' : 'none';
-        document.getElementById('title-acc').style.display     = (cat==='all'||cat==='acc') ? 'block' : 'none';
-        document.getElementById('grid-acc').style.display      = (cat==='all'||cat==='acc') ? 'grid' : 'none';
+        const showOud     = cat === 'all' || cat === 'oud';
+        const showNatural = cat === 'all' || cat === 'natural';
+        const showAcc     = cat === 'all' || cat === 'acc';
+        document.getElementById('title-oud').style.display     = showOud     ? 'block' : 'none';
+        document.getElementById('grid-oud').style.display      = showOud     ? 'grid'  : 'none';
+        document.getElementById('title-natural').style.display = showNatural ? 'block' : 'none';
+        document.getElementById('grid-natural').style.display  = showNatural ? 'grid'  : 'none';
+        document.getElementById('title-acc').style.display     = showAcc     ? 'block' : 'none';
+        document.getElementById('grid-acc').style.display      = showAcc     ? 'grid'  : 'none';
     }
-
+ 
     let touchStartY = 0;
     const sheet = document.getElementById('cart-sheet');
     sheet.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, { passive: true });
@@ -1518,25 +1760,39 @@
     }, { passive: true });
 </script>
 
-    <footer>
-        <div class="footer-logo">بخورنا</div>
-        <p class="footer-tagline">بخورنا يصلك إلى باب بيتك</p>
-        <div class="social-links">
-            <!-- أيقونات واتساب وانستغرام وتيك توك -->
+    <!-- FOOTER -->
+<footer>
+    <div class="footer-logo">بخورنا</div>
+    <p class="footer-tagline">بخورنا يصلك إلى باب بيتك</p>
+
+    <div class="social-links">
+        <a href="https://wa.me/966503550319" target="_blank" class="social-link" aria-label="واتساب">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.63 1.438h.004c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </a>
+        <a href="https://instagram.com/bakhurna" target="_blank" class="social-link" aria-label="انستغرام">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+        <a href="https://tiktok.com/@bakhurna" target="_blank" class="social-link" aria-label="تيك توك">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.9-.39-2.81-.12-.9.24-1.72.88-2.12 1.71-.39.81-.43 1.76-.27 2.63.2 1.05.84 2.01 1.71 2.63.95.71 2.15.93 3.3.62 1.2-.31 2.16-1.28 2.54-2.43.14-.42.22-.86.23-1.3l.01-13.91z"/></svg>
+        </a>
+    </div>
+
+    <div class="footer-payment">
+        <p class="footer-payment-label">طرق الدفع المقبولة</p>
+        <div class="footer-payment-icons">
+            <img src="https://raw.githubusercontent.com/bokurna/bukorna/main/mada.png" alt="مدى" title="مدى">
+            <img src="https://raw.githubusercontent.com/bokurna/bukorna/main/apple-pay-og.jpg" alt="Apple Pay" title="Apple Pay">
+            <img src="https://raw.githubusercontent.com/bokurna/bukorna/main/Visa.png" alt="Visa" title="Visa">
+            <img src="https://raw.githubusercontent.com/bokurna/bukorna/main/mastercard.png" alt="Mastercard" title="Mastercard">
+            <img src="https://raw.githubusercontent.com/bokurna/bukorna/main/cash-pay.jpg" alt="كاش" title="كاش">
         </div>
-        <div class="footer-payment">
-            <p class="footer-payment-label">طرق الدفع المقبولة</p>
-            <div class="footer-payment-icons">
-                <img src="https://raw.githubusercontent.com/bokurna/bukorna/main/mada.png" alt="مدى" title="مدى">
-                <img src="https://raw.githubusercontent.com/bokurna/bukorna/main/apple-pay-og.jpg" alt="Apple Pay" title="Apple Pay">
-                <img src="https://raw.githubusercontent.com/bokurna/bukorna/main/Visa.png" alt="Visa" title="Visa">
-                <img src="https://raw.githubusercontent.com/bokurna/bukorna/main/mastercard.png" alt="Mastercard" title="Mastercard">
-                <img src="https://raw.githubusercontent.com/bokurna/bukorna/main/cash-pay.jpg" alt="كاش" title="كاش">
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2026 بخورنا — جميع الحقوق محفوظة | الأسعار تشمل ضريبة القيمة المضافة</p>
-        </div>
-    </footer>
+    </div>
+
+    <div class="footer-bottom">
+        <p>© 2026 بخورنا — جميع الحقوق محفوظة | الأسعار تشمل ضريبة القيمة المضافة</p>
+    </div>
+</footer>
+ 
+</script>
 </body>
 </html>
