@@ -1244,9 +1244,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
   /* نسخة مطابقة لدالة buildCard من products.html */
   function buildCard(p) {
+    const placeholder = p.category === 'oud' ? '28g' : '×1';
     const imgHtml = p.image_url
-      ? `<img src="${p.image_url}" alt="${p.name}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\"product-img-placeholder\">${p.category === 'oud' ? '28g' : '×1'}</div>'">`
-      : `<div class="product-img-placeholder">${p.category === 'oud' ? '28g' : '×1'}</div>`;
+      ? `<img src="${p.image_url}" alt="${p.name}" loading="lazy" onerror="this.style.display='none'">`
+      : `<div class="product-img-placeholder">${placeholder}</div>`;
 
     const badgeHtml = p.badge ? `<span class="product-badge">${p.badge}</span>` : '';
     const price = parseFloat(p.price) || 0;
