@@ -542,13 +542,9 @@
     overflow: hidden;
     transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
     text-decoration: none;
-    display: block;
     color: inherit;
-}
-.product-card:hover {
-    border-color: rgba(201,168,76,0.4);
-    transform: translateY(-4px);
-    box-shadow: 0 14px 28px rgba(0,0,0,0.35);
+    display: flex;              /* ★ اجعلها حاوية مرنة */
+    flex-direction: column;     /* ★ ترتيب عمودي (صورة - محتوى - فوتر) */
 }
 
 .product-img {
@@ -569,7 +565,12 @@
     font-size: 0.65rem; font-weight: 700;
     padding: 4px 10px; border-radius: 100px;
 }
-.product-body { padding: 14px; }
+.product-body {
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;                    /* ★ يتمدد ليملأ المساحة المتبقية */
+}
 .product-cat {
     font-size: 0.65rem; letter-spacing: 2px;
     color: var(--gold-dark); text-transform: uppercase;
@@ -584,7 +585,10 @@
     margin-bottom: 14px;
 }
 .product-footer {
-    display: flex; justify-content: space-between; align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;           /* ★ يدفع الفوتر إلى أسفل البطاقة دائماً */
 }
 
 /* أسعار وخصومات */
