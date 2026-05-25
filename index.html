@@ -514,13 +514,20 @@
         /* ===== PRODUCTS PREVIEW ===== */
         .products-bg { background: var(--dark-2); }
 
-/* ===== PRODUCTS GRID (نفس تصميم products.html) ===== */
+/* ===== PRODUCTS GRID (تعديل التوسيط والـ auto-fit هنا) ===== */
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* تحويل إلى auto-fit لإلغاء الفراغات الجانبية */
     gap: 14px;
     max-width: 1100px;
     margin: 0 auto 32px;
+    justify-content: center; /* توسيط شبكة المنتجات بالكامل في الشاشات الكبيرة */
+}
+
+/* تنسيق حاوية الزر لتوسيطه تماماً في الصفحة */
+.view-all-wrap {
+    text-align: center;
+    margin-top: 24px;
 }
 
 .product-card {
@@ -974,7 +981,7 @@
     <div class="features-grid">
         <div class="feature-card">
             <div class="feature-icon">
-                <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138z"/></svg>
             </div>
             <h3 class="feature-title">جودة مضمونة</h3>
             <p class="feature-text">كل منتج يمر بمراجعة دقيقة قبل وصوله إليك. لا نتنازل عن الجودة أبداً.</p>
@@ -1099,7 +1106,7 @@
         </div>
         <div class="faq-item">
             <button class="faq-btn" onclick="toggleFaq(this)">
-                <span>كيف يتم الدفع؟</span>
+                <span>كيف يتم الدفع?</span>
                 <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">الدفع عند الاستلام فقط — كاش أو بطاقة مدى/فيزا. لا يوجد دفع مسبق.</div>
