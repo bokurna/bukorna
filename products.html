@@ -398,8 +398,7 @@
             border-radius: 20px 20px 0 0;
             padding: 0;
             z-index: 901;
-            max-height: 92vh;
-            height: 92vh; /* ★ ارتفاع ثابت على الجوال يضمن مساحة للاقتراحات */
+            max-height: 90vh;
             display: flex;
             flex-direction: column;
             transform: translateY(100%);
@@ -462,10 +461,10 @@
             overflow-y: auto;
             overflow-x: hidden;
             flex: 1;
+            min-height: 0; /* ★ ضروري لـ flexbox حتى يتمرر بشكل صحيح على iOS */
             padding: 4px 0;
             -webkit-overflow-scrolling: touch;
-            overscroll-behavior: contain; /* ★ يمنع تمرير الصفحة خلف السلة على iOS */
-            min-height: 0; /* ★ ضروري لـ flex حتى يتمرر بشكل صحيح */
+            overscroll-behavior: contain;
         }
  
         .cart-empty-msg {
@@ -813,8 +812,6 @@
                 transform: translateX(-50%) translateY(100%);
                 width: 100%;
                 max-width: 520px;
-                height: auto; /* ★ على الكمبيوتر يرجع للارتفاع التلقائي */
-                max-height: 88vh;
             }
             .cart-sheet.open {
                 transform: translateX(-50%) translateY(0);
@@ -1072,13 +1069,12 @@
 .sugg-price { font-size: 0.75rem; color: var(--gold); font-weight: 700; }
 .sugg-add {
     background: var(--gold); color: var(--dark); border: none;
-    width: 32px; height: 32px; border-radius: 50%; /* ★ أكبر قليلاً لمساحة اللمس */
+    width: 34px; height: 34px; border-radius: 50%;
     font-size: 1.2rem; font-weight: 700; cursor: pointer;
     flex-shrink: 0; display: flex; align-items: center; justify-content: center;
     -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation; /* ★ يمنع تأخير 300ms على iOS/Android */
+    touch-action: manipulation;
     transition: transform 0.15s;
-    min-width: 32px; /* ★ يضمن عدم تقلصه */
 }
 .sugg-add:active { transform: scale(0.85); } 
         .footer-bottom { font-size: 0.72rem; color: rgba(245,234,214,0.22); margin-top: 8px; }
@@ -1623,24 +1619,22 @@ document.addEventListener('DOMContentLoaded', loadOffers);
             var img = p.image_url
                 ? '<img src="' + p.image_url + '" alt="" class="sugg-img" onerror="this.style.display=\'none\'">'
                 : '<div class="sugg-img">📦</div>';
-            // ★ نستخدم data-* بدل onclick لضمان عمله على الجوال
             return '<div class="sugg-item">' +
                 img +
                 '<div class="sugg-info"><div class="sugg-name">' + p.name + '</div><div class="sugg-price">' + p.price + ' ر.س</div></div>' +
-                '<button class="sugg-add" data-name="' + p.name.replace(/"/g,'&quot;') + '" data-price="' + p.price + '" type="button">+</button>' +
+                '<button class="sugg-add" type="button" data-name="' + p.name.replace(/"/g, '&quot;') + '" data-price="' + p.price + '">+</button>' +
             '</div>';
         }).join('');
 
         container.style.display = 'block';
     }
 
-    // ★ Event delegation على suggestions-list — يعمل على كل الأجهزة بدون تأخير
+    // ★ event delegation — يعمل على الجوال بدون تأخير
     document.getElementById('suggestions-list').addEventListener('click', function(e) {
         var btn = e.target.closest('.sugg-add');
         if (!btn) return;
         addSuggToCart(btn.dataset.name, parseFloat(btn.dataset.price));
     });
-    // دعم touch للجوال
     document.getElementById('suggestions-list').addEventListener('touchend', function(e) {
         var btn = e.target.closest('.sugg-add');
         if (!btn) return;
