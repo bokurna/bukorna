@@ -1074,6 +1074,16 @@
 }
 .sugg-add:active { transform: scale(0.85); } 
         .footer-bottom { font-size: 0.72rem; color: rgba(245,234,214,0.22); margin-top: 8px; }
+
+        /* ===== عداد الطلبات لكل منتج ===== */
+        .product-order-count {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.7rem;
+            color: rgba(201,168,76,0.65);
+            margin-bottom: 6px;
+        }
     </style>
 </head>
 <body>
@@ -1410,6 +1420,14 @@ document.addEventListener('DOMContentLoaded', loadOffers);
 
     const uid = p.id.slice(0, 8);
 
+    // عداد الطلبات
+    const orderCount = p.order_count || 0;
+    const orderCountHtml = orderCount > 0 ? `
+        <div class="product-order-count">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            طُلب ${orderCount} مرة
+        </div>` : '';
+
     return `
         <div class="product-card">
             <div class="product-img">
@@ -1419,6 +1437,7 @@ document.addEventListener('DOMContentLoaded', loadOffers);
             <div class="product-body">
                 <p class="product-cat">${p.category === 'oud' ? 'بخور وعود' : p.category === 'natural' ? 'بخور طبيعي' : 'ملحقات'}</p>
                 <h3 class="product-name">${p.name}</h3>
+                ${orderCountHtml}
                 ${p.note ? '<p class="product-note">' + p.note + '</p>' : ''}
                 <div class="product-footer">
                     ${priceHtml}
@@ -1730,7 +1749,22 @@ document.addEventListener('DOMContentLoaded', loadOffers);
                 }));
                 const { error: itemsError } = await _sb.from('order_items').insert(orderItems);
                 if (itemsError) console.error('❌ خطأ حفظ المنتجات:', itemsError.message);
-                else console.log('✅ تم حفظ الطلب #' + orderNum + ' في Supabase');
+                else {
+                    console.log('✅ تم حفظ الطلب #' + orderNum + ' في Supabase');
+                    // ===== تحديث عداد الطلبات لكل منتج =====
+                    for (const item of items) {
+                        const { data: pRow } = await _sb
+                            .from('products')
+                            .select('id, order_count')
+                            .eq('name', item.product_name)
+                            .single();
+                        if (pRow) {
+                            await _sb.from('products').update({
+                                order_count: (pRow.order_count || 0) + item.qty
+                            }).eq('id', pRow.id);
+                        }
+                    }
+                }
             }
         } catch(e) {
             console.warn('Order save exception:', e);
