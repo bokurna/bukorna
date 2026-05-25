@@ -76,7 +76,7 @@
             z-index: 200;
         }
  
-       nav-logo {
+       .nav-logo {
     display: flex;
     align-items: center;
     text-decoration: none;
@@ -531,7 +531,7 @@
             min-width: 56px;
             text-align: left;
         }
- 
+
         /* زر + على الكارد - يتحول لمؤشر الكمية بعد الإضافة */
         .add-btn-wrap {
             display: flex;
@@ -1015,6 +1015,54 @@
         .footer-payment-icons { display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; }
         .footer-payment-icons img { height: 30px; width: auto; max-width: 56px; object-fit: contain; border-radius: 6px; background: rgba(255,255,255,0.06); padding: 4px 8px; filter: brightness(0.9) saturate(0.85); transition: filter 0.2s, transform 0.2s; }
         .footer-payment-icons img:hover { filter: brightness(1.1) saturate(1); transform: translateY(-2px); }
+        /* ===== اقتراحات السلة ===== */
+.cart-suggestions {
+    padding: 12px 20px 16px;
+    border-top: 1px solid rgba(201,168,76,0.08);
+    margin-top: 4px;
+}
+.cart-suggestions-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 10px;
+}
+.sugg-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    background: var(--dark);
+    border: 1px solid rgba(201,168,76,0.1);
+    border-radius: 10px;
+    margin-bottom: 6px;
+}
+.sugg-img {
+    width: 40px; height: 40px;
+    border-radius: 6px;
+    object-fit: cover;
+    background: var(--dark-3);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem;
+    color: rgba(245,234,214,0.25);
+}
+.sugg-info { flex: 1; min-width: 0; }
+.sugg-name {
+    font-size: 0.8rem; font-weight: 600; color: var(--cream);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    margin-bottom: 1px;
+}
+.sugg-price { font-size: 0.75rem; color: var(--gold); font-weight: 700; }
+.sugg-add {
+    background: var(--gold); color: var(--dark); border: none;
+    width: 28px; height: 28px; border-radius: 50%;
+    font-size: 1.1rem; font-weight: 700; cursor: pointer;
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.15s;
+}
+.sugg-add:active { transform: scale(0.85); } 
         .footer-bottom { font-size: 0.72rem; color: rgba(245,234,214,0.22); margin-top: 8px; }
     </style>
 </head>
@@ -1125,7 +1173,11 @@
     <div class="cart-body" id="cart-body">
         <div class="cart-empty-msg">أضف منتجات للسلة أولاً</div>
     </div>
- 
+  <!-- منطقة اقتراح منتجات للسلة -->
+    <div class="cart-suggestions" id="cart-suggestions" style="display:none;">
+    <div class="cart-suggestions-title"> قد يعجبك أيضاً</div>
+    <div id="suggestions-list"></div>
+    </div>
     <!-- القسم الثابت أسفل السلة -->
     <div class="cart-footer" id="cart-footer" style="display:none;">
  
@@ -1485,19 +1537,70 @@ document.addEventListener('DOMContentLoaded', loadOffers);
         footer.style.display = 'block';
     }
  
-    function openCart() {
-        renderCartBody();
-        document.getElementById('cart-overlay').classList.add('open');
-        requestAnimationFrame(() => document.getElementById('cart-sheet').classList.add('open'));
-        document.body.style.overflow = 'hidden';
-    }
+   function openCart() {
+    renderCartBody();
+    loadSuggestionsCache().then(function() { renderSuggestions(); });
+    document.getElementById('cart-overlay').classList.add('open');
+    requestAnimationFrame(() => document.getElementById('cart-sheet').classList.add('open'));
+    document.body.style.overflow = 'hidden';
+}
  
     function closeCart() {
         document.getElementById('cart-sheet').classList.remove('open');
         document.getElementById('cart-overlay').classList.remove('open');
         document.body.style.overflow = '';
     }
- 
+ // ===== اقتراحات السلة =====
+    var _allProducts = [];
+
+    async function loadSuggestionsCache() {
+        if (_allProducts.length > 0) return;
+        var { data } = await _sb.from('products').select('id,name,price,image_url,category').eq('in_stock', true);
+        if (data) _allProducts = data;
+    }
+
+    function renderSuggestions() {
+        var container = document.getElementById('cart-suggestions');
+        var list      = document.getElementById('suggestions-list');
+        if (!container || !list || cart.size === 0) {
+            if (container) container.style.display = 'none';
+            return;
+        }
+
+        var inCartNames = new Set();
+        cart.forEach(function(_, name) { inCartNames.add(name); });
+
+        var available = _allProducts.filter(function(p) { return p.name && !inCartNames.has(p.name); });
+        if (available.length === 0) { container.style.display = 'none'; return; }
+
+        var shuffled = available.sort(function() { return 0.5 - Math.random(); });
+        var selected = shuffled.slice(0, 3);
+
+        list.innerHTML = selected.map(function(p) {
+            var img = p.image_url
+                ? '<img src="' + p.image_url + '" alt="" class="sugg-img" onerror="this.style.display=\'none\'">'
+                : '<div class="sugg-img">📦</div>';
+            var safe = (p.name || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+            return '<div class="sugg-item">' +
+                img +
+                '<div class="sugg-info"><div class="sugg-name">' + p.name + '</div><div class="sugg-price">' + p.price + ' ر.س</div></div>' +
+                '<button class="sugg-add" onclick="addSuggToCart(\'' + safe + '\', ' + p.price + ')">+</button>' +
+            '</div>';
+        }).join('');
+
+        container.style.display = 'block';
+    }
+
+    function addSuggToCart(name, price) {
+        if (cart.has(name)) {
+            cart.get(name).qty += 1;
+        } else {
+            cart.set(name, { price: price, qty: 1 });
+        }
+        updateNavBtn();
+        renderCartBody();
+        renderSuggestions();
+    }
     function getLocation() {
         const btn     = document.getElementById('location-btn');
         const btnText = document.getElementById('location-btn-text');
