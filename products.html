@@ -244,13 +244,17 @@
             gap: 14px;
         }
  
-        .product-card {
-            background: var(--dark-2);
-            border: 1px solid rgba(201,168,76,0.12);
-            border-radius: 12px;
-            overflow: hidden;
-            transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
-        }
+       .product-card {
+    background: var(--dark-2);
+    border: 1px solid rgba(201,168,76,0.12);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    text-decoration: none;
+    color: inherit;
+    display: flex;              /* ★ اجعلها حاوية مرنة */
+    flex-direction: column;     /* ★ ترتيب عمودي (صورة - محتوى - فوتر) */
+}
  
         @media (hover: hover) {
             .product-card:hover {
@@ -295,7 +299,12 @@
             border-radius: 100px;
         }
  
-        .product-body { padding: 14px; }
+        .product-body {
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;                    /* ★ يتمدد ليملأ المساحة المتبقية */
+}
  
         .product-cat {
             font-size: 0.65rem;
@@ -319,11 +328,12 @@
             margin-bottom: 14px;
         }
  
-        .product-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+       .product-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;           /* ★ يدفع الفوتر إلى أسفل البطاقة دائماً */
+}
  
      .product-price {
     display: flex;
