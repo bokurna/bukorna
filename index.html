@@ -5,6 +5,13 @@
 <link rel="icon" type="image/x-icon" href="bukorna.ico">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="theme-color" content="#0d0a07">
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/bokurna/bukorna/main/bukorna.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="بخورنا">
 
     <!-- ===== SEO الأساسي ===== -->
     <title>بخورنا | بخور وعود توصيل يومي بريدة</title>
@@ -1364,6 +1371,72 @@ window.addEventListener('load', function() {
         });
     } catch(e) {}
 });
+</script>
+
+<!-- ===== PWA ===== -->
+<style>
+#pwa-banner{display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:9999;background:#1a1410;border:1px solid rgba(201,168,76,0.35);border-radius:16px;padding:14px 18px;box-shadow:0 8px 32px rgba(0,0,0,0.55);align-items:center;gap:14px;max-width:340px;width:calc(100% - 32px);animation:pwaUp 0.4s ease both}
+@keyframes pwaUp{from{transform:translateX(-50%) translateY(20px);opacity:0}to{transform:translateX(-50%) translateY(0);opacity:1}}
+#pwa-banner img{width:44px;height:44px;border-radius:10px;flex-shrink:0}
+#pwa-banner-text{flex:1}
+#pwa-banner-text strong{display:block;font-family:'Cairo',sans-serif;font-size:.88rem;color:#f5ead6;margin-bottom:2px}
+#pwa-banner-text span{font-family:'Cairo',sans-serif;font-size:.75rem;color:rgba(245,234,214,.55)}
+#pwa-install-btn{background:#c9a84c;color:#0d0a07;border:none;border-radius:10px;padding:8px 14px;font-family:'Cairo',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0}
+#pwa-dismiss-btn{background:none;border:none;color:rgba(245,234,214,.35);font-size:1.1rem;cursor:pointer;padding:4px;flex-shrink:0;line-height:1}
+</style>
+
+<div id="pwa-banner">
+    <img src="https://raw.githubusercontent.com/bokurna/bukorna/main/bukorna.png" alt="بخورنا" onerror="this.style.display='none'">
+    <div id="pwa-banner-text">
+        <strong>ثبّت تطبيق بخورنا</strong>
+        <span id="pwa-sub">اطلب بسرعة بدون متصفح</span>
+    </div>
+    <button id="pwa-install-btn">تثبيت</button>
+    <button id="pwa-dismiss-btn" aria-label="إغلاق">✕</button>
+</div>
+
+<script>
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+        .then(function(r){ console.log('[SW] scope:', r.scope); })
+        .catch(function(e){ console.warn('[SW]', e); });
+}
+
+var _deferredPrompt = null;
+var _pwaBanner = document.getElementById('pwa-banner');
+
+window.addEventListener('beforeinstallprompt', function(e) {
+    e.preventDefault();
+    _deferredPrompt = e;
+    if (!localStorage.getItem('pwa-dismissed')) {
+        setTimeout(function(){ _pwaBanner.style.display = 'flex'; }, 3500);
+    }
+});
+
+document.getElementById('pwa-install-btn').addEventListener('click', function() {
+    if (!_deferredPrompt) return;
+    _deferredPrompt.prompt();
+    _deferredPrompt.userChoice.then(function() {
+        _deferredPrompt = null;
+        _pwaBanner.style.display = 'none';
+    });
+});
+
+document.getElementById('pwa-dismiss-btn').addEventListener('click', function() {
+    _pwaBanner.style.display = 'none';
+    localStorage.setItem('pwa-dismissed', '1');
+});
+
+var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase());
+var isStandalone = window.navigator.standalone;
+if (isIOS && !isStandalone && !localStorage.getItem('pwa-dismissed')) {
+    setTimeout(function() {
+        document.getElementById('pwa-sub').innerHTML =
+            'اضغط <b style="color:#c9a84c">مشاركة ↑</b> ثم "إضافة للشاشة الرئيسية"';
+        document.getElementById('pwa-install-btn').style.display = 'none';
+        _pwaBanner.style.display = 'flex';
+    }, 3500);
+}
 </script>
 </body>
 </html>
