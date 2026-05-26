@@ -1185,7 +1185,7 @@
     /* ===== مؤشر أوقات العمل ===== */
     function updateStatus() {
         const saHour = (new Date().getUTCHours() + 3) % 24;
-        const isOpen = saHour >= 9 && saHour < 23;
+        const isOpen = saHour >= 6 && saHour < 23;
         const txt    = isOpen ? 'متاح الآن' : 'مغلق حالياً';
         const cls    = isOpen ? 'open' : 'closed';
 
