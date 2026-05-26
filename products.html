@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta name="theme-color" content="#1a1410">
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/bokurna/bukorna/main/bukorna.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="بخورنا">
 
     <title>تصفح منتجاتنا | بخورنا — عود وبخور فاخر بريدة</title>
     <meta name="description" content="تصفح منتجات بخورنا: بخور مروكي، عود هندي فاخر، بخور مروكي محسن، توزيعات العيد، عود فتنامي طبيعي، مبخرة متنقلة فحم وادي حلفا وأكثر. أسعار مناسبة وتوصيل يومي داخل بريدة. اطلب عبر واتساب.">
@@ -1870,5 +1877,13 @@ document.addEventListener('DOMContentLoaded', loadOffers);
 </footer>
  
 
+<!-- PWA: تسجيل Service Worker -->
+<script>
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+        .then(function(r){ console.log('[SW] scope:', r.scope); })
+        .catch(function(e){ console.warn('[SW]', e); });
+}
+</script>
 </body>
 </html>
