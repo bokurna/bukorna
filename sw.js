@@ -1,9 +1,7 @@
 /* ================================================
-   بخورنا — Service Worker v1
+   بخورنا — Service Worker v1 (fixed)
    ================================================ */
-
 const CACHE = 'bukorna-v1';
-
 const PRECACHE_URLS = [
   '/index.html',
   '/products.html',
@@ -50,7 +48,8 @@ self.addEventListener('fetch', e => {
       caches.match(req).then(cached => {
         if (cached) return cached;
         return fetch(req).then(res => {
-          caches.open(CACHE).then(c => c.put(req, res.clone()));
+          const copy = res.clone(); // ← clone أولاً
+          caches.open(CACHE).then(c => c.put(req, copy));
           return res;
         });
       })
@@ -63,7 +62,8 @@ self.addEventListener('fetch', e => {
     e.respondWith(
       fetch(req)
         .then(res => {
-          caches.open(CACHE).then(c => c.put(req, res.clone()));
+          const copy = res.clone(); // ← clone أولاً
+          caches.open(CACHE).then(c => c.put(req, copy));
           return res;
         })
         .catch(() => caches.match(req).then(c => c || caches.match('/index.html')))
@@ -75,7 +75,8 @@ self.addEventListener('fetch', e => {
   e.respondWith(
     caches.match(req).then(cached => {
       const fresh = fetch(req).then(res => {
-        caches.open(CACHE).then(c => c.put(req, res.clone()));
+        const copy = res.clone(); // ← clone أولاً قبل أي شيء
+        caches.open(CACHE).then(c => c.put(req, copy));
         return res;
       });
       return cached || fresh;
