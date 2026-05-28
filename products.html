@@ -1721,9 +1721,9 @@ document.addEventListener('DOMContentLoaded', loadOffers);
            if (subtotal >= FREE_DELIVERY_THRESHOLD) {
                banner.style.display = 'flex';
                banner.className = 'free-delivery-banner achieved';
-               fdbIcon.textContent = '🎉';
-               fdbText.textContent = 'مبروك! التوصيل مجاني';
-               fdbBar.style.width  = '100%';
+               if (fdbIcon) fdbIcon.textContent = '🎉';
+               if (fdbText) fdbText.textContent = 'مبروك! التوصيل مجاني';
+               if (fdbBar)  fdbBar.style.width  = '100%';
                if (feeRow)  feeRow.style.opacity = '0.5';
                if (feeDisp) { feeDisp.textContent = 'مجاني 🎉'; feeDisp.style.color = '#25D366'; }
                return 0;
@@ -1732,9 +1732,9 @@ document.addEventListener('DOMContentLoaded', loadOffers);
                const pct = Math.min((subtotal / FREE_DELIVERY_THRESHOLD) * 100, 100);
                banner.style.display = 'flex';
                banner.className = 'free-delivery-banner progress';
-               fdbIcon.textContent = '🚚';
-               fdbText.textContent = 'أضف ' + remaining + ' ر.س للتوصيل المجاني';
-               fdbBar.style.width  = pct + '%';
+               if (fdbIcon) fdbIcon.textContent = '🚚';
+               if (fdbText) fdbText.textContent = 'أضف ' + remaining + ' ر.س للتوصيل المجاني';
+               if (fdbBar)  fdbBar.style.width  = pct + '%';
                if (feeRow)  feeRow.style.opacity = '1';
                if (feeDisp) { feeDisp.textContent = BASE_DELIVERY_FEE + ' ر.س'; feeDisp.style.color = ''; }
                return BASE_DELIVERY_FEE;
@@ -1792,6 +1792,7 @@ document.addEventListener('DOMContentLoaded', loadOffers);
     }
  // ===== اقتراحات السلة =====
     var _allProducts = [];
+    var discountUsed = false; // الخصم 5% لمنتج واحد فقط طوال الجلسة
 
     async function loadSuggestionsCache() {
         if (_allProducts.length > 0) return;
@@ -1812,7 +1813,6 @@ document.addEventListener('DOMContentLoaded', loadOffers);
         var inCartNames = new Set();
         cart.forEach(function(_, name) { inCartNames.add(name); });
 
-        // فلتر: فقط منتجات بسعر 20 ريال فأكثر + غير موجودة في السلة
         var available = _allProducts.filter(function(p) {
             return p.name && !inCartNames.has(p.name) && parseFloat(p.price) >= 20;
         });
@@ -1820,31 +1820,50 @@ document.addEventListener('DOMContentLoaded', loadOffers);
 
         var selected = available.sort(function() { return 0.5 - Math.random(); }).slice(0, 2);
 
-        if (title) title.innerHTML = '🔥 أضف معه وادخر 5%';
-
-        list.innerHTML = selected.map(function(p) {
-            var orig = parseFloat(p.price);
-            var disc = Math.round(orig * (1 - SUGG_DISCOUNT) * 10) / 10;
-            var save = Math.round((orig - disc) * 10) / 10;
-
-            var img = p.image_url
-                ? '<img src="' + p.image_url + '" alt="" class="sugg-img" onerror="this.style.display=\'none\'">'
-                : '<div class="sugg-img">📦</div>';
-
-            return '<div class="sugg-item">' +
-                '<div class="sugg-discount-bar"></div>' +
-                img +
-                '<div class="sugg-info">' +
-                    '<div class="sugg-name">' + p.name + '</div>' +
-                    '<div class="sugg-price-row">' +
-                        '<span class="sugg-price-old">' + orig + ' ر.س</span>' +
-                        '<span class="sugg-price-new">' + disc + ' ر.س</span>' +
-                        '<span class="sugg-discount-badge">وفّر ' + save + ' ر.س</span>' +
+        if (discountUsed) {
+            // الخصم استُخدم — اعرض بالسعر الكامل
+            if (title) title.innerHTML = '🛍️ قد يعجبك أيضاً';
+            list.innerHTML = selected.map(function(p) {
+                var orig = parseFloat(p.price);
+                var img = p.image_url
+                    ? '<img src="' + p.image_url + '" alt="" class="sugg-img" onerror="this.style.display=\'none\'">'
+                    : '<div class="sugg-img">📦</div>';
+                return '<div class="sugg-item">' +
+                    img +
+                    '<div class="sugg-info">' +
+                        '<div class="sugg-name">' + p.name + '</div>' +
+                        '<div class="sugg-price-row">' +
+                            '<span class="sugg-price-new">' + orig + ' ر.س</span>' +
+                        '</div>' +
                     '</div>' +
-                '</div>' +
-                '<button class="sugg-add" type="button" data-name="' + p.name.replace(/"/g, '&quot;') + '" data-price="' + disc + '">+</button>' +
-            '</div>';
-        }).join('');
+                    '<button class="sugg-add" type="button" data-name="' + p.name.replace(/"/g, '&quot;') + '" data-price="' + orig + '" data-discounted="false">+</button>' +
+                '</div>';
+            }).join('');
+        } else {
+            // الخصم لم يُستخدم — اعرض بخصم 5%
+            if (title) title.innerHTML = '🔥 أضف معه وادخر 5%';
+            list.innerHTML = selected.map(function(p) {
+                var orig = parseFloat(p.price);
+                var disc = Math.round(orig * (1 - SUGG_DISCOUNT) * 10) / 10;
+                var save = Math.round((orig - disc) * 10) / 10;
+                var img = p.image_url
+                    ? '<img src="' + p.image_url + '" alt="" class="sugg-img" onerror="this.style.display=\'none\'">'
+                    : '<div class="sugg-img">📦</div>';
+                return '<div class="sugg-item">' +
+                    '<div class="sugg-discount-bar"></div>' +
+                    img +
+                    '<div class="sugg-info">' +
+                        '<div class="sugg-name">' + p.name + '</div>' +
+                        '<div class="sugg-price-row">' +
+                            '<span class="sugg-price-old">' + orig + ' ر.س</span>' +
+                            '<span class="sugg-price-new">' + disc + ' ر.س</span>' +
+                            '<span class="sugg-discount-badge">وفّر ' + save + ' ر.س</span>' +
+                        '</div>' +
+                    '</div>' +
+                    '<button class="sugg-add" type="button" data-name="' + p.name.replace(/"/g, '&quot;') + '" data-price="' + disc + '" data-discounted="true">+</button>' +
+                '</div>';
+            }).join('');
+        }
 
         container.style.display = 'block';
     }
@@ -1853,20 +1872,21 @@ document.addEventListener('DOMContentLoaded', loadOffers);
     document.getElementById('suggestions-list').addEventListener('click', function(e) {
         var btn = e.target.closest('.sugg-add');
         if (!btn) return;
-        addSuggToCart(btn.dataset.name, parseFloat(btn.dataset.price));
+        addSuggToCart(btn.dataset.name, parseFloat(btn.dataset.price), btn.dataset.discounted === 'true');
     });
     document.getElementById('suggestions-list').addEventListener('touchend', function(e) {
         var btn = e.target.closest('.sugg-add');
         if (!btn) return;
         e.preventDefault();
-        addSuggToCart(btn.dataset.name, parseFloat(btn.dataset.price));
+        addSuggToCart(btn.dataset.name, parseFloat(btn.dataset.price), btn.dataset.discounted === 'true');
     }, { passive: false });
 
-    function addSuggToCart(name, price) {
+    function addSuggToCart(name, price, isDiscounted) {
+        if (isDiscounted) discountUsed = true;
         if (cart.has(name)) {
             cart.get(name).qty += 1;
         } else {
-            cart.set(name, { price: price, qty: 1, discounted: true });
+            cart.set(name, { price: price, qty: 1, discounted: !!isDiscounted });
         }
         updateNavBtn();
         renderCartBody();
