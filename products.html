@@ -786,6 +786,81 @@
         }
         .delivery-fee-amount { color: rgba(245,234,214,0.7); font-size: 0.95rem; font-weight: 600; }
 
+        /* ===== بانر الشحن المجاني ===== */
+        .free-delivery-banner {
+            margin: 10px 20px 0;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.4s ease;
+        }
+        .free-delivery-banner.progress {
+            background: rgba(201,168,76,0.08);
+            border: 1px solid rgba(201,168,76,0.25);
+            color: var(--gold);
+        }
+        .free-delivery-banner.achieved {
+            background: rgba(37,211,102,0.1);
+            border: 1px solid rgba(37,211,102,0.35);
+            color: #25D366;
+        }
+        .fdb-bar-wrap {
+            flex: 1;
+            height: 5px;
+            background: rgba(245,234,214,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .fdb-bar-fill {
+            height: 100%;
+            background: var(--gold);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+        .free-delivery-banner.achieved .fdb-bar-fill { background: #25D366; }
+
+        /* ===== بطاقة الاقتراح مع خصم ===== */
+        .sugg-item {
+            position: relative;
+            overflow: hidden;
+        }
+        .sugg-discount-bar {
+            position: absolute;
+            top: 0; right: 0; left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b6b, #ff9f43);
+        }
+        .sugg-price-row {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 2px;
+        }
+        .sugg-price-old {
+            font-size: 0.7rem;
+            color: rgba(245,234,214,0.35);
+            text-decoration: line-through;
+        }
+        .sugg-price-new {
+            font-size: 0.82rem;
+            color: #ff6b6b;
+            font-weight: 700;
+        }
+        .sugg-discount-badge {
+            font-size: 0.62rem;
+            font-weight: 700;
+            background: rgba(255,107,107,0.15);
+            color: #ff6b6b;
+            border: 1px solid rgba(255,107,107,0.3);
+            padding: 1px 5px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
         .total-row {
             display: flex;
             justify-content: space-between;
@@ -1104,28 +1179,15 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 10px 12px;
+    padding: 8px 10px;
     background: var(--dark);
-    border: 1px solid rgba(201,168,76,0.18);
-    border-radius: 12px;
-    margin-bottom: 8px;
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.2s;
+    border: 1px solid rgba(201,168,76,0.1);
+    border-radius: 10px;
+    margin-bottom: 6px;
 }
-.sugg-item:hover { border-color: rgba(201,168,76,0.4); }
-
-/* شريط الخصم في أعلى البطاقة */
-.sugg-discount-bar {
-    position: absolute;
-    top: 0; right: 0; left: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #ff6b6b, #ff9f43);
-}
-
 .sugg-img {
-    width: 44px; height: 44px;
-    border-radius: 8px;
+    width: 40px; height: 40px;
+    border-radius: 6px;
     object-fit: cover;
     background: var(--dark-3);
     flex-shrink: 0;
@@ -1135,61 +1197,21 @@
 }
 .sugg-info { flex: 1; min-width: 0; }
 .sugg-name {
-    font-size: 0.82rem; font-weight: 600; color: var(--cream);
+    font-size: 0.8rem; font-weight: 600; color: var(--cream);
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    margin-bottom: 3px;
+    margin-bottom: 1px;
 }
-/* صف السعر: سعر قديم + سعر بعد الخصم */
-.sugg-price-row {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-.sugg-price-old {
-    font-size: 0.7rem;
-    color: rgba(245,234,214,0.35);
-    text-decoration: line-through;
-    font-weight: 400;
-}
-.sugg-price-new {
-    font-size: 0.82rem;
-    color: #ff6b6b;
-    font-weight: 700;
-}
-/* بادج الخصم */
-.sugg-discount-badge {
-    font-size: 0.65rem;
-    font-weight: 700;
-    background: rgba(255,107,107,0.15);
-    color: #ff6b6b;
-    border: 1px solid rgba(255,107,107,0.3);
-    padding: 1px 6px;
-    border-radius: 20px;
-    white-space: nowrap;
-}
+.sugg-price { font-size: 0.75rem; color: var(--gold); font-weight: 700; }
 .sugg-add {
     background: var(--gold); color: var(--dark); border: none;
-    width: 36px; height: 36px; border-radius: 50%;
-    font-size: 1.3rem; font-weight: 700; cursor: pointer;
+    width: 34px; height: 34px; border-radius: 50%;
+    font-size: 1.2rem; font-weight: 700; cursor: pointer;
     flex-shrink: 0; display: flex; align-items: center; justify-content: center;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
-    transition: transform 0.15s, background 0.2s;
+    transition: transform 0.15s;
 }
-.sugg-add:hover { background: var(--gold-light); }
-.sugg-add:active { transform: scale(0.85); }
-
-/* عنوان قسم الاقتراحات */
-.cart-suggestions-title {
-    font-size: 0.82rem;
-    font-weight: 700;
-    color: #ff6b6b;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
+.sugg-add:active { transform: scale(0.85); } 
         .footer-bottom { font-size: 0.72rem; color: rgba(245,234,214,0.22); margin-top: 8px; }
 
         /* ===== عداد الطلبات لكل منتج ===== */
@@ -1319,9 +1341,16 @@
             <div class="cart-empty-msg">أضف منتجات للسلة أولاً</div>
         </div>
 
+        <!-- بانر الشحن المجاني -->
+        <div class="free-delivery-banner progress" id="free-delivery-banner" style="display:none;">
+            <span id="fdb-icon">🚚</span>
+            <span id="fdb-text"></span>
+            <div class="fdb-bar-wrap"><div class="fdb-bar-fill" id="fdb-bar" style="width:0%"></div></div>
+        </div>
+
         <!-- الاقتراحات -->
         <div class="cart-suggestions" id="cart-suggestions" style="display:none;">
-            <div class="cart-suggestions-title">قد يعجبك أيضاً</div>
+            <div class="cart-suggestions-title" id="sugg-title">🔥 أضف معه وادخر 5%</div>
             <div id="suggestions-list"></div>
         </div>
 
@@ -1376,9 +1405,9 @@
                 <span class="subtotal-label">المجموع الفرعي:</span>
                 <span class="subtotal-amount" id="cart-subtotal-display">0 ر.س</span>
             </div>
-            <div class="delivery-fee-row">
-                <span class="delivery-fee-label"> رسوم التوصيل:</span>
-                <span class="delivery-fee-amount">10 ر.س</span>
+            <div class="delivery-fee-row" id="delivery-fee-row">
+                <span class="delivery-fee-label">🛵 رسوم التوصيل:</span>
+                <span class="delivery-fee-amount" id="delivery-fee-display">10 ر.س</span>
             </div>
             <div class="total-row">
                 <span class="total-label">الإجمالي شامل التوصيل:</span>
@@ -1679,34 +1708,70 @@ document.addEventListener('DOMContentLoaded', loadOffers);
         }
     }
  
+       const FREE_DELIVERY_THRESHOLD = 159;
+       const BASE_DELIVERY_FEE = 10;
+
+       function renderFreeDeliveryBanner(subtotal) {
+           const banner  = document.getElementById('free-delivery-banner');
+           const fdbText = document.getElementById('fdb-text');
+           const fdbBar  = document.getElementById('fdb-bar');
+           const fdbIcon = document.getElementById('fdb-icon');
+           const feeRow  = document.getElementById('delivery-fee-row');
+           const feeDisp = document.getElementById('delivery-fee-display');
+           if (!banner) return BASE_DELIVERY_FEE;
+           if (subtotal >= FREE_DELIVERY_THRESHOLD) {
+               banner.style.display = 'flex';
+               banner.className = 'free-delivery-banner achieved';
+               fdbIcon.textContent = '🎉';
+               fdbText.textContent = 'مبروك! التوصيل مجاني';
+               fdbBar.style.width  = '100%';
+               if (feeRow)  feeRow.style.opacity = '0.5';
+               if (feeDisp) { feeDisp.textContent = 'مجاني 🎉'; feeDisp.style.color = '#25D366'; }
+               return 0;
+           } else {
+               const remaining = FREE_DELIVERY_THRESHOLD - subtotal;
+               const pct = Math.min((subtotal / FREE_DELIVERY_THRESHOLD) * 100, 100);
+               banner.style.display = 'flex';
+               banner.className = 'free-delivery-banner progress';
+               fdbIcon.textContent = '🚚';
+               fdbText.textContent = 'أضف ' + remaining + ' ر.س للتوصيل المجاني';
+               fdbBar.style.width  = pct + '%';
+               if (feeRow)  feeRow.style.opacity = '1';
+               if (feeDisp) { feeDisp.textContent = BASE_DELIVERY_FEE + ' ر.س'; feeDisp.style.color = ''; }
+               return BASE_DELIVERY_FEE;
+           }
+       }
+
        function renderCartBody() {
         const itemsContainer = document.getElementById('cart-items-container');
         const footer   = document.getElementById('cart-footer');
         const sendBar  = document.getElementById('cart-send-bar');
         const totalEl  = document.getElementById('cart-total-display');
+        const subtotalEl = document.getElementById('cart-subtotal-display');
         if (!itemsContainer) return;
         if (cart.size === 0) {
             itemsContainer.innerHTML = '<div class="cart-empty-msg">السلة فارغة</div>';
             footer.style.display  = 'none';
             sendBar.style.display = 'none';
+            const banner = document.getElementById('free-delivery-banner');
+            if (banner) banner.style.display = 'none';
             document.getElementById('cart-suggestions').style.display = 'none';
             return;
         }
-        const DELIVERY_FEE = 10;
-        const subtotal = [...cart.values()].reduce((s,i) => s + i.price * i.qty, 0);
-        const total = subtotal + DELIVERY_FEE;
-        const subtotalEl = document.getElementById('cart-subtotal-display');
+        const subtotal    = [...cart.values()].reduce((s,i) => s + i.price * i.qty, 0);
+        const deliveryFee = renderFreeDeliveryBanner(subtotal);
+        const total       = subtotal + deliveryFee;
         if (subtotalEl) subtotalEl.textContent = subtotal + ' ر.س';
         totalEl.innerHTML = `${total} <small>ر.س</small>`;
         itemsContainer.innerHTML = [...cart.entries()].map(([name, item]) => `
             <div class="cart-item">
                 <span class="cart-item-name">${name}</span>
                 <div class="qty-controls">
-                    <button class="qty-btn minus" onclick="cartQtyChange('${name.replace(/'/g,"\\'")}', -1)">−</button>
+                    <button class="qty-btn minus" onclick="cartQtyChange('${name.replace(/'/g,"\'")}', -1)">−</button>
                     <span class="qty-num">${item.qty}</span>
-                    <button class="qty-btn" onclick="cartQtyChange('${name.replace(/'/g,"\\'")}', +1)">+</button>
+                    <button class="qty-btn" onclick="cartQtyChange('${name.replace(/'/g,"\'")}', +1)">+</button>
                 </div>
-                <span class="cart-item-price">${item.price * item.qty} ر.س</span>
+                <span class="cart-item-price">${(item.price * item.qty).toFixed(item.price % 1 === 0 ? 0 : 1)} ر.س</span>
             </div>
         `).join('');
         footer.style.display  = 'block';
@@ -1735,12 +1800,11 @@ document.addEventListener('DOMContentLoaded', loadOffers);
         if (data) _allProducts = data;
     }
 
-    var SUGG_DISCOUNT = 0.05; // خصم 5% على المنتجات المقترحة
-
     function renderSuggestions() {
+        var SUGG_DISCOUNT = 0.05;
         var container = document.getElementById('cart-suggestions');
         var list      = document.getElementById('suggestions-list');
-        var title     = container ? container.querySelector('.cart-suggestions-title') : null;
+        var title     = document.getElementById('sugg-title');
         if (!container || !list || cart.size === 0) {
             if (container) container.style.display = 'none';
             return;
@@ -1749,19 +1813,20 @@ document.addEventListener('DOMContentLoaded', loadOffers);
         var inCartNames = new Set();
         cart.forEach(function(_, name) { inCartNames.add(name); });
 
-        var available = _allProducts.filter(function(p) { return p.name && !inCartNames.has(p.name); });
+        // فلتر: فقط منتجات بسعر 20 ريال فأكثر + غير موجودة في السلة
+        var available = _allProducts.filter(function(p) {
+            return p.name && !inCartNames.has(p.name) && parseFloat(p.price) >= 20;
+        });
         if (available.length === 0) { container.style.display = 'none'; return; }
 
-        // ترتيب عشوائي
         var selected = available.sort(function() { return 0.5 - Math.random(); }).slice(0, 2);
 
-        // عنوان القسم مع إبراز الخصم
         if (title) title.innerHTML = '🔥 أضف معه وادخر 5%';
 
         list.innerHTML = selected.map(function(p) {
-            var origPrice     = parseFloat(p.price);
-            var discountedPrice = Math.round(origPrice * (1 - SUGG_DISCOUNT) * 100) / 100;
-            var saving        = Math.round((origPrice - discountedPrice) * 100) / 100;
+            var orig = parseFloat(p.price);
+            var disc = Math.round(orig * (1 - SUGG_DISCOUNT) * 10) / 10;
+            var save = Math.round((orig - disc) * 10) / 10;
 
             var img = p.image_url
                 ? '<img src="' + p.image_url + '" alt="" class="sugg-img" onerror="this.style.display=\'none\'">'
@@ -1773,14 +1838,12 @@ document.addEventListener('DOMContentLoaded', loadOffers);
                 '<div class="sugg-info">' +
                     '<div class="sugg-name">' + p.name + '</div>' +
                     '<div class="sugg-price-row">' +
-                        '<span class="sugg-price-old">' + origPrice.toFixed(origPrice % 1 === 0 ? 0 : 2) + ' ر.س</span>' +
-                        '<span class="sugg-price-new">' + discountedPrice.toFixed(discountedPrice % 1 === 0 ? 0 : 1) + ' ر.س</span>' +
-                        '<span class="sugg-discount-badge">وفّر ' + saving.toFixed(saving % 1 === 0 ? 0 : 1) + ' ر.س</span>' +
+                        '<span class="sugg-price-old">' + orig + ' ر.س</span>' +
+                        '<span class="sugg-price-new">' + disc + ' ر.س</span>' +
+                        '<span class="sugg-discount-badge">وفّر ' + save + ' ر.س</span>' +
                     '</div>' +
                 '</div>' +
-                '<button class="sugg-add" type="button" ' +
-                    'data-name="' + p.name.replace(/"/g, '&quot;') + '" ' +
-                    'data-price="' + discountedPrice + '">+</button>' +
+                '<button class="sugg-add" type="button" data-name="' + p.name.replace(/"/g, '&quot;') + '" data-price="' + disc + '">+</button>' +
             '</div>';
         }).join('');
 
@@ -1804,7 +1867,6 @@ document.addEventListener('DOMContentLoaded', loadOffers);
         if (cart.has(name)) {
             cart.get(name).qty += 1;
         } else {
-            // price هنا يصل مخفّضاً من data-price في الزر
             cart.set(name, { price: price, qty: 1, discounted: true });
         }
         updateNavBtn();
@@ -1859,17 +1921,17 @@ document.addEventListener('DOMContentLoaded', loadOffers);
         const neighborhood = document.getElementById('neighborhood').value;
         const notes        = document.getElementById('order-notes').value.trim();
         const phone        = document.getElementById('customer-phone') ? document.getElementById('customer-phone').value.trim() : '';
-        const DELIVERY_FEE = 10;
         const subtotal     = [...cart.values()].reduce((s,i) => s + i.price * i.qty, 0);
-        const total        = subtotal + DELIVERY_FEE;
+        const deliveryFee  = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : BASE_DELIVERY_FEE;
+        const total        = subtotal + deliveryFee;
         const orderNum     = Math.floor(1000 + Math.random() * 9000);
  
         /* --- 1) بناء رسالة الواتساب أولاً --- */
         let lines = [];
         cart.forEach((item, name) => {
             const lineTotal = item.price * item.qty;
-            const discountNote = item.discounted ? ' (خصم 5%)' : '';
-            lines.push(`${name} × ${item.qty} — ${lineTotal.toFixed(lineTotal % 1 === 0 ? 0 : 1)} ر.س${discountNote}`);
+            const tag = item.discounted ? ' ✂️ خصم 5%' : '';
+            lines.push(`${name} × ${item.qty} — ${lineTotal.toFixed(lineTotal % 1 === 0 ? 0 : 1)} ر.س${tag}`);
         });
  
         const msgParts = [
@@ -1883,6 +1945,7 @@ document.addEventListener('DOMContentLoaded', loadOffers);
             `━━━━━━━━━━━━━━━━`,
             `*المجموع الفرعي: ${subtotal} ر.س*`,
             `*رسوم التوصيل: ${DELIVERY_FEE} ر.س*`,
+            deliveryFee === 0 ? `*التوصيل: مجاني 🎉*` : `*رسوم التوصيل: ${deliveryFee} ر.س*`,
             `*الإجمالي: ${total} ر.س*`,
             `*الدفع: ${_pm === "cash" ? "كاش عند الاستلام" : "بطاقة عند الاستلام"}*`,
             notes ? `` : null,
