@@ -1104,15 +1104,28 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 8px 10px;
+    padding: 10px 12px;
     background: var(--dark);
-    border: 1px solid rgba(201,168,76,0.1);
-    border-radius: 10px;
-    margin-bottom: 6px;
+    border: 1px solid rgba(201,168,76,0.18);
+    border-radius: 12px;
+    margin-bottom: 8px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
 }
+.sugg-item:hover { border-color: rgba(201,168,76,0.4); }
+
+/* شريط الخصم في أعلى البطاقة */
+.sugg-discount-bar {
+    position: absolute;
+    top: 0; right: 0; left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #ff6b6b, #ff9f43);
+}
+
 .sugg-img {
-    width: 40px; height: 40px;
-    border-radius: 6px;
+    width: 44px; height: 44px;
+    border-radius: 8px;
     object-fit: cover;
     background: var(--dark-3);
     flex-shrink: 0;
@@ -1122,21 +1135,61 @@
 }
 .sugg-info { flex: 1; min-width: 0; }
 .sugg-name {
-    font-size: 0.8rem; font-weight: 600; color: var(--cream);
+    font-size: 0.82rem; font-weight: 600; color: var(--cream);
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    margin-bottom: 1px;
+    margin-bottom: 3px;
 }
-.sugg-price { font-size: 0.75rem; color: var(--gold); font-weight: 700; }
+/* صف السعر: سعر قديم + سعر بعد الخصم */
+.sugg-price-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.sugg-price-old {
+    font-size: 0.7rem;
+    color: rgba(245,234,214,0.35);
+    text-decoration: line-through;
+    font-weight: 400;
+}
+.sugg-price-new {
+    font-size: 0.82rem;
+    color: #ff6b6b;
+    font-weight: 700;
+}
+/* بادج الخصم */
+.sugg-discount-badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    background: rgba(255,107,107,0.15);
+    color: #ff6b6b;
+    border: 1px solid rgba(255,107,107,0.3);
+    padding: 1px 6px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
 .sugg-add {
     background: var(--gold); color: var(--dark); border: none;
-    width: 34px; height: 34px; border-radius: 50%;
-    font-size: 1.2rem; font-weight: 700; cursor: pointer;
+    width: 36px; height: 36px; border-radius: 50%;
+    font-size: 1.3rem; font-weight: 700; cursor: pointer;
     flex-shrink: 0; display: flex; align-items: center; justify-content: center;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
-    transition: transform 0.15s;
+    transition: transform 0.15s, background 0.2s;
 }
-.sugg-add:active { transform: scale(0.85); } 
+.sugg-add:hover { background: var(--gold-light); }
+.sugg-add:active { transform: scale(0.85); }
+
+/* عنوان قسم الاقتراحات */
+.cart-suggestions-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #ff6b6b;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
         .footer-bottom { font-size: 0.72rem; color: rgba(245,234,214,0.22); margin-top: 8px; }
 
         /* ===== عداد الطلبات لكل منتج ===== */
@@ -1682,9 +1735,12 @@ document.addEventListener('DOMContentLoaded', loadOffers);
         if (data) _allProducts = data;
     }
 
+    var SUGG_DISCOUNT = 0.05; // خصم 5% على المنتجات المقترحة
+
     function renderSuggestions() {
         var container = document.getElementById('cart-suggestions');
         var list      = document.getElementById('suggestions-list');
+        var title     = container ? container.querySelector('.cart-suggestions-title') : null;
         if (!container || !list || cart.size === 0) {
             if (container) container.style.display = 'none';
             return;
@@ -1696,17 +1752,35 @@ document.addEventListener('DOMContentLoaded', loadOffers);
         var available = _allProducts.filter(function(p) { return p.name && !inCartNames.has(p.name); });
         if (available.length === 0) { container.style.display = 'none'; return; }
 
-        var shuffled = available.sort(function() { return 0.5 - Math.random(); });
-        var selected = shuffled.slice(0, 2);
+        // ترتيب عشوائي
+        var selected = available.sort(function() { return 0.5 - Math.random(); }).slice(0, 2);
+
+        // عنوان القسم مع إبراز الخصم
+        if (title) title.innerHTML = '🔥 أضف معه وادخر 5%';
 
         list.innerHTML = selected.map(function(p) {
+            var origPrice     = parseFloat(p.price);
+            var discountedPrice = Math.round(origPrice * (1 - SUGG_DISCOUNT) * 100) / 100;
+            var saving        = Math.round((origPrice - discountedPrice) * 100) / 100;
+
             var img = p.image_url
                 ? '<img src="' + p.image_url + '" alt="" class="sugg-img" onerror="this.style.display=\'none\'">'
                 : '<div class="sugg-img">📦</div>';
+
             return '<div class="sugg-item">' +
+                '<div class="sugg-discount-bar"></div>' +
                 img +
-                '<div class="sugg-info"><div class="sugg-name">' + p.name + '</div><div class="sugg-price">' + p.price + ' ر.س</div></div>' +
-                '<button class="sugg-add" type="button" data-name="' + p.name.replace(/"/g, '&quot;') + '" data-price="' + p.price + '">+</button>' +
+                '<div class="sugg-info">' +
+                    '<div class="sugg-name">' + p.name + '</div>' +
+                    '<div class="sugg-price-row">' +
+                        '<span class="sugg-price-old">' + origPrice.toFixed(origPrice % 1 === 0 ? 0 : 2) + ' ر.س</span>' +
+                        '<span class="sugg-price-new">' + discountedPrice.toFixed(discountedPrice % 1 === 0 ? 0 : 1) + ' ر.س</span>' +
+                        '<span class="sugg-discount-badge">وفّر ' + saving.toFixed(saving % 1 === 0 ? 0 : 1) + ' ر.س</span>' +
+                    '</div>' +
+                '</div>' +
+                '<button class="sugg-add" type="button" ' +
+                    'data-name="' + p.name.replace(/"/g, '&quot;') + '" ' +
+                    'data-price="' + discountedPrice + '">+</button>' +
             '</div>';
         }).join('');
 
@@ -1730,7 +1804,8 @@ document.addEventListener('DOMContentLoaded', loadOffers);
         if (cart.has(name)) {
             cart.get(name).qty += 1;
         } else {
-            cart.set(name, { price: price, qty: 1 });
+            // price هنا يصل مخفّضاً من data-price في الزر
+            cart.set(name, { price: price, qty: 1, discounted: true });
         }
         updateNavBtn();
         renderCartBody();
@@ -1792,7 +1867,9 @@ document.addEventListener('DOMContentLoaded', loadOffers);
         /* --- 1) بناء رسالة الواتساب أولاً --- */
         let lines = [];
         cart.forEach((item, name) => {
-            lines.push(`${name} × ${item.qty} — ${item.price * item.qty} ر.س`);
+            const lineTotal = item.price * item.qty;
+            const discountNote = item.discounted ? ' (خصم 5%)' : '';
+            lines.push(`${name} × ${item.qty} — ${lineTotal.toFixed(lineTotal % 1 === 0 ? 0 : 1)} ر.س${discountNote}`);
         });
  
         const msgParts = [
