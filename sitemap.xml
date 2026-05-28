@@ -19,20 +19,4 @@
     <priority>0.9</priority>
   </url>
  
-  <!-- صفحة تتبع الطلب -->
-  <url>
-    <loc>https://bukorna.online/track.html</loc>
-    <lastmod>2026-05-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
- 
-  <!-- صفحة التسجيل -->
-  <url>
-    <loc>https://bukorna.online/auth.html</loc>
-    <lastmod>2026-05-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-  </url>
- 
 </urlset>
