@@ -1687,14 +1687,30 @@ document.addEventListener('DOMContentLoaded', loadOffers);
         updateNavBtn();
     }
  
-    function cartQtyChange(name, delta) {
-        if (!cart.has(name)) return;
-        cart.get(name).qty += delta;
-        if (cart.get(name).qty <= 0) cart.delete(name);
-        updateNavBtn();
-        renderCartBody();
-        if (cart.size === 0) closeCart();
+ function cartQtyChange(name, delta) {
+    if (!cart.has(name)) return;
+    cart.get(name).qty += delta;
+    if (cart.get(name).qty <= 0) {
+        cart.delete(name);
+        // أصلح عداد الكارد في الصفحة
+        document.querySelectorAll('.qty-indicator').forEach(function(ind) {
+            var qiNum = ind.querySelector('.qi-num');
+            var addBtn = ind.closest('.add-btn-wrap') ? ind.closest('.add-btn-wrap').querySelector('.add-btn') : null;
+            // ابحث عن الكارد الذي اسمه يطابق المنتج المحذوف
+            var card = ind.closest('.product-card');
+            if (card) {
+                var cardName = card.querySelector('.product-name') ? card.querySelector('.product-name').textContent.trim() : '';
+                if (cardName === name) {
+                    ind.classList.remove('show');
+                    if (addBtn) addBtn.style.display = 'flex';
+                }
+            }
+        });
     }
+    updateNavBtn();
+    renderCartBody();
+    if (cart.size === 0) closeCart();
+}
  
     function updateNavBtn() {
         const btn   = document.getElementById('nav-cart-btn');
@@ -1963,7 +1979,7 @@ document.addEventListener('DOMContentLoaded', loadOffers);
             ...lines.map((l, i) => `${i + 1}. ${l}`),
             `━━━━━━━━━━━━━━━━`,
             `*المجموع الفرعي: ${subtotal} ر.س*`,
-            `*رسوم التوصيل: ${DELIVERY_FEE} ر.س*`,
+            `*رسوم التوصيل: ${deliveryFee} ر.س*`,
             deliveryFee === 0 ? `*التوصيل: مجاني 🎉*` : `*رسوم التوصيل: ${deliveryFee} ر.س*`,
             `*الإجمالي: ${total} ر.س*`,
             `*الدفع: ${_pm === "cash" ? "كاش عند الاستلام" : "بطاقة عند الاستلام"}*`,
