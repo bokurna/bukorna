@@ -1438,7 +1438,7 @@
             شكراً لثقتك ببخورنا<br>
             سيتواصل معك المندوب قريباً لتأكيد الطلب وتحديد موعد التوصيل
         </div>
-        <div class="confirm-order-num" id="confirm-order-num">رقم الطلب: #000</div>
+        <div class="confirm-order-num" id="confirm-order-num">رقم الطلب: #00</div>
         <button class="confirm-btn" onclick="closeConfirm()">حسناً، شكراً!</button>
     </div>
 </div>
@@ -1838,7 +1838,7 @@ document.addEventListener('DOMContentLoaded', loadOffers);
 
         if (discountUsed) {
             // الخصم استُخدم — اعرض بالسعر الكامل
-            if (title) title.innerHTML = '🛍️ قد يعجبك أيضاً';
+            if (title) title.innerHTML = ' قد يعجبك أيضاً';
             list.innerHTML = selected.map(function(p) {
                 var orig = parseFloat(p.price);
                 var img = p.image_url
@@ -1969,24 +1969,24 @@ document.addEventListener('DOMContentLoaded', loadOffers);
             lines.push(`${name} × ${item.qty} — ${lineTotal.toFixed(lineTotal % 1 === 0 ? 0 : 1)} ر.س${tag}`);
         });
  
-        const msgParts = [
-            `*طلب جديد #${orderNum} - بخورنا*`,
-            `━━━━━━━━━━━━━━━━`,
-            neighborhood ? `*الحي:* ${neighborhood}` : null,
-            savedLocationUrl ? `*الموقع:* ${savedLocationUrl}` : null,
-            ``,
-            `*المنتجات:*`,
-            ...lines.map((l, i) => `${i + 1}. ${l}`),
-            `━━━━━━━━━━━━━━━━`,
-            `*المجموع الفرعي: ${subtotal} ر.س*`,
-            `*رسوم التوصيل: ${deliveryFee} ر.س*`,
-            deliveryFee === 0 ? `*التوصيل: مجاني 🎉*` : `*رسوم التوصيل: ${deliveryFee} ر.س*`,
-            `*الإجمالي: ${total} ر.س*`,
-            `*الدفع: ${_pm === "cash" ? "كاش عند الاستلام" : "بطاقة عند الاستلام"}*`,
-            notes ? `` : null,
-            notes ? `*ملاحظات:* ${notes}` : null,
-            phone ? `*جوال:* ${phone}` : null,
-        ].filter(l => l !== null);
+      const msgParts = [
+    `*طلب جديد #${orderNum} - بخورنا*`,
+    `━━━━━━━━━━━━━━━━`,
+    neighborhood ? `*الحي:* ${neighborhood}` : null,
+    savedLocationUrl ? `*الموقع:* ${savedLocationUrl}` : null,
+    ``,
+    `*المنتجات:*`,
+    ...lines.map((l, i) => `${i + 1}. ${l}`),
+    `━━━━━━━━━━━━━━━━`,
+    `*المجموع الفرعي: ${subtotal} ر.س*`,
+    // 👇 سطر واحد فقط يعرض المجاني أو الرسوم حسب الحالة
+    deliveryFee === 0 ? `*التوصيل: مجاني 🎉*` : `*رسوم التوصيل: ${deliveryFee} ر.س*`,
+    `*الإجمالي: ${total} ر.س*`,
+    `*الدفع: ${_pm === "cash" ? "كاش عند الاستلام" : "بطاقة عند الاستلام"}*`,
+    notes ? `` : null,
+    notes ? `*ملاحظات:* ${notes}` : null,
+    phone ? `*جوال:* ${phone}` : null,
+].filter(l => l !== null);
  
         const waUrl = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msgParts.join('\n'))}`;
  
